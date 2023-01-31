@@ -1,0 +1,19 @@
+<Project>
+
+	<PropertyGroup>
+		<Authors>Jorge Candeias</Authors>
+		<Product>Outcompute Toolkit</Product>
+		<Copyright>© Outcompute Ltd</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/JorgeCandeias/Toolkit</PackageProjectUrl>
+		<PackageIcon></PackageIcon>
+		<PackageTags>.NET</PackageTags>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		<PublicRepositoryUrl>https://github.com/JorgeCandeias/Toolkit</PublicRepositoryUrl>
+		<PrivateRepositoryUrl>$(PublicRepositoryUrl)</PrivateRepositoryUrl>
+		<RepositoryUrl>$(PublicRepositoryUrl)</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+</Project>
