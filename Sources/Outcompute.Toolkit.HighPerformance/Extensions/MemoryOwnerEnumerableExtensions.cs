@@ -6,9 +6,12 @@ namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class MemoryOwnerEnumerableExtensions
 {
+    /// <summary>
+    /// Enumerates the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
+    /// </summary>
     public static MemoryOwner<T> ToMemoryOwner<T>(this IEnumerable<T> source)
     {
-        Guard.IsNotNull(source, nameof(source));
+        Guard.IsNotNull(source);
 
         return source switch
         {
@@ -18,6 +21,9 @@ public static class MemoryOwnerEnumerableExtensions
         };
     }
 
+    /// <summary>
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for arrays.
+    /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromArray<T>(T[] source)
     {
         var owner = MemoryOwner<T>.Allocate(source.Length);
@@ -27,6 +33,9 @@ public static class MemoryOwnerEnumerableExtensions
         return owner;
     }
 
+    /// <summary>
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for lists.
+    /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromList<T>(List<T> source)
     {
         var owner = MemoryOwner<T>.Allocate(source.Count);
@@ -36,6 +45,9 @@ public static class MemoryOwnerEnumerableExtensions
         return owner;
     }
 
+    /// <summary>
+    /// Fallback of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for enumerables.
+    /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerable<T>(IEnumerable<T> source)
     {
         if (source.TryGetNonEnumeratedCount(out var count))
@@ -48,6 +60,9 @@ public static class MemoryOwnerEnumerableExtensions
         }
     }
 
+    /// <summary>
+    /// Fallback of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for enumerables with a known count.
+    /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerableWithKnownCount<T>(IEnumerable<T> source, int count)
     {
         var owner = MemoryOwner<T>.Allocate(count);
@@ -62,6 +77,9 @@ public static class MemoryOwnerEnumerableExtensions
         return owner;
     }
 
+    /// <summary>
+    /// Fallback of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for enumerables with an unknown count.
+    /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerableWithUnknownCount<T>(IEnumerable<T> source)
     {
         var owner = MemoryOwner<T>.Allocate(1024);
