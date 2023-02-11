@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj" />
+	  <ProjectReference Include="..\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj" />
 	</ItemGroup>
 
 </Project>

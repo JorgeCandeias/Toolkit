@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit", "Sources\Outcompute.Toolkit\Outcompute.Toolkit.csproj", "{5857766E-F39E-43EA-9DEC-924E0954DFD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit", "Sources\Outcompute.Toolkit\Outcompute.Toolkit.csproj", "{5857766E-F39E-43EA-9DEC-924E0954DFD7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A6703CD-B6A9-4495-9D2F-4F3BB2D6BD31}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit.HighPerformance", "Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj", "{E30A4F30-8C64-4093-98B4-E372D94E43C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit.HighPerformance", "Sources\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj", "{D0951BEC-6BC8-4DCA-A455-4246CF54C09F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{5857766E-F39E-43EA-9DEC-924E0954DFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5857766E-F39E-43EA-9DEC-924E0954DFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5857766E-F39E-43EA-9DEC-924E0954DFD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E30A4F30-8C64-4093-98B4-E372D94E43C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E30A4F30-8C64-4093-98B4-E372D94E43C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E30A4F30-8C64-4093-98B4-E372D94E43C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E30A4F30-8C64-4093-98B4-E372D94E43C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0951BEC-6BC8-4DCA-A455-4246CF54C09F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0951BEC-6BC8-4DCA-A455-4246CF54C09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0951BEC-6BC8-4DCA-A455-4246CF54C09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0951BEC-6BC8-4DCA-A455-4246CF54C09F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
