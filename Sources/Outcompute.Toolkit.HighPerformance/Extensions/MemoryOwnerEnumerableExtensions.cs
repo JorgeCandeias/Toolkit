@@ -84,8 +84,8 @@ public static class MemoryOwnerEnumerableExtensions
     /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerableWithUnknownCount<T>(IEnumerable<T> source)
     {
-        // grab an empty buffer to start with
-        var temp = ArrayPool<T>.Shared.Rent(0);
+        // grab the starting buffer
+        var temp = ArrayPool<T>.Shared.Rent(DefaultBufferLength);
         var i = 0;
 
         // enumerate while growing the buffer
@@ -100,16 +100,11 @@ public static class MemoryOwnerEnumerableExtensions
             temp[i++] = item;
         }
 
-        // fast path for empty source
-        if (i == 0)
-        {
-            return MemoryOwner<T>.Empty;
-        }
-
         // copy the temp buffer into the memory owner
         var owner = MemoryOwner<T>.Allocate(i);
         temp.AsSpan(..i).CopyTo(owner.Span);
         ArrayPool<T>.Shared.Return(temp);
+
         return owner;
 
         // grows the temp buffer
