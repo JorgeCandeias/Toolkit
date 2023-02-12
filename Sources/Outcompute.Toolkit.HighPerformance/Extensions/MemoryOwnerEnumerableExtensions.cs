@@ -1,11 +1,13 @@
-﻿using CommunityToolkit.Diagnostics;
-using CommunityToolkit.HighPerformance.Buffers;
-using System.Runtime.InteropServices;
-
-namespace Outcompute.Toolkit.HighPerformance.Extensions;
+﻿namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class MemoryOwnerEnumerableExtensions
 {
+    /// <summary>
+    /// The starting buffer length to use.
+    /// The minimum array size managed by the shared <see cref="ArrayPool{T}"/> is 16.
+    /// </summary>
+    private const int DefaultBufferLength = 16;
+
     /// <summary>
     /// Enumerates the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
     /// </summary>
@@ -82,29 +84,58 @@ public static class MemoryOwnerEnumerableExtensions
     /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerableWithUnknownCount<T>(IEnumerable<T> source)
     {
-        var owner = MemoryOwner<T>.Allocate(1024);
-        var span = owner.Span;
+        // grab an empty buffer to start with
+        var temp = ArrayPool<T>.Shared.Rent(0);
         var i = 0;
 
+        // enumerate while growing the buffer
         foreach (var item in source)
         {
-            if (i == owner.Length)
+            // grow the buffer as needed
+            if (i == temp.Length)
             {
-                var other = MemoryOwner<T>.Allocate(owner.Length * 2);
-                owner.Span.CopyTo(other.Span);
-                owner.Dispose();
-                owner = other;
-                span = owner.Span;
+                temp = Grow(temp, i);
             }
 
-            span[i++] = item;
+            temp[i++] = item;
         }
 
-        if (i < owner.Length)
+        // fast path for empty source
+        if (i == 0)
         {
-            owner = owner[..i];
+            return MemoryOwner<T>.Empty;
         }
 
+        // copy the temp buffer into the memory owner
+        var owner = MemoryOwner<T>.Allocate(i);
+        temp.AsSpan(..i).CopyTo(owner.Span);
+        ArrayPool<T>.Shared.Return(temp);
         return owner;
+
+        // grows the temp buffer
+        static T[] Grow(T[] temp, int i)
+        {
+            // break if growth is not possible
+            if (i == Array.MaxLength)
+            {
+                return ThrowHelper.ThrowInsufficientMemoryException<T[]>($"Source contains more than {Array.MaxLength} items");
+            }
+
+            // double the length
+            var length = temp.Length * 2;
+
+            // grow to at least the first bucket size above zero
+            length = Math.Max(length, DefaultBufferLength);
+
+            // grow to at most the max size of an array
+            length = Math.Min(length, Array.MaxLength);
+
+            // swap the buffers
+            var other = ArrayPool<T>.Shared.Rent(length);
+            Array.Copy(temp, other, i);
+            ArrayPool<T>.Shared.Return(temp);
+
+            return other;
+        }
     }
 }
