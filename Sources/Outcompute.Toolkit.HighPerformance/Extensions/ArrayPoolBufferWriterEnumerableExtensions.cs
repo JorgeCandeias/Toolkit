@@ -170,4 +170,14 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
 
         return owner;
     }
+
+    /// <summary>
+    /// Creates an <see cref="IEnumerable{T}"/> view of the buffer.
+    /// </summary>
+    public static IEnumerable<T> AsEnumerable<T>(this ArrayPoolBufferWriter<T> source)
+    {
+        Guard.IsNotNull(source);
+
+        return MemoryMarshal.ToEnumerable(source.WrittenMemory);
+    }
 }

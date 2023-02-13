@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Buffers;
 using Outcompute.Toolkit.HighPerformance.Extensions;
 
 namespace Outcompute.Toolkit.HighPerformance.Tests.Extensions;
@@ -27,7 +28,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Length, result.WrittenCount);
     }
 
@@ -40,7 +41,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Length, result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
     }
@@ -54,7 +55,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
     }
 
@@ -67,7 +68,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
     }
@@ -81,7 +82,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
     }
 
@@ -98,7 +99,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
     }
@@ -112,7 +113,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
     }
 
@@ -129,7 +130,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
     }
@@ -143,7 +144,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
     }
 
@@ -156,7 +157,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count, result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
     }
@@ -177,8 +178,26 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
         // act
         using var result = source.ToArrayPoolBufferWriter();
 
-        // act
+        // assert
         Assert.Equal(source.Count(), result.WrittenCount);
         Assert.Equal(source, result.WrittenSpan.ToArray());
+    }
+
+    [Fact]
+    public static void Enumerates()
+    {
+        // arrange
+        var owner = new ArrayPoolBufferWriter<int>();
+        foreach (var item in Enumerable.Range(1, 1000))
+        {
+            owner.Write(item);
+        }
+
+        // act
+        var result = owner.AsEnumerable().ToArray();
+
+        // assert
+        Assert.Equal(owner.WrittenCount, result.Length);
+        Assert.Equal(owner.WrittenSpan.ToArray(), result);
     }
 }

@@ -197,4 +197,14 @@ public static class MemoryOwnerEnumerableExtensions
             return other;
         }
     }
+
+    /// <summary>
+    /// Creates an <see cref="IEnumerable{T}"/> view of the buffer.
+    /// </summary>
+    public static IEnumerable<T> AsEnumerable<T>(this MemoryOwner<T> source)
+    {
+        Guard.IsNotNull(source);
+
+        return MemoryMarshal.ToEnumerable<T>(source.Memory);
+    }
 }
