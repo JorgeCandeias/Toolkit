@@ -19,15 +19,24 @@ public static class MemoryOwnerEnumerableExtensions
         {
             T[] array => ToMemoryOwnerFromArray(array),
             List<T> list => ToMemoryOwnerFromList(list),
+            Queue<T> queue => ToMemoryOwnerFromQueue(queue),
             _ => ToMemoryOwnerFromEnumerable(source)
         };
     }
 
     /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for arrays.
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Array"/>.
     /// </summary>
+    /// <remarks>
+    /// Arrays are internally copied in a single block copy operation.
+    /// </remarks>
     private static MemoryOwner<T> ToMemoryOwnerFromArray<T>(T[] source)
     {
+        if (source.Length == 0)
+        {
+            return MemoryOwner<T>.Empty;
+        }
+
         var owner = MemoryOwner<T>.Allocate(source.Length);
 
         source.CopyTo(owner.Span);
@@ -36,13 +45,42 @@ public static class MemoryOwnerEnumerableExtensions
     }
 
     /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for lists.
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="List{T}"/>.
     /// </summary>
+    /// /// <remarks>
+    /// Lists are internally copied in a single block copy operation.
+    /// </remarks>
     private static MemoryOwner<T> ToMemoryOwnerFromList<T>(List<T> source)
     {
-        var owner = MemoryOwner<T>.Allocate(source.Count);
+        if (source.Count == 0)
+        {
+            return MemoryOwner<T>.Empty;
+        }
 
-        CollectionsMarshal.AsSpan(source).CopyTo(owner.Span);
+        var owner = MemoryOwner<T>.Allocate(source.Count);
+        var target = owner.DangerousGetArray().Array!;
+
+        source.CopyTo(target);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Queue{T}"/>.
+    /// </summary>
+    /// <remarks>
+    /// Queues are internally copied in up to two block copy operations.
+    /// </remarks>
+    private static MemoryOwner<T> ToMemoryOwnerFromQueue<T>(Queue<T> source)
+    {
+        if (source.Count == 0)
+        {
+            return MemoryOwner<T>.Empty;
+        }
+
+        var owner = MemoryOwner<T>.Allocate(source.Count);
+        var target = owner.DangerousGetArray().Array!;
+        source.CopyTo(target, 0);
 
         return owner;
     }
@@ -67,6 +105,11 @@ public static class MemoryOwnerEnumerableExtensions
     /// </summary>
     private static MemoryOwner<T> ToMemoryOwnerFromEnumerableWithKnownCount<T>(IEnumerable<T> source, int count)
     {
+        if (count == 0)
+        {
+            return MemoryOwner<T>.Empty;
+        }
+
         var owner = MemoryOwner<T>.Allocate(count);
         var span = owner.Span;
         var i = 0;

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.HighPerformance;
-using CommunityToolkit.HighPerformance.Buffers;
 using Outcompute.Toolkit.HighPerformance.Extensions;
 
 namespace Outcompute.Toolkit.HighPerformance.Tests.Extensions;
@@ -38,6 +37,24 @@ public static class MemoryOwnerEnumerableExtensionsTests
     {
         // arrange
         var source = new List<int> { 1, 2, 3 };
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+        Assert.Equal(source, result.Span.ToArray());
+    }
+
+    [Fact]
+    public static void ConvertsQueue()
+    {
+        // arrange
+        var source = new Queue<int>();
+        for (var i = 1; i <= 3; i++)
+        {
+            source.Enqueue(i);
+        }
 
         // act
         using var result = source.ToMemoryOwner();
