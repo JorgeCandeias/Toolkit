@@ -19,10 +19,23 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
-    public static void ConvertsArray()
+    public static void ConvertsEmptyArray()
     {
         // arrange
-        var source = new[] { 1, 2, 3 };
+        var source = Array.Empty<int>();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Length, result.Length);
+    }
+
+    [Fact]
+    public static void ConvertsFilledArray()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToArray();
 
         // act
         using var result = source.ToMemoryOwner();
@@ -33,10 +46,23 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
-    public static void ConvertsList()
+    public static void ConvertsEmptyList()
     {
         // arrange
-        var source = new List<int> { 1, 2, 3 };
+        var source = new List<int>();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+    }
+
+    [Fact]
+    public static void ConvertsFilledList()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToList();
 
         // act
         using var result = source.ToMemoryOwner();
@@ -47,13 +73,26 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
-    public static void ConvertsQueue()
+    public static void ConvertsEmptyQueue()
     {
         // arrange
         var source = new Queue<int>();
-        for (var i = 1; i <= 3; i++)
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+    }
+
+    [Fact]
+    public static void ConvertsFilledQueue()
+    {
+        // arrange
+        var source = new Queue<int>();
+        foreach (var item in Enumerable.Range(1, 100))
         {
-            source.Enqueue(i);
+            source.Enqueue(item);
         }
 
         // act
@@ -65,10 +104,23 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
-    public static void ConvertsEnumerableWithKnownCount()
+    public static void ConvertsEmptyEnumerableWithKnownCount()
     {
         // arrange
-        var source = new HashSet<int> { 1, 2, 3 };
+        var source = new HashSet<int>();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+    }
+
+    [Fact]
+    public static void ConvertsFilledEnumerableWithKnownCount()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToHashSet();
 
         // act
         using var result = source.ToMemoryOwner();
