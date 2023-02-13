@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.HighPerformance;
-
-namespace Outcompute.Toolkit.HighPerformance.Extensions;
+﻿namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class ArrayPoolBufferWriterEnumerableExtensions
 {
