@@ -104,6 +104,37 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
+    public static void ConvertsEmptyStack()
+    {
+        // arrange
+        var source = new Stack<int>();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+    }
+
+    [Fact]
+    public static void ConvertsFilledStack()
+    {
+        // arrange
+        var source = new Stack<int>();
+        foreach (var item in Enumerable.Range(1, 100))
+        {
+            source.Push(item);
+        }
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // act
+        Assert.Equal(source.Count, result.Length);
+        Assert.Equal(source, result.Span.ToArray());
+    }
+
+    [Fact]
     public static void ConvertsEmptyEnumerableWithKnownCount()
     {
         // arrange

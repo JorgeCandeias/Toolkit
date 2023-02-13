@@ -20,6 +20,7 @@ public static class MemoryOwnerEnumerableExtensions
             T[] array => ToMemoryOwnerFromArray(array),
             List<T> list => ToMemoryOwnerFromList(list),
             Queue<T> queue => ToMemoryOwnerFromQueue(queue),
+            Stack<T> stack => ToMemoryOwnerFromStack(stack),
             _ => ToMemoryOwnerFromEnumerable(source)
         };
     }
@@ -72,6 +73,26 @@ public static class MemoryOwnerEnumerableExtensions
     /// Queues are internally copied in up to two block copy operations.
     /// </remarks>
     private static MemoryOwner<T> ToMemoryOwnerFromQueue<T>(Queue<T> source)
+    {
+        if (source.Count == 0)
+        {
+            return MemoryOwner<T>.Empty;
+        }
+
+        var owner = MemoryOwner<T>.Allocate(source.Count);
+        var target = owner.DangerousGetArray().Array!;
+        source.CopyTo(target, 0);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Stack{T}"/>.
+    /// </summary>
+    /// <remarks>
+    /// Stacks are internally copied in a fast while loop.
+    /// </remarks>
+    private static MemoryOwner<T> ToMemoryOwnerFromStack<T>(Stack<T> source)
     {
         if (source.Count == 0)
         {
