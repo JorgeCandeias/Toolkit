@@ -180,8 +180,8 @@ public static class MemoryOwnerEnumerableExtensions
                 return ThrowHelper.ThrowInsufficientMemoryException<T[]>($"Source contains more than {Array.MaxLength} items");
             }
 
-            // double the length
-            var length = temp.Length * 2;
+            // double the length while clamping overflow
+            var length = (int)Math.Min((uint)temp.Length * 2, int.MaxValue);
 
             // grow to at least the first bucket size above zero
             length = Math.Max(length, DefaultBufferLength);
