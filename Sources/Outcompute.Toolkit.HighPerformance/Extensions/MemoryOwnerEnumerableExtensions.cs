@@ -201,10 +201,18 @@ public static class MemoryOwnerEnumerableExtensions
     /// <summary>
     /// Creates an <see cref="IEnumerable{T}"/> view of the buffer.
     /// </summary>
+    /// <remarks>
+    /// This method provides higher performance than the standard <see cref="MemoryMarshal.ToEnumerable{T}(ReadOnlyMemory{T})"/> for <see cref="MemoryOwner{T}"/> instances.
+    /// </remarks>
     public static IEnumerable<T> AsEnumerable<T>(this MemoryOwner<T> source)
     {
         Guard.IsNotNull(source);
 
-        return MemoryMarshal.ToEnumerable<T>(source.Memory);
+        var length = source.Length;
+
+        for (var i = 0; i < length; i++)
+        {
+            yield return source.Span[i];
+        }
     }
 }

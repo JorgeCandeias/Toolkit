@@ -174,10 +174,18 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
     /// <summary>
     /// Creates an <see cref="IEnumerable{T}"/> view of the buffer.
     /// </summary>
+    /// <remarks>
+    /// This method provides higher performance than the standard <see cref="MemoryMarshal.ToEnumerable{T}(ReadOnlyMemory{T})"/> for <see cref="ArrayPoolBufferWriter{T}"/> instances.
+    /// </remarks>
     public static IEnumerable<T> AsEnumerable<T>(this ArrayPoolBufferWriter<T> source)
     {
         Guard.IsNotNull(source);
 
-        return MemoryMarshal.ToEnumerable(source.WrittenMemory);
+        var count = source.WrittenCount;
+
+        for (var i = 0; i < count; i++)
+        {
+            yield return source.WrittenSpan[i];
+        }
     }
 }
