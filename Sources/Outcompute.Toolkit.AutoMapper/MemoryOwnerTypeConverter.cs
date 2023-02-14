@@ -13,14 +13,7 @@ internal class MemoryOwnerTypeConverter<TSource, TDestination> :
 {
     public IMemoryOwner<TDestination> Convert(IEnumerable<TSource> source, IMemoryOwner<TDestination> destination, ResolutionContext context)
     {
-        if (source is null)
-        {
-            return new ArrayPoolBufferWriter<TDestination>(0);
-        }
-
-        var mapper = context.Mapper;
-
-        return source.Select(mapper.Map<TSource, TDestination>).ToArrayPoolBufferWriter();
+        return ConvertCore(source, context);
     }
 
     public MemoryOwner<TDestination> Convert(IEnumerable<TSource> source, MemoryOwner<TDestination> destination, ResolutionContext context)
@@ -37,14 +30,7 @@ internal class MemoryOwnerTypeConverter<TSource, TDestination> :
 
     public ArrayPoolBufferWriter<TDestination> Convert(IEnumerable<TSource> source, ArrayPoolBufferWriter<TDestination> destination, ResolutionContext context)
     {
-        if (source is null)
-        {
-            return new ArrayPoolBufferWriter<TDestination>(0);
-        }
-
-        var mapper = context.Mapper;
-
-        return source.Select(mapper.Map<TSource, TDestination>).ToArrayPoolBufferWriter();
+        return ConvertCore(source, context);
     }
 
     public IEnumerable<TDestination> Convert(IMemoryOwner<TSource> source, IEnumerable<TDestination> destination, ResolutionContext context)
@@ -69,23 +55,7 @@ internal class MemoryOwnerTypeConverter<TSource, TDestination> :
 
     public MemoryOwner<TDestination> Convert(IMemoryOwner<TSource> source, MemoryOwner<TDestination> destination, ResolutionContext context)
     {
-        if (source is null)
-        {
-            return MemoryOwner<TDestination>.Empty;
-        }
-
-        var mapper = context.Mapper;
-        var span = source.Memory.Span;
-        var length = span.Length;
-        var owner = MemoryOwner<TDestination>.Allocate(length);
-        var result = owner.Span;
-
-        for (var i = 0; i < length; i++)
-        {
-            result[i] = mapper.Map<TSource, TDestination>(span[i]);
-        }
-
-        return owner;
+        return ConvertCore(source, context);
     }
 
     public ArrayPoolBufferWriter<TDestination> Convert(IMemoryOwner<TSource> source, ArrayPoolBufferWriter<TDestination> destination, ResolutionContext context)
@@ -113,6 +83,11 @@ internal class MemoryOwnerTypeConverter<TSource, TDestination> :
 
     public IMemoryOwner<TDestination> Convert(IMemoryOwner<TSource> source, IMemoryOwner<TDestination> destination, ResolutionContext context)
     {
+        return ConvertCore(source, context);
+    }
+
+    private static MemoryOwner<TDestination> ConvertCore(IMemoryOwner<TSource> source, ResolutionContext context)
+    {
         if (source is null)
         {
             return MemoryOwner<TDestination>.Empty;
@@ -130,6 +105,18 @@ internal class MemoryOwnerTypeConverter<TSource, TDestination> :
         }
 
         return owner;
+    }
+
+    private static ArrayPoolBufferWriter<TDestination> ConvertCore(IEnumerable<TSource> source, ResolutionContext context)
+    {
+        if (source is null)
+        {
+            return new ArrayPoolBufferWriter<TDestination>(0);
+        }
+
+        var mapper = context.Mapper;
+
+        return source.Select(mapper.Map<TSource, TDestination>).ToArrayPoolBufferWriter();
     }
 }
 
