@@ -182,7 +182,7 @@ public static class MemoryOwnerEnumerableExtensions
             // grow the buffer as needed
             if (i == temp.Length)
             {
-                temp = Grow(temp, i);
+                ArrayPool<T>.Shared.Grow(ref temp);
             }
 
             temp[i++] = item;
@@ -194,32 +194,6 @@ public static class MemoryOwnerEnumerableExtensions
         ArrayPool<T>.Shared.Return(temp);
 
         return owner;
-
-        // grows the temp buffer
-        static T[] Grow(T[] temp, int i)
-        {
-            // break if growth is not possible
-            if (i == Array.MaxLength)
-            {
-                return ThrowHelper.ThrowInsufficientMemoryException<T[]>($"Source contains more than {Array.MaxLength} items");
-            }
-
-            // double the length while clamping overflow
-            var length = (int)Math.Min((uint)temp.Length * 2, int.MaxValue);
-
-            // grow to at least the first bucket size above zero
-            length = Math.Max(length, DefaultBufferLength);
-
-            // grow to at most the max size of an array
-            length = Math.Min(length, Array.MaxLength);
-
-            // swap the buffers
-            var other = ArrayPool<T>.Shared.Rent(length);
-            Array.Copy(temp, other, i);
-            ArrayPool<T>.Shared.Return(temp);
-
-            return other;
-        }
     }
 
     /// <summary>
