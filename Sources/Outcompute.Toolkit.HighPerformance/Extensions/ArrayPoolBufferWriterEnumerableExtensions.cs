@@ -20,6 +20,36 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
     }
 
     /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="ArrayPoolBufferWriter{T}"/> of the correct size.
+    /// </summary>
+    public static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriter<T>(this Span<T> source)
+    {
+        var length = source.Length;
+
+        var owner = new ArrayPoolBufferWriter<T>(length);
+        var buffer = owner.GetSpan(length);
+        source.CopyTo(buffer);
+        owner.Advance(length);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="ArrayPoolBufferWriter{T}"/> of the correct size.
+    /// </summary>
+    public static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriter<T>(this ReadOnlySpan<T> source)
+    {
+        var length = source.Length;
+
+        var owner = new ArrayPoolBufferWriter<T>(length);
+        var buffer = owner.GetSpan(length);
+        source.CopyTo(buffer);
+        owner.Advance(length);
+
+        return owner;
+    }
+
+    /// <summary>
     /// Fast path of <see cref="ToArrayPoolBufferWriter{T}(IEnumerable{T})"/> for <see cref="Array"/>.
     /// </summary>
     /// <remarks>
@@ -167,36 +197,6 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
         {
             owner.Write(item);
         }
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Copies the specified <paramref name="source"/> into a new <see cref="ArrayPoolBufferWriter{T}"/> of the correct size.
-    /// </summary>
-    public static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriter<T>(this Span<T> source)
-    {
-        var length = source.Length;
-
-        var owner = new ArrayPoolBufferWriter<T>(length);
-        var buffer = owner.GetSpan(length);
-        source.CopyTo(buffer);
-        owner.Advance(length);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Copies the specified <paramref name="source"/> into a new <see cref="ArrayPoolBufferWriter{T}"/> of the correct size.
-    /// </summary>
-    public static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriter<T>(this ReadOnlySpan<T> source)
-    {
-        var length = source.Length;
-
-        var owner = new ArrayPoolBufferWriter<T>(length);
-        var buffer = owner.GetSpan(length);
-        source.CopyTo(buffer);
-        owner.Advance(length);
 
         return owner;
     }

@@ -26,6 +26,30 @@ public static class MemoryOwnerEnumerableExtensions
     }
 
     /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
+    /// </summary>
+    public static MemoryOwner<T> ToMemoryOwner<T>(this Span<T> source)
+    {
+        var owner = MemoryOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
+    /// </summary>
+    public static MemoryOwner<T> ToMemoryOwner<T>(this ReadOnlySpan<T> source)
+    {
+        var owner = MemoryOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
+
+    /// <summary>
     /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Array"/>.
     /// </summary>
     /// <remarks>
@@ -196,30 +220,6 @@ public static class MemoryOwnerEnumerableExtensions
 
             return other;
         }
-    }
-
-    /// <summary>
-    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
-    /// </summary>
-    public static MemoryOwner<T> ToMemoryOwner<T>(this Span<T> source)
-    {
-        var owner = MemoryOwner<T>.Allocate(source.Length);
-
-        source.CopyTo(owner.Span);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
-    /// </summary>
-    public static MemoryOwner<T> ToMemoryOwner<T>(this ReadOnlySpan<T> source)
-    {
-        var owner = MemoryOwner<T>.Allocate(source.Length);
-
-        source.CopyTo(owner.Span);
-
-        return owner;
     }
 
     /// <summary>
