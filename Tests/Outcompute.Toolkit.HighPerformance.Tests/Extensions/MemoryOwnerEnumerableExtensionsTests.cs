@@ -184,6 +184,34 @@ public static class MemoryOwnerEnumerableExtensionsTests
     }
 
     [Fact]
+    public static void ConvertsSpan()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // assert
+        Assert.Equal(source.Length, result.Length);
+        Assert.Equal(source.ToArray(), result.Span.ToArray());
+    }
+
+    [Fact]
+    public static void ConvertsReadOnlySpan()
+    {
+        // arrange
+        var source = (ReadOnlySpan<int>)Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToMemoryOwner();
+
+        // assert
+        Assert.Equal(source.Length, result.Length);
+        Assert.Equal(source.ToArray(), result.Span.ToArray());
+    }
+
+    [Fact]
     public static void Enumerates()
     {
         // arrange

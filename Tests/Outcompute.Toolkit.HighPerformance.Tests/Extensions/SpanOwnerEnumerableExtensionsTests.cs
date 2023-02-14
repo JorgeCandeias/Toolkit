@@ -181,4 +181,32 @@ public static class SpanOwnerEnumerableExtensionsTests
         Assert.Equal(source.Count(), result.Length);
         Assert.Equal(source, result.Span.ToArray());
     }
+
+    [Fact]
+    public static void ConvertsSpan()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToSpanOwner();
+
+        // assert
+        Assert.Equal(source.Length, result.Length);
+        Assert.Equal(source.ToArray(), result.Span.ToArray());
+    }
+
+    [Fact]
+    public static void ConvertsReadOnlySpan()
+    {
+        // arrange
+        var source = (ReadOnlySpan<int>)Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToSpanOwner();
+
+        // assert
+        Assert.Equal(source.Length, result.Length);
+        Assert.Equal(source.ToArray(), result.Span.ToArray());
+    }
 }

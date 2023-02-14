@@ -184,6 +184,34 @@ public static class ArrayPoolBufferWriterEnumerableExtensionsTests
     }
 
     [Fact]
+    public static void ConvertsSpan()
+    {
+        // arrange
+        var source = Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToArrayPoolBufferWriter();
+
+        // assert
+        Assert.Equal(source.Length, result.WrittenCount);
+        Assert.Equal(source.ToArray(), result.WrittenSpan.ToArray());
+    }
+
+    [Fact]
+    public static void ConvertsReadOnlySpan()
+    {
+        // arrange
+        var source = (ReadOnlySpan<int>)Enumerable.Range(1, 100).ToArray().AsSpan();
+
+        // act
+        using var result = source.ToArrayPoolBufferWriter();
+
+        // assert
+        Assert.Equal(source.Length, result.WrittenCount);
+        Assert.Equal(source.ToArray(), result.WrittenSpan.ToArray());
+    }
+
+    [Fact]
     public static void Enumerates()
     {
         // arrange

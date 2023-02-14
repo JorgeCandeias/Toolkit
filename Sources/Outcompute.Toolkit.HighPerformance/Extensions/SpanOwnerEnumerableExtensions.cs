@@ -197,4 +197,28 @@ public static class SpanOwnerEnumerableExtensions
             return other;
         }
     }
+
+    /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="SpanOwner{T}"/> of the correct size.
+    /// </summary>
+    public static SpanOwner<T> ToSpanOwner<T>(this Span<T> source)
+    {
+        var owner = SpanOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="SpanOwner{T}"/> of the correct size.
+    /// </summary>
+    public static SpanOwner<T> ToSpanOwner<T>(this ReadOnlySpan<T> source)
+    {
+        var owner = SpanOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
 }

@@ -199,6 +199,30 @@ public static class MemoryOwnerEnumerableExtensions
     }
 
     /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
+    /// </summary>
+    public static MemoryOwner<T> ToMemoryOwner<T>(this Span<T> source)
+    {
+        var owner = MemoryOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
+
+    /// <summary>
+    /// Copies the specified <paramref name="source"/> into a new <see cref="MemoryOwner{T}"/> of the correct size.
+    /// </summary>
+    public static MemoryOwner<T> ToMemoryOwner<T>(this ReadOnlySpan<T> source)
+    {
+        var owner = MemoryOwner<T>.Allocate(source.Length);
+
+        source.CopyTo(owner.Span);
+
+        return owner;
+    }
+
+    /// <summary>
     /// Creates an <see cref="IEnumerable{T}"/> view of the buffer.
     /// </summary>
     /// <remarks>
