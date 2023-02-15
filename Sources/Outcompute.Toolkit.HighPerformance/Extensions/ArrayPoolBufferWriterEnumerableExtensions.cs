@@ -132,11 +132,14 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        var count = source.WrittenCount;
-
-        for (var i = 0; i < count; i++)
+        if (!MemoryMarshal.TryGetArray(source.WrittenMemory, out var segment))
         {
-            yield return source.WrittenSpan[i];
+            ThrowHelper.ThrowInvalidOperationException();
+        }
+
+        foreach (var item in segment)
+        {
+            yield return item;
         }
     }
 }

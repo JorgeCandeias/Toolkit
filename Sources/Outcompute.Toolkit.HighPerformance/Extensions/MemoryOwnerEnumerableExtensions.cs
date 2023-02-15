@@ -55,7 +55,7 @@ public static class MemoryOwnerEnumerableExtensions
         var owner = MemoryOwner<T>.Allocate(count);
         var memory = owner.Memory;
 
-        // this should always succeed as the writer uses the shared array pool without slabbing
+        // this should always succeed as the memory owner uses the shared array pool without slabbing
         if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
         {
             return ThrowHelper.ThrowInvalidOperationException<MemoryOwner<T>>();
@@ -142,11 +142,14 @@ public static class MemoryOwnerEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        var length = source.Length;
-
-        for (var i = 0; i < length; i++)
+        if (!MemoryMarshal.TryGetArray<T>(source.Memory, out var segment))
         {
-            yield return source.Span[i];
+            ThrowHelper.ThrowInvalidOperationException();
+        }
+
+        foreach (var item in segment)
+        {
+            yield return item;
         }
     }
 }
