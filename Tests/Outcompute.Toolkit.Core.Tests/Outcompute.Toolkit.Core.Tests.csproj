@@ -33,4 +33,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj" />
+  </ItemGroup>
+
 </Project>
