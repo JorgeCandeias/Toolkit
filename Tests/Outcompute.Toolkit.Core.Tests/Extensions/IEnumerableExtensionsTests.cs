@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Outcompute.Toolkit.Core.Tests.Extensions;
+﻿namespace Outcompute.Toolkit.Core.Tests.Extensions;
 
 public class IEnumerableExtensionsTests
 {
@@ -10,9 +8,9 @@ public class IEnumerableExtensionsTests
         // arrange
         var source = new[]
         {
-            new { A = 1, B = "2", C = 3M },
-            new { A = 4, B = "5", C = 6M },
-            new { A = 7, B = "8", C = 9M },
+            new { A = 1, B = "2", C = (decimal?)3M },
+            new { A = 4, B = "5", C = (decimal?)6M },
+            new { A = 7, B = "8", C = (decimal?)9M },
         };
 
         // act
@@ -25,6 +23,6 @@ public class IEnumerableExtensionsTests
         Assert.Equal(typeof(int), result.Columns["A"]!.DataType);
         Assert.Equal(typeof(string), result.Columns["B"]!.DataType);
         Assert.Equal(typeof(decimal), result.Columns["C"]!.DataType);
-        Assert.Equal(source, result.AsEnumerable().Select(x => new { A = (int)x["A"], B = (string)x["B"], C = (decimal)x["C"] }));
+        Assert.Equal(source, result.AsEnumerable().Select(x => new { A = (int)x["A"], B = (string)x["B"], C = (decimal?)x["C"] }));
     }
 }
