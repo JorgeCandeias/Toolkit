@@ -9,14 +9,14 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        return source switch
+        // attempt fast path for collection type
+        if (source is ICollection<T> collection)
         {
-            T[] array => ToArrayPoolBufferWriterFromArray(array),
-            List<T> list => ToArrayPoolBufferWriterFromList(list),
-            Queue<T> queue => ToArrayPoolBufferWriterFromQueue(queue),
-            Stack<T> stack => ToArrayPoolBufferWriterFromStack(stack),
-            _ => ToArrayPoolBufferWriterFromEnumerable(source)
-        };
+            return ToArrayPoolBufferWriterFromCollection(collection);
+        }
+
+        // fallback for other enumerables
+        return ToArrayPoolBufferWriterFromEnumerable(source);
     }
 
     /// <summary>
@@ -49,100 +49,21 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
         return owner;
     }
 
-    /// <summary>
-    /// Fast path of <see cref="ToArrayPoolBufferWriter{T}(IEnumerable{T})"/> for <see cref="Array"/>.
-    /// </summary>
-    /// <remarks>
-    /// Arrays are internally copied in a single block copy operation.
-    /// </remarks>
-    private static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriterFromArray<T>(T[] source)
+    private static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriterFromCollection<T>(ICollection<T> collection)
     {
-        if (source.Length == 0)
+        var count = collection.Count;
+        var owner = new ArrayPoolBufferWriter<T>(count);
+        var memory = owner.GetMemory(count);
+
+        // this should always succeed as the writer uses the shared array pool without slabbing
+        if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
         {
-            return new ArrayPoolBufferWriter<T>();
-        }
-
-        var owner = new ArrayPoolBufferWriter<T>(source.Length);
-
-        var span = owner.GetSpan(source.Length);
-        source.CopyTo(span);
-        owner.Advance(source.Length);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToArrayPoolBufferWriter{T}(IEnumerable{T})"/> for <see cref="List{T}"/>.
-    /// </summary>
-    /// /// <remarks>
-    /// Lists are internally copied in a single block copy operation.
-    /// </remarks>
-    private static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriterFromList<T>(List<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return new ArrayPoolBufferWriter<T>();
-        }
-
-        var owner = new ArrayPoolBufferWriter<T>(source.Count);
-
-        var span = owner.GetSpan(source.Count);
-        CollectionsMarshal.AsSpan(source).CopyTo(span);
-        owner.Advance(source.Count);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToArrayPoolBufferWriter{T}(IEnumerable{T})"/> for <see cref="Queue{T}"/>.
-    /// </summary>
-    /// <remarks>
-    /// Queues are internally copied in up to two block copy operations.
-    /// </remarks>
-    private static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriterFromQueue<T>(Queue<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return new ArrayPoolBufferWriter<T>();
-        }
-
-        var owner = new ArrayPoolBufferWriter<T>(source.Count);
-
-        if (!MemoryMarshal.TryGetArray<T>(owner.GetMemory(source.Count), out var segment))
-        {
-            // should never happen
             return ThrowHelper.ThrowInvalidOperationException<ArrayPoolBufferWriter<T>>();
         }
 
-        source.CopyTo(segment.Array!, 0);
-        owner.Advance(source.Count);
+        collection.CopyTo(segment.Array!, 0);
 
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToArrayPoolBufferWriter{T}(IEnumerable{T})"/> for <see cref="Stack{T}"/>.
-    /// </summary>
-    /// <remarks>
-    /// Stacks are internally copied in a fast while loop.
-    /// </remarks>
-    private static ArrayPoolBufferWriter<T> ToArrayPoolBufferWriterFromStack<T>(Stack<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return new ArrayPoolBufferWriter<T>();
-        }
-
-        var owner = new ArrayPoolBufferWriter<T>(source.Count);
-
-        if (!MemoryMarshal.TryGetArray<T>(owner.GetMemory(source.Count), out var segment))
-        {
-            // should never happen
-            return ThrowHelper.ThrowInvalidOperationException<ArrayPoolBufferWriter<T>>();
-        }
-
-        source.CopyTo(segment.Array!, 0);
-        owner.Advance(source.Count);
+        owner.Advance(count);
 
         return owner;
     }
