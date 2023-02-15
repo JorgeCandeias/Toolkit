@@ -51,6 +51,28 @@ public class MemoryOwnerTypeConverterTests
     }
 
     [Fact]
+    public void ConvertsNullIEnumerableToMemoryOwner()
+    {
+        // arrange
+        var config = new MapperConfiguration(config =>
+        {
+            config.CreateMemoryOwnerTypeMaps();
+        });
+        config.AssertConfigurationIsValid();
+
+        var mapper = config.CreateMapper();
+        var source = (IEnumerable<int>)null!;
+
+        // act
+        var result = mapper.Map<IEnumerable<int>, MemoryOwner<string>>(source);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.IsType<MemoryOwner<string>>(result);
+        Assert.Equal(0, result.Length);
+    }
+
+    [Fact]
     public void ConvertsIEnumerableToArrayPoolBufferWriter()
     {
         // arrange
@@ -70,6 +92,28 @@ public class MemoryOwnerTypeConverterTests
         Assert.NotNull(result);
         Assert.IsType<ArrayPoolBufferWriter<string>>(result);
         Assert.Equal(source.Select(x => x.ToString()), result.WrittenSpan.ToArray());
+    }
+
+    [Fact]
+    public void ConvertsNullIEnumerableToArrayPoolBufferWriter()
+    {
+        // arrange
+        var config = new MapperConfiguration(config =>
+        {
+            config.CreateMemoryOwnerTypeMaps();
+        });
+        config.AssertConfigurationIsValid();
+
+        var mapper = config.CreateMapper();
+        var source = (IEnumerable<int>)null!;
+
+        // act
+        var result = mapper.Map<IEnumerable<int>, ArrayPoolBufferWriter<string>>(source);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.IsType<ArrayPoolBufferWriter<string>>(result);
+        Assert.Equal(0, result.WrittenCount);
     }
 
     [Fact]
@@ -95,6 +139,27 @@ public class MemoryOwnerTypeConverterTests
     }
 
     [Fact]
+    public void ConvertsNullIMemoryOwnerToIEnumerable()
+    {
+        // arrange
+        var config = new MapperConfiguration(config =>
+        {
+            config.CreateMemoryOwnerTypeMaps();
+        });
+        config.AssertConfigurationIsValid();
+
+        var mapper = config.CreateMapper();
+        using var source = (IMemoryOwner<int>)null!;
+
+        // act
+        var result = mapper.Map<IMemoryOwner<int>, IEnumerable<string>>(source);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Empty(result);
+    }
+
+    [Fact]
     public void ConvertsIMemoryOwnerToMemoryOwner()
     {
         // arrange
@@ -117,6 +182,28 @@ public class MemoryOwnerTypeConverterTests
     }
 
     [Fact]
+    public void ConvertsNullIMemoryOwnerToMemoryOwner()
+    {
+        // arrange
+        var config = new MapperConfiguration(config =>
+        {
+            config.CreateMemoryOwnerTypeMaps();
+        });
+        config.AssertConfigurationIsValid();
+
+        var mapper = config.CreateMapper();
+        using var source = (IMemoryOwner<int>)null!;
+
+        // act
+        using var result = mapper.Map<IMemoryOwner<int>, MemoryOwner<string>>(source);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.IsType<MemoryOwner<string>>(result);
+        Assert.Equal(0, result.Length);
+    }
+
+    [Fact]
     public void ConvertsIMemoryOwnerToArrayPoolBufferWriter()
     {
         // arrange
@@ -136,6 +223,28 @@ public class MemoryOwnerTypeConverterTests
         Assert.NotNull(result);
         Assert.IsType<ArrayPoolBufferWriter<string>>(result);
         Assert.Equal(source.AsEnumerable().Select(x => x.ToString()), result.AsEnumerable());
+    }
+
+    [Fact]
+    public void ConvertsNullIMemoryOwnerToArrayPoolBufferWriter()
+    {
+        // arrange
+        var config = new MapperConfiguration(config =>
+        {
+            config.CreateMemoryOwnerTypeMaps();
+        });
+        config.AssertConfigurationIsValid();
+
+        var mapper = config.CreateMapper();
+        using var source = (IMemoryOwner<int>)null!;
+
+        // act
+        using var result = mapper.Map<IMemoryOwner<int>, ArrayPoolBufferWriter<string>>(source);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.IsType<ArrayPoolBufferWriter<string>>(result);
+        Assert.Equal(0, result.WrittenCount);
     }
 
     [Fact]
