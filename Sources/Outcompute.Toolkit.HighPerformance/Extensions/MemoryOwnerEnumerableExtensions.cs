@@ -15,14 +15,14 @@ public static class MemoryOwnerEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        return source switch
+        // attempt fast path for collection type
+        if (source is ICollection<T> collection)
         {
-            T[] array => ToMemoryOwnerFromArray(array),
-            List<T> list => ToMemoryOwnerFromList(list),
-            Queue<T> queue => ToMemoryOwnerFromQueue(queue),
-            Stack<T> stack => ToMemoryOwnerFromStack(stack),
-            _ => ToMemoryOwnerFromEnumerable(source)
-        };
+            return ToMemoryOwnerFromCollection(collection);
+        }
+
+        // fallback for other enumerables
+        return ToMemoryOwnerFromEnumerable(source);
     }
 
     /// <summary>
@@ -49,83 +49,19 @@ public static class MemoryOwnerEnumerableExtensions
         return owner;
     }
 
-    /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Array"/>.
-    /// </summary>
-    /// <remarks>
-    /// Arrays are internally copied in a single block copy operation.
-    /// </remarks>
-    private static MemoryOwner<T> ToMemoryOwnerFromArray<T>(T[] source)
+    private static MemoryOwner<T> ToMemoryOwnerFromCollection<T>(ICollection<T> collection)
     {
-        if (source.Length == 0)
+        var count = collection.Count;
+        var owner = MemoryOwner<T>.Allocate(count);
+        var memory = owner.Memory;
+
+        // this should always succeed as the writer uses the shared array pool without slabbing
+        if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
         {
-            return MemoryOwner<T>.Empty;
+            return ThrowHelper.ThrowInvalidOperationException<MemoryOwner<T>>();
         }
 
-        var owner = MemoryOwner<T>.Allocate(source.Length);
-
-        source.CopyTo(owner.Span);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="List{T}"/>.
-    /// </summary>
-    /// /// <remarks>
-    /// Lists are internally copied in a single block copy operation.
-    /// </remarks>
-    private static MemoryOwner<T> ToMemoryOwnerFromList<T>(List<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return MemoryOwner<T>.Empty;
-        }
-
-        var owner = MemoryOwner<T>.Allocate(source.Count);
-        var target = owner.DangerousGetArray().Array!;
-
-        source.CopyTo(target);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Queue{T}"/>.
-    /// </summary>
-    /// <remarks>
-    /// Queues are internally copied in up to two block copy operations.
-    /// </remarks>
-    private static MemoryOwner<T> ToMemoryOwnerFromQueue<T>(Queue<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return MemoryOwner<T>.Empty;
-        }
-
-        var owner = MemoryOwner<T>.Allocate(source.Count);
-        var target = owner.DangerousGetArray().Array!;
-        source.CopyTo(target, 0);
-
-        return owner;
-    }
-
-    /// <summary>
-    /// Fast path of <see cref="ToMemoryOwner{T}(IEnumerable{T})"/> for <see cref="Stack{T}"/>.
-    /// </summary>
-    /// <remarks>
-    /// Stacks are internally copied in a fast while loop.
-    /// </remarks>
-    private static MemoryOwner<T> ToMemoryOwnerFromStack<T>(Stack<T> source)
-    {
-        if (source.Count == 0)
-        {
-            return MemoryOwner<T>.Empty;
-        }
-
-        var owner = MemoryOwner<T>.Allocate(source.Count);
-        var target = owner.DangerousGetArray().Array!;
-        source.CopyTo(target, 0);
+        collection.CopyTo(segment.Array!, 0);
 
         return owner;
     }
