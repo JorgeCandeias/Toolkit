@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.HighPerformance.Extensions;
+﻿using Outcompute.Toolkit.Core.InteropServices;
+
+namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class ArrayPoolBufferWriterEnumerableExtensions
 {
@@ -54,12 +56,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
         var count = collection.Count;
         var owner = new ArrayPoolBufferWriter<T>(count);
         var memory = owner.GetMemory(count);
-
-        // this should always succeed as the writer uses the shared array pool without slabbing
-        if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
-        {
-            return ThrowHelper.ThrowInvalidOperationException<ArrayPoolBufferWriter<T>>();
-        }
+        var segment = MemoryMarshalEx.GetArray<T>(memory);
 
         collection.CopyTo(segment.Array!, 0);
 
@@ -132,10 +129,7 @@ public static class ArrayPoolBufferWriterEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        if (!MemoryMarshal.TryGetArray(source.WrittenMemory, out var segment))
-        {
-            ThrowHelper.ThrowInvalidOperationException();
-        }
+        var segment = MemoryMarshalEx.GetArray(source.WrittenMemory);
 
         foreach (var item in segment)
         {
