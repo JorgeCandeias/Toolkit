@@ -29,7 +29,7 @@ internal class BufferUtility
         var length = buffer.Length;
 
         // break if growth is not possible
-        if (length == _arrayMaxLength)
+        if (length >= _arrayMaxLength)
         {
             ThrowHelper.ThrowInsufficientMemoryException($"Source contains more than {Array.MaxLength} items");
             return;
