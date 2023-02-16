@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Outcompute.Toolkit.Core.Tests.Time;
+﻿namespace Outcompute.Toolkit.Core.Tests.Time;
 
 public class SystemClockTests
 {
@@ -11,11 +9,39 @@ public class SystemClockTests
         var clock = new SystemClock();
 
         // act
-        var now = DateTime.UtcNow;
+        var expected = DateTime.UtcNow;
         var result = clock.UtcNow;
 
         // assert
-        Assert.InRange(result, now.Subtract(TimeSpan.FromSeconds(1)), now.Add(TimeSpan.FromSeconds(1)));
+        Assert.InRange(result, expected.Subtract(TimeSpan.FromSeconds(1)), expected.Add(TimeSpan.FromSeconds(1)));
+    }
+
+    [Fact]
+    public void GetsNow()
+    {
+        // arrange
+        var clock = new SystemClock();
+
+        // act
+        var expected = DateTime.Now;
+        var result = clock.Now;
+
+        // assert
+        Assert.InRange(result, expected.Subtract(TimeSpan.FromSeconds(1)), expected.Add(TimeSpan.FromSeconds(1)));
+    }
+
+    [Fact]
+    public void GetsToday()
+    {
+        // arrange
+        var clock = new SystemClock();
+
+        // act
+        var expected = DateTime.Today;
+        var result = clock.Today;
+
+        // assert
+        Assert.InRange(result, expected.Subtract(TimeSpan.FromSeconds(1)), expected.Add(TimeSpan.FromSeconds(1)));
     }
 
     [Fact]
