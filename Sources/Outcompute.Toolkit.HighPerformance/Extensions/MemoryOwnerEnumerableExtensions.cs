@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.HighPerformance.Extensions;
+﻿using Outcompute.Toolkit.Core.InteropServices;
+
+namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class MemoryOwnerEnumerableExtensions
 {
@@ -54,12 +56,7 @@ public static class MemoryOwnerEnumerableExtensions
         var count = collection.Count;
         var owner = MemoryOwner<T>.Allocate(count);
         var memory = owner.Memory;
-
-        // this should always succeed as the memory owner uses the shared array pool without slabbing
-        if (!MemoryMarshal.TryGetArray<T>(memory, out var segment))
-        {
-            return ThrowHelper.ThrowInvalidOperationException<MemoryOwner<T>>();
-        }
+        var segment = MemoryMarshalEx.GetArray<T>(memory);
 
         collection.CopyTo(segment.Array!, 0);
 
@@ -142,10 +139,7 @@ public static class MemoryOwnerEnumerableExtensions
     {
         Guard.IsNotNull(source);
 
-        if (!MemoryMarshal.TryGetArray<T>(source.Memory, out var segment))
-        {
-            ThrowHelper.ThrowInvalidOperationException();
-        }
+        var segment = MemoryMarshalEx.GetArray<T>(source.Memory);
 
         foreach (var item in segment)
         {
