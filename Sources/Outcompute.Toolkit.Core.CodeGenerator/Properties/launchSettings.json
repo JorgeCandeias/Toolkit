@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Profile 1": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Outcompute.Toolkit.Core.CodeGenerator.Tests\\Outcompute.Toolkit.Core.CodeGenerator.Tests.csproj"
+    }
+  }
+}
