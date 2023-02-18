@@ -13,8 +13,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< HEAD
 		<PackageReference Include="CommunityToolkit.Diagnostics" PrivateAssets="all" Version="8.1.0" />
 		<PackageReference Include="CommunityToolkit.HighPerformance" PrivateAssets="all" Version="8.1.0" />
+=======
+>>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" Version="3.3.4" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">

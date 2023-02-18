@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using System.Collections.Generic;
 
 namespace Outcompute.Toolkit.Core.CodeGenerator;
+=======
+﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
+>>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
 
 [Generator]
 internal class EnumSourceGenerator : IIncrementalGenerator
@@ -45,9 +49,12 @@ internal class EnumSourceGenerator : IIncrementalGenerator
     {
         var symbols = candidates.Distinct<ITypeSymbol>(SymbolEqualityComparer.Default);
 
+<<<<<<< HEAD
         context.AddSource("Outcompute.Toolkit.Core.Extensions.EnumExtensions.g.cs", GenerateEntryCode(symbols));
 
         /*
+=======
+>>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
         foreach (var symbol in symbols)
         {
             var prefix1 = "Outcompute.Toolkit.";
@@ -58,6 +65,7 @@ internal class EnumSourceGenerator : IIncrementalGenerator
 
             context.AddSource(title, code);
         }
+<<<<<<< HEAD
         */
     }
 
@@ -74,6 +82,8 @@ internal class EnumSourceGenerator : IIncrementalGenerator
             .CloseBlock()
             .CloseBlock()
             .ToString();
+=======
+>>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
     }
 
     private string GenerateCode(ITypeSymbol symbol)
@@ -82,11 +92,19 @@ internal class EnumSourceGenerator : IIncrementalGenerator
 
         return $@"
 
+<<<<<<< HEAD
 namespace Outcompute.Toolkit.Core.Extensions;
 
 public static partial class EnumExtensions
 {{
     public static partial string AsString<T>(this T value) where T : struct, Enum;
+=======
+{(ns is null ? null : ($"namespace {ns};"))}
+
+public static class {symbol.Name}OutcomputeToolkitExtensions
+{{
+    public static string AsString(this {symbol.Name} value)
+>>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
     {{
         return value switch
         {{
