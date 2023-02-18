@@ -20,9 +20,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit.AutoMapp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit.AutoMapper.Tests", "Tests\Outcompute.Toolkit.AutoMapper.Tests\Outcompute.Toolkit.AutoMapper.Tests.csproj", "{019393ED-0BF2-446F-BB58-3EAFC2302015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit.Core", "Sources\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj", "{9F74F91D-1431-4B01-A18D-198931B078A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit.Core", "Sources\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj", "{9F74F91D-1431-4B01-A18D-198931B078A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit.Core.Tests", "Tests\Outcompute.Toolkit.Core.Tests\Outcompute.Toolkit.Core.Tests.csproj", "{B97D382F-0614-4A06-BF14-663A18673C30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outcompute.Toolkit.Core.Tests", "Tests\Outcompute.Toolkit.Core.Tests\Outcompute.Toolkit.Core.Tests.csproj", "{B97D382F-0614-4A06-BF14-663A18673C30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit.Core.CodeGenerator", "Sources\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj", "{F0D81A58-0E4B-4B9E-86C9-05B05B4F2D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Outcompute.Toolkit.Core.CodeGenerator.Tests", "Sources\Outcompute.Toolkit.Core.CodeGenerator.Tests\Outcompute.Toolkit.Core.CodeGenerator.Tests.csproj", "{9243BF5F-6209-474E-A7F7-06157F6F88DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +62,14 @@ Global
 		{B97D382F-0614-4A06-BF14-663A18673C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B97D382F-0614-4A06-BF14-663A18673C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B97D382F-0614-4A06-BF14-663A18673C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0D81A58-0E4B-4B9E-86C9-05B05B4F2D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D81A58-0E4B-4B9E-86C9-05B05B4F2D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D81A58-0E4B-4B9E-86C9-05B05B4F2D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D81A58-0E4B-4B9E-86C9-05B05B4F2D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9243BF5F-6209-474E-A7F7-06157F6F88DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9243BF5F-6209-474E-A7F7-06157F6F88DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9243BF5F-6209-474E-A7F7-06157F6F88DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9243BF5F-6209-474E-A7F7-06157F6F88DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +78,7 @@ Global
 		{032E0EF8-081A-4037-B9D8-19901544AF74} = {8B10E0AA-3CD7-4DE6-A875-10C74B099202}
 		{019393ED-0BF2-446F-BB58-3EAFC2302015} = {8B10E0AA-3CD7-4DE6-A875-10C74B099202}
 		{B97D382F-0614-4A06-BF14-663A18673C30} = {8B10E0AA-3CD7-4DE6-A875-10C74B099202}
+		{9243BF5F-6209-474E-A7F7-06157F6F88DF} = {8B10E0AA-3CD7-4DE6-A875-10C74B099202}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BA33F1E-CAA5-4AA3-BE43-FD2A1D198FF8}
