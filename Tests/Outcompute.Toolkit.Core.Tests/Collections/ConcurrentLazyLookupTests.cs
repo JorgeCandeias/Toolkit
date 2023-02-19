@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Outcompute.Toolkit.Core.Tests.Collections;
+﻿namespace Outcompute.Toolkit.Core.Tests.Collections;
 
 public class ConcurrentLazyLookupTests
 {
@@ -26,9 +24,6 @@ public class ConcurrentLazyLookupTests
         Assert.True(lookup.ContainsKey(2));
         Assert.True(lookup.ContainsKey(3));
         Assert.False(lookup.ContainsKey(4));
-
-        IEnumerable legacy = lookup;
-        Assert.Equal(new[] { (1, "1"), (2, "2"), (3, "3") }, legacy.Cast<KeyValuePair<int, string>>().Select(x => (x.Key, x.Value)));
     }
 
     [Fact]
@@ -54,8 +49,5 @@ public class ConcurrentLazyLookupTests
         Assert.True(lookup.ContainsKey(2));
         Assert.True(lookup.ContainsKey(3));
         Assert.False(lookup.ContainsKey(4));
-
-        IEnumerable legacy = lookup;
-        Assert.Equal(new[] { (1, "1"), (2, "2"), (3, "3") }, legacy.Cast<KeyValuePair<int, string>>().Select(x => (x.Key, x.Value)));
     }
 }

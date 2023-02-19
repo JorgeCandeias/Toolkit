@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Collections;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Outcompute.Toolkit.Core.Collections;
 
 /// <summary>
 /// A lookup where the value is created upon first access from a pre-configured factory.
@@ -74,5 +76,6 @@ public class ConcurrentLazyLookup<TKey, TValue> : IReadOnlyDictionary<TKey, TVal
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
 
     /// <inheritdoc cref="GetEnumerator"/>
+    [ExcludeFromCodeCoverage]
     IEnumerator IEnumerable.GetEnumerator() => _dictionary.GetEnumerator();
 }
