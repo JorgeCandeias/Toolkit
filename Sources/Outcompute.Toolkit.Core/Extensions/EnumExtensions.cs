@@ -1,7 +1,13 @@
 ﻿namespace Outcompute.Toolkit.Core.Extensions;
 
+/// <summary>
+/// Quality-of-life and efficiency extensions for <see cref="Enum"/>.
+/// </summary>
 public static class EnumExtensions
 {
+    /// <summary>
+    /// Type rooting pattern for fast type-keyed lookups.
+    /// </summary>
     private static class TypeRoot<T> where T : struct, Enum
     {
         static TypeRoot()
@@ -15,8 +21,14 @@ public static class EnumExtensions
             }
         }
 
+        /// <summary>
+        /// Caches enum member names.
+        /// </summary>
         public static readonly Dictionary<T, string> Names = new();
     }
 
+    /// <summary>
+    /// Sames as <see cref="Enum.ToString"/> or <see cref="Enum.GetName{TEnum}(TEnum)"/> but without allocating after the first call.
+    /// </summary>
     public static string AsString<T>(this T value) where T : struct, Enum => TypeRoot<T>.Names[value];
 }
