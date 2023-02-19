@@ -31,7 +31,7 @@ internal class BufferUtility
         // break if growth is not possible
         if (length >= _arrayMaxLength)
         {
-            ThrowHelper.ThrowInsufficientMemoryException($"Source contains more than {Array.MaxLength} items");
+            throw new InsufficientMemoryException($"Source contains more than {Array.MaxLength} items");
         }
 
         // double the length while clamping overflow
