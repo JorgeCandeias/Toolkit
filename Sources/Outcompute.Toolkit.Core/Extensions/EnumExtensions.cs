@@ -1,17 +1,22 @@
 ﻿namespace Outcompute.Toolkit.Core.Extensions;
 
-/// <summary>
-/// Quality-of-life extensions for <see cref="Enum"/>.
-/// </summary>
-public static partial class EnumExtensions
+public static class EnumExtensions
 {
-    /// <summary>
-    /// Sames as <see cref="Enum.ToString"/> but without allocating after the very first call.
-    /// </summary>
-    public static partial string AsString<T>(this T value) where T : struct, Enum;
+    private static class TypeRoot<T> where T : struct, Enum
+    {
+        static TypeRoot()
+        {
+            var values = Enum.GetValues<T>();
+            var names = Enum.GetNames<T>();
 
-    /// <summary>
-    /// Sames as <see cref="Enum.ToString"/> for nullable values but without allocating after the very first call.
-    /// </summary>
-    public static partial string? AsString<T>(this T? value, string? defaultValue = null) where T : struct, Enum;
+            for (var i = 0; i < values.Length; i++)
+            {
+                Names.Add(values[i], names[i]);
+            }
+        }
+
+        public static readonly Dictionary<T, string> Names = new();
+    }
+
+    public static string AsString<T>(this T value) where T : struct, Enum => TypeRoot<T>.Names[value];
 }

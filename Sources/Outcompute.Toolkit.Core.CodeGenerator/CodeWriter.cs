@@ -1,4 +1,7 @@
-﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
+﻿using CommunityToolkit.Diagnostics;
+using System.Collections.Generic;
+
+namespace Outcompute.Toolkit.Core.CodeGenerator;
 
 internal sealed class CodeWriter : IDisposable
 {
@@ -12,13 +15,6 @@ internal sealed class CodeWriter : IDisposable
         {
             _writer.Write('\t');
         }
-
-        return this;
-    }
-
-    private CodeWriter Write(string value)
-    {
-        _writer.Write(value);
 
         return this;
     }
@@ -37,20 +33,22 @@ internal sealed class CodeWriter : IDisposable
         return this;
     }
 
-    public CodeWriter Line()
+    public CodeWriter Write(string value)
     {
-        _writer.Write("\r\n");
+        _writer.Write(value);
 
         return this;
     }
 
-    public CodeWriter Line(string value) => Write(value).Line();
+    public CodeWriter Line() => Write("\r\n");
 
-    public CodeWriter OpenBlock() => Ident().Line("{").Nest();
+    public CodeWriter Line(string value) => Ident().Write(value).Line();
 
-    public CodeWriter OpenBlock(string value) => Ident().Write(value).Line().Nest();
+    public CodeWriter Open(string value) => Line(value).Line("{").Nest();
 
-    public CodeWriter CloseBlock() => Ident().Line("}").Unnest();
+    public CodeWriter Close() => Unnest().Line("}");
+
+    public CodeWriter CloseColon() => Unnest().Line("};");
 
     public override string ToString() => _writer.ToString();
 

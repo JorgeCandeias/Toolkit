@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-﻿using System.Collections.Generic;
-
-namespace Outcompute.Toolkit.Core.CodeGenerator;
-=======
 ﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
->>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
 
 [Generator]
 internal class EnumSourceGenerator : IIncrementalGenerator
@@ -19,7 +13,6 @@ internal class EnumSourceGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(provider, GenerateCode);
     }
 
-    // this code runs on any code change and must be as fast as possible
     private bool Predicate(SyntaxNode syntaxNode, CancellationToken cancellationToken)
     {
         if (syntaxNode is not IdentifierNameSyntax)
@@ -49,72 +42,40 @@ internal class EnumSourceGenerator : IIncrementalGenerator
     {
         var symbols = candidates.Distinct<ITypeSymbol>(SymbolEqualityComparer.Default);
 
-<<<<<<< HEAD
-        context.AddSource("Outcompute.Toolkit.Core.Extensions.EnumExtensions.g.cs", GenerateEntryCode(symbols));
-
-        /*
-=======
->>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
         foreach (var symbol in symbols)
         {
-            var prefix1 = "Outcompute.Toolkit.";
-            var prefix2 = symbol.ContainingNamespace.IsGlobalNamespace ? null : $"{symbol.ContainingNamespace}.";
-            var title = $"{prefix1}{prefix2}{symbol.Name}.g.cs";
+            var ns = symbol.ContainingNamespace.IsGlobalNamespace ? null : $"{symbol.ContainingNamespace.Name}.";
+            var name = symbol.ToDisplayString();
+            var title = $"Outcompute.Toolkit.Core.Extensions.{ns}{name}.g.cs";
 
-            var code = GenerateCode(symbol);
-
-            context.AddSource(title, code);
+            //context.AddSource(title, GenerateCode(symbol, ns));
         }
-<<<<<<< HEAD
-        */
     }
 
-    private string GenerateEntryCode(IEnumerable<ITypeSymbol> symbols)
+    private static string GenerateCode(ITypeSymbol symbol, string ns)
     {
         using var writer = new CodeWriter();
 
-        return writer
-            .Line("namespace Outcompute.Toolkit.Core.Extensions;")
+        writer
+            .Line($"namespace {ns};")
             .Line()
-            .OpenBlock("public static partial class EnumExtensions")
-            .OpenBlock("public static partial string AsString<T>(this T value) where T : struct, Enum")
-            .Line("return null;")
-            .CloseBlock()
-            .CloseBlock()
-            .ToString();
-=======
->>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
+            .Open("internal static partial class EnumExtensions")
+            .Open($"internal static string AsString(this {symbol.ToDisplayString()} value)")
+            .Open("return value switch");
+
+        foreach (var member in symbol.GetMembers())
+        {
+            if (member.Kind == SymbolKind.Field)
+            {
+                writer.Line($@"{member.ToDisplayString()} => ""{member.Name}"",");
+            }
+        }
+
+        writer
+            .CloseColon()
+            .Close()
+            .Close();
+
+        return writer.ToString();
     }
-
-    private string GenerateCode(ITypeSymbol symbol)
-    {
-        var ns = GetNameSpace(symbol);
-
-        return $@"
-
-<<<<<<< HEAD
-namespace Outcompute.Toolkit.Core.Extensions;
-
-public static partial class EnumExtensions
-{{
-    public static partial string AsString<T>(this T value) where T : struct, Enum;
-=======
-{(ns is null ? null : ($"namespace {ns};"))}
-
-public static class {symbol.Name}OutcomputeToolkitExtensions
-{{
-    public static string AsString(this {symbol.Name} value)
->>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
-    {{
-        return value switch
-        {{
-            _ => ""ABC""
-        }};
-    }}
-}}
-
-";
-    }
-
-    private string GetNameSpace(ISymbol symbol) => symbol.ContainingNamespace.IsGlobalNamespace ? null : symbol.ContainingNamespace.ToString();
 }

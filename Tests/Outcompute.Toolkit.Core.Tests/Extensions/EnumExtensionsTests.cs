@@ -1,6 +1,6 @@
 ﻿namespace Outcompute.Toolkit.Core.Tests.Extensions;
 
-public class EnumExtensionsTests
+public partial class EnumExtensionsTests
 {
     [Fact]
     public void EnumAsStringReturnsValue()

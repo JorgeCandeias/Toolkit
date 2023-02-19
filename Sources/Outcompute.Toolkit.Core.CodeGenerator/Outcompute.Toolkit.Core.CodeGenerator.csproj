@@ -6,6 +6,7 @@
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<IsRoslynComponent>true</IsRoslynComponent>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,11 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-<<<<<<< HEAD
-		<PackageReference Include="CommunityToolkit.Diagnostics" PrivateAssets="all" Version="8.1.0" />
-		<PackageReference Include="CommunityToolkit.HighPerformance" PrivateAssets="all" Version="8.1.0" />
-=======
->>>>>>> 255046ca48c894877bc9972a47ad634cbdcf9df2
+		<PackageReference Include="CommunityToolkit.Diagnostics" GeneratePathProperty="true" PrivateAssets="all" Version="8.1.0" />
+		<PackageReference Include="CommunityToolkit.HighPerformance" GeneratePathProperty="true" PrivateAssets="all" Version="8.1.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" Version="3.3.4" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
@@ -29,5 +27,16 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<PropertyGroup>
+		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+	</PropertyGroup>
+
+	<Target Name="GetDependencyTargetPaths">
+		<ItemGroup>
+			<TargetPathWithTargetPlatformMoniker Include="$(PkgCommunityToolkit_Diagnostics)\lib\netstandard2.0\CommunityToolkit.Diagnostics.dll" Pack="true" Visible="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PkgCommunityToolkit_HighPerformance)\lib\netstandard2.0\CommunityToolkit.HighPerformance.dll" Pack="true" Visible="false" />
+		</ItemGroup>
+	</Target>
 
 </Project>

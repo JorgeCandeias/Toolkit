@@ -4,6 +4,7 @@
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,18 +18,19 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference
 			Include="..\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj"
-			ReferenceOutputAssembly="false"
-			OutputItemType="Analyzer" />
+			OutputItemType="Analyzer"
+			PrivateAssets="All"
+			ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
