@@ -1,8 +1,10 @@
+global using CommunityToolkit.Diagnostics;
 global using CommunityToolkit.HighPerformance;
 global using CommunityToolkit.HighPerformance.Buffers;
 global using Microsoft.CodeAnalysis;
 global using Microsoft.CodeAnalysis.CSharp.Syntax;
 global using System;
+global using System.Buffers;
 global using System.Collections.Immutable;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Linq;

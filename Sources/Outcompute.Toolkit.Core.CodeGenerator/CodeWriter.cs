@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Diagnostics;
-using System.Collections.Generic;
+﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
 
-namespace Outcompute.Toolkit.Core.CodeGenerator;
-
+[ExcludeFromCodeCoverage]
 internal sealed class CodeWriter : IDisposable
 {
     private readonly ArrayPoolBufferWriter<char> _writer = new();

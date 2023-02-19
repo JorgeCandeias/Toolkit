@@ -1,10 +1,6 @@
-﻿using CommunityToolkit.Diagnostics;
-using CommunityToolkit.HighPerformance;
-using System;
-using System.Buffers;
+﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
 
-namespace Outcompute.Toolkit.Core.CodeGenerator;
-
+[ExcludeFromCodeCoverage]
 internal static class Extensions
 {
     public static void Write(this IBufferWriter<char> writer, string value)
