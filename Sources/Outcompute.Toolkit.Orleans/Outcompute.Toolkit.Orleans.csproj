@@ -18,12 +18,18 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.Orleans.Sdk" Version="7.1.0" />
-		<PackageReference Condition="$(TargetFramework) == 'net6.0'" Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
+		<PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.Orleans.Sdk" Version="7.1.0" />
+		<PackageReference Condition="'$(TargetFramework)' == 'net6.0'" Include="Microsoft.Orleans.Core" Version="3.6.5" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj" />
+	</ItemGroup>
+
+	  
 
 </Project>
