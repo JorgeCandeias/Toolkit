@@ -4,27 +4,26 @@
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
-		<IncludeContentInPack>false</IncludeContentInPack>
-		<NoWarn>$(NoWarn);NU5128</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Outcompute.Toolkit.Orleans.Tests" />
+		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
+		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Condition="$(TargetFramework) == 'net7.0'" Include="Microsoft.Orleans.Sdk" Version="7.1.0" />
+		<PackageReference Condition="$(TargetFramework) == 'net6.0'" Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Outcompute.Toolkit.AutoMapper\Outcompute.Toolkit.AutoMapper.csproj" />
-		<ProjectReference Include="..\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj" />
-		<ProjectReference Include="..\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj" PrivateAssets="None" />
-		<ProjectReference Include="..\Outcompute.Toolkit.Orleans\Outcompute.Toolkit.Orleans.csproj" />
 	</ItemGroup>
 
 </Project>

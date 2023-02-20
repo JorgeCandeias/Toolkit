@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
@@ -33,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Sources\Outcompute.Toolkit.AutoMapper\Outcompute.Toolkit.AutoMapper.csproj" />
+		<ProjectReference Include="..\..\Sources\Outcompute.Toolkit.Orleans\Outcompute.Toolkit.Orleans.csproj" />
 	</ItemGroup>
 
 </Project>

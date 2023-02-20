@@ -39,11 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference
-			Include="..\..\Sources\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj"
-			OutputItemType="Analyzer"
-			PrivateAssets="All"
-			ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\Sources\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="All" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
