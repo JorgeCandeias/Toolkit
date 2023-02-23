@@ -18,7 +18,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.53.0.62665">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -26,11 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference
-			Include="..\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj"
-			OutputItemType="Analyzer"
-			PrivateAssets="All"
-			ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="All" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
