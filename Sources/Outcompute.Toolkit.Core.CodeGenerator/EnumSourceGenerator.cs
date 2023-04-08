@@ -1,6 +1,6 @@
 ﻿namespace Outcompute.Toolkit.Core.CodeGenerator;
 
-[Generator]
+//[Generator]
 [ExcludeFromCodeCoverage]
 internal class EnumSourceGenerator : IIncrementalGenerator
 {
