@@ -14,9 +14,9 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
 		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
-		<PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.Orleans.Sdk" Version="7.1.0" />
-		<PackageReference Condition="'$(TargetFramework)' == 'net6.0'" Include="Microsoft.Orleans.Core" Version="3.6.5" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
+		<PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.Orleans.Sdk" Version="7.1.1" />
+		<PackageReference Condition="'$(TargetFramework)' == 'net6.0'" Include="Microsoft.Orleans.Core" Version="3.7.0" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -25,7 +25,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj" />
 	</ItemGroup>
-
-	  
 
 </Project>
