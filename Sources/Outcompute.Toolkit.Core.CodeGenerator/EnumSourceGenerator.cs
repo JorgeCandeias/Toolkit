@@ -41,6 +41,7 @@ internal class EnumSourceGenerator : IIncrementalGenerator
 
     private void GenerateCode(SourceProductionContext context, ImmutableArray<ITypeSymbol> candidates)
     {
+        /*
         var symbols = candidates.Distinct<ITypeSymbol>(SymbolEqualityComparer.Default);
 
         foreach (var symbol in symbols)
@@ -48,11 +49,11 @@ internal class EnumSourceGenerator : IIncrementalGenerator
             var ns = symbol.ContainingNamespace.IsGlobalNamespace ? null : $"{symbol.ContainingNamespace.Name}.";
             var name = symbol.ToDisplayString();
             var title = $"Outcompute.Toolkit.Core.Extensions.{ns}{name}.g.cs";
-
-            //context.AddSource(title, GenerateCode(symbol, ns));
         }
+        */
     }
 
+    /*
     private static string GenerateCode(ITypeSymbol symbol, string ns)
     {
         using var writer = new CodeWriter();
@@ -79,4 +80,5 @@ internal class EnumSourceGenerator : IIncrementalGenerator
 
         return writer.ToString();
     }
+    */
 }
