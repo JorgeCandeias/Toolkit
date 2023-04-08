@@ -17,8 +17,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" GeneratePathProperty="true" PrivateAssets="all" Version="8.1.0" />
 		<PackageReference Include="CommunityToolkit.HighPerformance" GeneratePathProperty="true" PrivateAssets="all" Version="8.1.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.5.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" Version="3.3.4" />
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
