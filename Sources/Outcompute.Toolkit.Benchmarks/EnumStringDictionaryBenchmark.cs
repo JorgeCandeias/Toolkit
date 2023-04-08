@@ -9,15 +9,15 @@ public class EnumStringDictionaryBenchmark
 {
     private readonly Consumer _consumer = new();
 
-    private readonly TestEnum[] _data = Enum.GetValues<TestEnum>();
+    private readonly SomeValue[] _data = Enum.GetValues<SomeValue>();
 
-    private readonly Dictionary<TestEnum, string> _lookup = new();
+    private readonly Dictionary<SomeValue, string> _lookup = new();
 
     [GlobalSetup]
     public void GlobalSetup()
     {
-        var values = Enum.GetValues<TestEnum>();
-        var names = Enum.GetNames<TestEnum>();
+        var values = Enum.GetValues<SomeValue>();
+        var names = Enum.GetNames<SomeValue>();
 
         for (var i = 0; i < names.Length; i++)
         {
@@ -44,7 +44,7 @@ public class EnumStringDictionaryBenchmark
     }
 }
 
-public enum TestEnum
+public enum SomeValue
 {
     V0,
     V1,
