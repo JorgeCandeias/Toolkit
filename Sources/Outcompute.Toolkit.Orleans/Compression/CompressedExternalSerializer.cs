@@ -1,14 +1,12 @@
-﻿using CommunityToolkit.Diagnostics;
+﻿#if NET6_0
+
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Buffers;
 using Orleans.Serialization;
 using Outcompute.Toolkit.Core.Collections;
-using System.Buffers;
-using System.Reflection;
 
 namespace Outcompute.Toolkit.Orleans.Compression;
-
-#if NET6_0
 
 internal class CompressedExternalSerializer : IExternalSerializer
 {
