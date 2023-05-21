@@ -32,4 +32,4 @@ jobs:
       run: dotnet pack ${{ env.SOLUTION_FILE_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
       
     - name: Publish
-      run: dotnet nuget push .\Outcompute.Toolkit.Core.CodeGenerator\bin\Release\Outcompute.Toolkit.Core.CodeGenerator.1.0.0.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://api.int.nugettest.org/v3/index.json   
+      run: dotnet nuget push .\Outcompute.Toolkit.Core.CodeGenerator\bin\Release\Outcompute.Toolkit.Core.CodeGenerator.1.0.0.nupkg --api-key ${{ secrets.NUGET_KEY }} --source https://int.nugettest.org/v3/index.json   
