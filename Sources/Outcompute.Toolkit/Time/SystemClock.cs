@@ -1,19 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Time;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-/// <summary>
-/// Abstracts access to static methods of <see cref="DateTime"/> to facilitate unit testing.
-/// </summary>
-public interface ISystemClock
-{
-    /// <inheritdoc cref="DateTime.UtcNow"/>
-    DateTime UtcNow { get; }
-
-    /// <inheritdoc cref="DateTime.Now"/>
-    DateTime Now { get; }
-
-    /// <inheritdoc cref="DateTime.Today"/>
-    DateTime Today { get; }
-}
+namespace Outcompute.Toolkit.Time;
 
 /// <summary>
 /// Default implementation of <see cref="ISystemClock"/>.

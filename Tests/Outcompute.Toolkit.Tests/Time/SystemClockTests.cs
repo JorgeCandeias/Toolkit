@@ -1,4 +1,7 @@
-﻿namespace Outcompute.Toolkit.Core.Tests.Time;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Outcompute.Toolkit.Time;
+
+namespace Outcompute.Toolkit.Tests.Time;
 
 public class SystemClockTests
 {
