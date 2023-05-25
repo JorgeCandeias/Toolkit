@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Tests.Extensions;
+﻿using Outcompute.Toolkit.Extensions;
+
+namespace Outcompute.Toolkit.Tests.Extensions;
 
 public class DictionaryExtensionsTests
 {

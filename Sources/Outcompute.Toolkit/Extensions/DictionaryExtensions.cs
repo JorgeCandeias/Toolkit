@@ -1,4 +1,4 @@
-﻿namespace Outcompute.Toolkit.Core.Extensions;
+﻿namespace Outcompute.Toolkit.Extensions;
 
 public static class DictionaryExtensions
 {

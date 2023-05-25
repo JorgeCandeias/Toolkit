@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Extensions;
+﻿using System.ComponentModel;
+
+namespace Outcompute.Toolkit.Extensions;
 
 public static class IEnumerableExtensions
 {

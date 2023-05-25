@@ -1,4 +1,7 @@
-﻿namespace Outcompute.Toolkit.Core.Tests.Extensions;
+﻿using Outcompute.Toolkit.Extensions;
+using System.Data;
+
+namespace Outcompute.Toolkit.Tests.Extensions;
 
 public class IEnumerableExtensionsTests
 {

@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
-using Outcompute.Toolkit.Core.Extensions;
+using Outcompute.Toolkit.Extensions;
 
 namespace Outcompute.Toolkit.Benchmarks;
 

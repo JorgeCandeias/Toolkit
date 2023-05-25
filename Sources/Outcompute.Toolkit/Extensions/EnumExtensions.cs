@@ -1,4 +1,4 @@
-﻿namespace Outcompute.Toolkit.Core.Extensions;
+﻿namespace Outcompute.Toolkit.Extensions;
 
 /// <summary>
 /// Quality-of-life and efficiency extensions for <see cref="Enum"/>.
