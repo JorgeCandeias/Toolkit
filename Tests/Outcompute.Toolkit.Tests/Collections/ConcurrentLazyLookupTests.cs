@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Tests.Collections;
+﻿using Outcompute.Toolkit.Collections;
+
+namespace Outcompute.Toolkit.Tests.Collections;
 
 public class ConcurrentLazyLookupTests
 {

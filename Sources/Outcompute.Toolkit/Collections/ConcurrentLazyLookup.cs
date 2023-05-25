@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Outcompute.Toolkit.Core.Collections;
+﻿namespace Outcompute.Toolkit.Collections;
 
 /// <summary>
 /// A lookup where the value is created upon first access from a pre-configured factory.

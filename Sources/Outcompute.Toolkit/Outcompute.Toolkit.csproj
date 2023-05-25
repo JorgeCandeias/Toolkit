@@ -4,23 +4,19 @@
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
-		<IncludeContentInPack>false</IncludeContentInPack>
-		<NoWarn>$(NoWarn);NU5128</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Outcompute.Toolkit.Tests" />
+		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Outcompute.Toolkit.AutoMapper\Outcompute.Toolkit.AutoMapper.csproj" />
-		<ProjectReference Include="..\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj" />
-		<ProjectReference Include="..\Outcompute.Toolkit.Core.CodeGenerator\Outcompute.Toolkit.Core.CodeGenerator.csproj" PrivateAssets="None" />
-		<ProjectReference Include="..\Outcompute.Toolkit.Orleans\Outcompute.Toolkit.Orleans.csproj" />
 	</ItemGroup>
 
 </Project>

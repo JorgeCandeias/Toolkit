@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Sources\Outcompute.Toolkit.HighPerformance\Outcompute.Toolkit.HighPerformance.csproj" />
+		<ProjectReference Include="..\..\Sources\Outcompute.Toolkit\Outcompute.Toolkit.csproj" />
 	</ItemGroup>
 
 </Project>
