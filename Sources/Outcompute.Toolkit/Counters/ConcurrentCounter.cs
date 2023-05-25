@@ -1,4 +1,4 @@
-﻿namespace Outcompute.Toolkit.Core.Counters;
+﻿namespace Outcompute.Toolkit.Counters;
 
 /// <summary>
 /// A thread-safe counter.

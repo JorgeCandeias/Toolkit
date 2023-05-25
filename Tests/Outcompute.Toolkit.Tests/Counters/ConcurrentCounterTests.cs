@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.Tests.Counters;
+﻿using Outcompute.Toolkit.Counters;
+
+namespace Outcompute.Toolkit.Tests.Counters;
 
 public class ConcurrentCounterTests
 {
