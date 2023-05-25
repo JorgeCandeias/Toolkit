@@ -23,7 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Outcompute.Toolkit.Core\Outcompute.Toolkit.Core.csproj" />
 	  <ProjectReference Include="..\Outcompute.Toolkit\Outcompute.Toolkit.csproj" />
 	</ItemGroup>
 
