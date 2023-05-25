@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.HighPerformance.Extensions;
+﻿using Outcompute.Toolkit.InteropServices;
+
+namespace Outcompute.Toolkit.HighPerformance.Extensions;
 
 public static class MemoryOwnerEnumerableExtensions
 {

@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Diagnostics;
+using Outcompute.Toolkit.InteropServices;
 using System.Buffers;
 using System.Runtime.InteropServices;
 
-namespace Outcompute.Toolkit.Core.Tests.InteropServices;
+namespace Outcompute.Toolkit.Tests.InteropServices;
 
 public class MemoryMarshalExTests
 {

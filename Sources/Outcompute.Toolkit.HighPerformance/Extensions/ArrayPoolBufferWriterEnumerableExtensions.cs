@@ -1,4 +1,4 @@
-﻿using Outcompute.Toolkit.Core.InteropServices;
+﻿using Outcompute.Toolkit.InteropServices;
 
 namespace Outcompute.Toolkit.HighPerformance.Extensions;
 

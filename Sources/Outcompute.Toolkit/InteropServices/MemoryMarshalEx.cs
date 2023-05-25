@@ -1,4 +1,6 @@
-﻿namespace Outcompute.Toolkit.Core.InteropServices;
+﻿using System.Runtime.InteropServices;
+
+namespace Outcompute.Toolkit.InteropServices;
 
 /// <summary>
 /// Extra methods related to <see cref="MemoryMarshal"/>.
