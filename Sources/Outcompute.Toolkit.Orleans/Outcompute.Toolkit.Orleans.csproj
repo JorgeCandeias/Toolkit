@@ -26,4 +26,8 @@
 	  <ProjectReference Include="..\Outcompute.Toolkit\Outcompute.Toolkit.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Expressions\" />
+	</ItemGroup>
+
 </Project>
