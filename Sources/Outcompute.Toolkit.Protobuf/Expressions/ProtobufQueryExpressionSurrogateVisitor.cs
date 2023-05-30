@@ -3,7 +3,7 @@
 namespace Outcompute.Toolkit.Protobuf.Expressions;
 
 /// <summary>
-/// Implements a visitor that transforms <see cref="QueryExpressionSurrogate"/> trees into <see cref="QueryExpression"/> trees.
+/// Implements a visitor that transforms <see cref="QueryExpressionSurrogate"/> trees into <see cref="WireExpression"/> trees.
 /// This is the reverse visitor of <see cref="ProtobufQueryExpressionVisitor"/>.
 /// </summary>
 [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Visitor Pattern")]
@@ -12,19 +12,19 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
     /// <summary>
     /// Defers discovery of the correct Visit* overload to the specific expression.
     /// </summary>
-    public QueryExpression Visit(QueryExpressionSurrogate expression)
+    public WireExpression Visit(QueryExpressionSurrogate expression)
     {
         return expression.Accept(this);
     }
 
     public DefaultExpression VisitDefault(DefaultExpressionSurrogate _)
     {
-        return QueryExpression.Default();
+        return WireExpression.Default();
     }
 
     public ItemExpression VisitItem(ItemExpressionSurrogate _)
     {
-        return QueryExpression.Item();
+        return WireExpression.Item();
     }
 
     public PropertyExpression VisitProperty(PropertyExpressionSurrogate surrogate)
@@ -32,7 +32,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var target = Visit(surrogate.Target);
         var name = surrogate.Name;
 
-        return QueryExpression.Property(target, name);
+        return WireExpression.Property(target, name);
     }
 
     public FieldExpression VisitField(FieldExpressionSurrogate surrogate)
@@ -40,7 +40,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var target = Visit(surrogate.Target);
         var name = surrogate.Name;
 
-        return QueryExpression.Field(target, name);
+        return WireExpression.Field(target, name);
     }
 
     public PropertyOrFieldExpression VisitPropertyOrField(PropertyOrFieldExpressionSurrogate surrogate)
@@ -48,28 +48,28 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var target = Visit(surrogate.Target);
         var name = surrogate.Name;
 
-        return QueryExpression.PropertyOrField(target, name);
+        return WireExpression.PropertyOrField(target, name);
     }
 
     public NotExpression VisitNot(NotExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
 
-        return QueryExpression.Not(target);
+        return WireExpression.Not(target);
     }
 
     public IsNullExpression VisitIsNull(IsNullExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
 
-        return QueryExpression.IsNull(target);
+        return WireExpression.IsNull(target);
     }
 
     public IsNotNullExpression VisitIsNotNull(IsNotNullExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
 
-        return QueryExpression.IsNotNull(target);
+        return WireExpression.IsNotNull(target);
     }
 
     public EqualExpression VisitEqual(EqualExpressionSurrogate surrogate)
@@ -77,7 +77,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.Equal(left, right);
+        return WireExpression.Equal(left, right);
     }
 
     public NotEqualExpression VisitNotEqual(NotEqualExpressionSurrogate surrogate)
@@ -85,7 +85,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.NotEqual(left, right);
+        return WireExpression.NotEqual(left, right);
     }
 
     public AndExpression VisitAnd(AndExpressionSurrogate surrogate)
@@ -93,7 +93,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.And(left, right);
+        return WireExpression.And(left, right);
     }
 
     public AndAlsoExpression VisitAndAlso(AndAlsoExpressionSurrogate surrogate)
@@ -101,7 +101,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.AndAlso(left, right);
+        return WireExpression.AndAlso(left, right);
     }
 
     public OrExpression VisitOr(OrExpressionSurrogate surrogate)
@@ -109,7 +109,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.Or(left, right);
+        return WireExpression.Or(left, right);
     }
 
     public OrElseExpression VisitOrElse(OrElseExpressionSurrogate surrogate)
@@ -117,7 +117,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.OrElse(left, right);
+        return WireExpression.OrElse(left, right);
     }
 
     public LessThanExpression VisitLessThan(LessThanExpressionSurrogate surrogate)
@@ -125,7 +125,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.LessThan(left, right);
+        return WireExpression.LessThan(left, right);
     }
 
     public LessThanOrEqualExpression VisitLessThanOrEqual(LessThanOrEqualExpressionSurrogate surrogate)
@@ -133,7 +133,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.LessThanOrEqual(left, right);
+        return WireExpression.LessThanOrEqual(left, right);
     }
 
     public GreaterThanExpression VisitGreaterThan(GreaterThanExpressionSurrogate surrogate)
@@ -141,7 +141,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.GreaterThan(left, right);
+        return WireExpression.GreaterThan(left, right);
     }
 
     public GreaterThanOrEqualExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpressionSurrogate surrogate)
@@ -149,7 +149,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.GreaterThanOrEqual(left, right);
+        return WireExpression.GreaterThanOrEqual(left, right);
     }
 
     public AddExpression VisitAdd(AddExpressionSurrogate surrogate)
@@ -157,7 +157,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
-        return QueryExpression.Add(left, right);
+        return WireExpression.Add(left, right);
     }
 
     public StringContainsExpression VisitStringContains(StringContainsExpressionSurrogate surrogate)
@@ -166,7 +166,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var value = Visit(surrogate.Value);
         var comparison = surrogate.Comparison;
 
-        return QueryExpression.StringContains(target, value, comparison);
+        return WireExpression.StringContains(target, value, comparison);
     }
 
     public StringCompareExpression VisitStringCompare(StringCompareExpressionSurrogate surrogate)
@@ -175,7 +175,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var value = Visit(surrogate.Value);
         var comparison = surrogate.Comparison;
 
-        return QueryExpression.StringCompare(target, value, comparison);
+        return WireExpression.StringCompare(target, value, comparison);
     }
 
     public StringStartsWithExpression VisitStringStartsWith(StringStartsWithExpressionSurrogate surrogate)
@@ -184,7 +184,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var value = Visit(surrogate.Value);
         var comparison = surrogate.Comparison;
 
-        return QueryExpression.StringStartsWith(target, value, comparison);
+        return WireExpression.StringStartsWith(target, value, comparison);
     }
 
     public StringEndsWithExpression VisitStringEndsWith(StringEndsWithExpressionSurrogate surrogate)
@@ -193,14 +193,14 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var value = Visit(surrogate.Value);
         var comparison = surrogate.Comparison;
 
-        return QueryExpression.StringEndsWith(target, value, comparison);
+        return WireExpression.StringEndsWith(target, value, comparison);
     }
 
     public StringIsNullOrWhiteSpaceExpression VisitStringIsNullOrWhiteSpace(StringIsNullOrWhiteSpaceExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
 
-        return QueryExpression.StringIsNullOrWhiteSpace(target);
+        return WireExpression.StringIsNullOrWhiteSpace(target);
     }
 
     public StringEqualExpression VisitStringEqual(StringEqualExpressionSurrogate surrogate)
@@ -209,7 +209,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var value = Visit(surrogate.Value);
         var comparison = surrogate.Comparison;
 
-        return QueryExpression.StringEqual(target, value, comparison);
+        return WireExpression.StringEqual(target, value, comparison);
     }
 
     public AssignExpression VisitAssign(AssignExpressionSurrogate surrogate)
@@ -217,17 +217,17 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var target = Visit(surrogate.Target);
         var value = Visit(surrogate.Value);
 
-        return QueryExpression.Assign(target, value);
+        return WireExpression.Assign(target, value);
     }
 
     public ConstantExpression<TValue> VisitConstant<TValue>(ConstantExpressionSurrogate<TValue> surrogate)
     {
-        return QueryExpression.Constant(surrogate.Value);
+        return WireExpression.Constant(surrogate.Value);
     }
 
     public HashSetExpression<TValue> VisitHashSet<TValue>(HashSetExpressionSurrogate<TValue> surrogate)
     {
-        return QueryExpression.HashSet(surrogate.Values);
+        return WireExpression.HashSet(surrogate.Values);
     }
 
     public ContainsExpression VisitContains(ContainsExpressionSurrogate surrogate)
@@ -235,6 +235,6 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var target = Visit(surrogate.Target);
         var value = Visit(surrogate.Value);
 
-        return QueryExpression.Contains(target, value);
+        return WireExpression.Contains(target, value);
     }
 }

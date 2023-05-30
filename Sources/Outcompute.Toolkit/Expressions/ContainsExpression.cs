@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Convenience expression that represents a .Contains() call.
 /// Written in C# as <c>target.Contains(item)</c>.
 /// </summary>
-public sealed record class ContainsExpression : QueryExpression
+public sealed record class ContainsExpression : WireExpression
 {
-    internal ContainsExpression(QueryExpression target, QueryExpression value)
+    internal ContainsExpression(WireExpression target, WireExpression value)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(value);
@@ -20,23 +20,23 @@ public sealed record class ContainsExpression : QueryExpression
     /// <summary>
     /// The target of the call.
     /// </summary>
-    public QueryExpression Target { get; }
+    public WireExpression Target { get; }
 
     /// <summary>
     /// The value to look for.
     /// </summary>
-    public QueryExpression Value { get; }
+    public WireExpression Value { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitContains(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitContains(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="ContainsExpression"/> with the specified parameters.
     /// </summary>
-    public static ContainsExpression Contains(QueryExpression target, QueryExpression value) => new(target, value);
+    public static ContainsExpression Contains(WireExpression target, WireExpression value) => new(target, value);
 }

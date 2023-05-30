@@ -3,10 +3,51 @@
 namespace Outcompute.Toolkit.Expressions.Visitors;
 
 /// <summary>
-/// Implements a <see cref="QueryExpressionVisitor"/> that transforms <see cref="QueryExpression"/> trees into LINQ <see cref="Expression"/> trees.
+/// Quality-of-life extensions for <see cref="LinqQueryExpressionVisitor{T}"/>.
+/// </summary>
+internal static class LinqQueryExpressionVisitor
+{
+    public static (Expression Result, ParameterExpression Item) Visit<T>(WireExpression expression)
+    {
+        Guard.IsNotNull(expression);
+
+        var visitor = new LinqQueryExpressionVisitor<T>();
+
+        visitor.Visit(expression);
+
+        return (visitor.Result, visitor.Item);
+    }
+
+    public static Expression Visit<T>(WireExpression expression, ParameterExpression item)
+    {
+        Guard.IsNotNull(expression);
+        Guard.IsNotNull(item);
+
+        var visitor = new LinqQueryExpressionVisitor<T>(item);
+
+        visitor.Visit(expression);
+
+        return visitor.Result;
+    }
+}
+
+/// <summary>
+/// Implements a <see cref="QueryExpressionVisitor"/> that transforms <see cref="WireExpression"/> trees into LINQ <see cref="Expression"/> trees.
 /// </summary>
 internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
 {
+    public LinqQueryExpressionVisitor()
+    {
+        Item = Expression.Parameter(typeof(T), "item");
+    }
+
+    public LinqQueryExpressionVisitor(ParameterExpression item)
+    {
+        Guard.IsNotNull(item);
+
+        Item = item;
+    }
+
     /// <summary>
     /// Holds the current expression stack as it is being processed.
     /// </summary>
@@ -20,12 +61,12 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
     /// <summary>
     /// Gets the enumeration parameter used with a linq expression enumerable lambda.
     /// </summary>
-    public ParameterExpression Item { get; } = Expression.Parameter(typeof(T), "item");
+    public ParameterExpression Item { get; }
 
     /// <summary>
-    /// Converts the target <see cref="QueryExpression"/> to a LINQ <see cref="Expression"/>.
+    /// Converts the target <see cref="WireExpression"/> to a LINQ <see cref="Expression"/>.
     /// </summary>
-    private Expression Convert(QueryExpression expression)
+    private Expression Convert(WireExpression expression)
     {
         // visit the expression
         // this will push the converted expression to the stack
@@ -35,21 +76,21 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return _stack.Pop();
     }
 
-    protected internal override QueryExpression VisitDefault(DefaultExpression expression)
+    protected internal override WireExpression VisitDefault(DefaultExpression expression)
     {
         _stack.Push(Expression.Empty());
 
         return expression;
     }
 
-    protected internal override QueryExpression VisitItem(ItemExpression expression)
+    protected internal override WireExpression VisitItem(ItemExpression expression)
     {
         _stack.Push(Item);
 
         return expression;
     }
 
-    protected internal override QueryExpression VisitProperty(PropertyExpression expression)
+    protected internal override WireExpression VisitProperty(PropertyExpression expression)
     {
         var name = expression.Name;
         var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
@@ -60,7 +101,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitField(FieldExpression expression)
+    protected internal override WireExpression VisitField(FieldExpression expression)
     {
         var name = expression.Name;
         var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
@@ -71,7 +112,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitPropertyOrField(PropertyOrFieldExpression expression)
+    protected internal override WireExpression VisitPropertyOrField(PropertyOrFieldExpression expression)
     {
         var name = expression.Name;
         var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
@@ -82,7 +123,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitNot(NotExpression expression)
+    protected internal override WireExpression VisitNot(NotExpression expression)
     {
         var target = Convert(expression.Target);
         var converted = Expression.Not(target);
@@ -92,7 +133,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitIsNull(IsNullExpression expression)
+    protected internal override WireExpression VisitIsNull(IsNullExpression expression)
     {
         var target = Convert(expression.Target);
 
@@ -107,7 +148,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitIsNotNull(IsNotNullExpression expression)
+    protected internal override WireExpression VisitIsNotNull(IsNotNullExpression expression)
     {
         var target = Convert(expression.Target);
 
@@ -122,7 +163,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitEqual(EqualExpression expression)
+    protected internal override WireExpression VisitEqual(EqualExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -133,7 +174,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitNotEqual(NotEqualExpression expression)
+    protected internal override WireExpression VisitNotEqual(NotEqualExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -144,7 +185,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitAnd(AndExpression expression)
+    protected internal override WireExpression VisitAnd(AndExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -155,7 +196,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitAndAlso(AndAlsoExpression expression)
+    protected internal override WireExpression VisitAndAlso(AndAlsoExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -166,7 +207,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitOr(OrExpression expression)
+    protected internal override WireExpression VisitOr(OrExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -177,7 +218,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitOrElse(OrElseExpression expression)
+    protected internal override WireExpression VisitOrElse(OrElseExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -188,7 +229,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitLessThan(LessThanExpression expression)
+    protected internal override WireExpression VisitLessThan(LessThanExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -199,7 +240,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitLessThanOrEqual(LessThanOrEqualExpression expression)
+    protected internal override WireExpression VisitLessThanOrEqual(LessThanOrEqualExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -210,7 +251,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitGreaterThan(GreaterThanExpression expression)
+    protected internal override WireExpression VisitGreaterThan(GreaterThanExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -221,7 +262,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitAdd(AddExpression expression)
+    protected internal override WireExpression VisitAdd(AddExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -232,7 +273,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpression expression)
+    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -243,7 +284,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringContains(StringContainsExpression expression)
+    protected internal override WireExpression VisitStringContains(StringContainsExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -270,7 +311,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringCompare(StringCompareExpression expression)
+    protected internal override WireExpression VisitStringCompare(StringCompareExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -283,7 +324,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringStartsWith(StringStartsWithExpression expression)
+    protected internal override WireExpression VisitStringStartsWith(StringStartsWithExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -310,7 +351,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringEndsWith(StringEndsWithExpression expression)
+    protected internal override WireExpression VisitStringEndsWith(StringEndsWithExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -337,7 +378,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringIsNullOrWhiteSpace(StringIsNullOrWhiteSpaceExpression expression)
+    protected internal override WireExpression VisitStringIsNullOrWhiteSpace(StringIsNullOrWhiteSpaceExpression expression)
     {
         var target = Convert(expression.Target);
         var method = ((Func<string, bool>)string.IsNullOrWhiteSpace).Method;
@@ -348,7 +389,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitStringEqual(StringEqualExpression expression)
+    protected internal override WireExpression VisitStringEqual(StringEqualExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -361,7 +402,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitAssign(AssignExpression expression)
+    protected internal override WireExpression VisitAssign(AssignExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);
@@ -372,7 +413,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitConstant<TValue>(ConstantExpression<TValue> expression)
+    protected internal override WireExpression VisitConstant<TValue>(ConstantExpression<TValue> expression)
     {
         var converted = Expression.Constant(expression.Value, typeof(TValue));
 
@@ -381,7 +422,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitHashSet<TValue>(HashSetExpression<TValue> expression)
+    protected internal override WireExpression VisitHashSet<TValue>(HashSetExpression<TValue> expression)
     {
         var converted = Expression.Constant(expression.Values, expression.Values.GetType());
 
@@ -390,7 +431,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override QueryExpression VisitContains(ContainsExpression expression)
+    protected internal override WireExpression VisitContains(ContainsExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);

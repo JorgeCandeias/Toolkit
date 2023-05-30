@@ -6,7 +6,7 @@ namespace Outcompute.Toolkit.Expressions;
 /// <summary>
 /// Represents a HashSet.
 /// </summary>
-public sealed record class HashSetExpression<T> : QueryExpression
+public sealed record class HashSetExpression<T> : WireExpression
 {
     internal HashSetExpression(ImmutableHashSet<T> value)
     {
@@ -21,10 +21,10 @@ public sealed record class HashSetExpression<T> : QueryExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitHashSet(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitHashSet(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="HashSetExpression{T}"/> with the specified parameters.

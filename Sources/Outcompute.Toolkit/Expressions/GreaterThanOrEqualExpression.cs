@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Defines a boolean 'Greater Than Or Equal' expression.
 /// Written in C# as <c>left &gt;= right</c>.
 /// </summary>
-public sealed record class GreaterThanOrEqualExpression : QueryExpression
+public sealed record class GreaterThanOrEqualExpression : WireExpression
 {
-    internal GreaterThanOrEqualExpression(QueryExpression left, QueryExpression right)
+    internal GreaterThanOrEqualExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -20,23 +20,23 @@ public sealed record class GreaterThanOrEqualExpression : QueryExpression
     /// <summary>
     /// The left-hand side expression.
     /// </summary>
-    public QueryExpression Left { get; }
+    public WireExpression Left { get; }
 
     /// <summary>
     /// The right-hand side expression.
     /// </summary>
-    public QueryExpression Right { get; }
+    public WireExpression Right { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitGreaterThanOrEqual(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitGreaterThanOrEqual(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="GreaterThanOrEqualExpression"/> with the specified parameters.
     /// </summary>
-    public static GreaterThanOrEqualExpression GreaterThanOrEqual(QueryExpression left, QueryExpression right) => new(left, right);
+    public static GreaterThanOrEqualExpression GreaterThanOrEqual(WireExpression left, WireExpression right) => new(left, right);
 }

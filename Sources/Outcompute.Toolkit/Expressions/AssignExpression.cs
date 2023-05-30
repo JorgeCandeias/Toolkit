@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Defines an assignment expression.
 /// Written in C# as <c>target = value</c>.
 /// </summary>
-public sealed record class AssignExpression : QueryExpression
+public sealed record class AssignExpression : WireExpression
 {
-    internal AssignExpression(QueryExpression target, QueryExpression value)
+    internal AssignExpression(WireExpression target, WireExpression value)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(value);
@@ -20,23 +20,23 @@ public sealed record class AssignExpression : QueryExpression
     /// <summary>
     /// The left-hand side expression.
     /// </summary>
-    public QueryExpression Target { get; }
+    public WireExpression Target { get; }
 
     /// <summary>
     /// The right-hand side expression.
     /// </summary>
-    public QueryExpression Value { get; }
+    public WireExpression Value { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitAssign(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitAssign(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="AssignExpression"/> with the specified parameters.
     /// </summary>
-    public static AssignExpression Assign(QueryExpression target, QueryExpression value) => new(target, value);
+    public static AssignExpression Assign(WireExpression target, WireExpression value) => new(target, value);
 }

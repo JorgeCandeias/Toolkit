@@ -6,6 +6,22 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	  <NoWarn>1701;1702;S3267;S3878;S4136</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
+	  <NoWarn>1701;1702;S3267;S3878;S4136</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	  <NoWarn>1701;1702;S3267;S3878;S4136</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
+	  <NoWarn>1701;1702;S3267;S3878;S4136</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<InternalsVisibleTo Include="Outcompute.Toolkit.Tests" />
 		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
@@ -14,11 +30,14 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
 		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
+		<PackageReference Include="DotNext" Version="4.12.3" />
+		<PackageReference Include="DotNext.Metaprogramming" Version="4.12.3" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
 	</ItemGroup>
 
 </Project>

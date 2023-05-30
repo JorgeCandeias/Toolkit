@@ -3,8 +3,8 @@
 /// <summary>
 /// Represents the possible value types that an expression can evaluate to.
 /// This is similar to the <see cref="Expression.Type"/> property in LINQ.
-/// However, as <see cref="QueryExpression"/> types are designed to be serializable, we cannot rely on a <see cref="Type"/> property.
-/// Therefore, we must rely on something that resembles .NET's own <see cref="TypeCode"/> but specific to <see cref="QueryExpression"/> types.
+/// However, as <see cref="WireExpression"/> types are designed to be serializable, we cannot rely on a <see cref="Type"/> property.
+/// Therefore, we must rely on something that resembles .NET's own <see cref="TypeCode"/> but specific to <see cref="WireExpression"/> types.
 /// </summary>
 public enum ExpressionTypeCode
 {

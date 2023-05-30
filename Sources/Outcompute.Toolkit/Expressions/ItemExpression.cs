@@ -5,7 +5,7 @@ namespace Outcompute.Toolkit.Expressions;
 /// <summary>
 /// Represents a placeholder for the enumerable iteration variable.
 /// </summary>
-public sealed record class ItemExpression : QueryExpression
+public sealed record class ItemExpression : WireExpression
 {
     internal ItemExpression()
     {
@@ -14,10 +14,10 @@ public sealed record class ItemExpression : QueryExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitItem(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitItem(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="ItemExpression"/> with the specified parameters.

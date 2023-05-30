@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Defines a boolean 'Less Than Or Equal' expression.
 /// Written in C# as <c>left &lt;= right</c>.
 /// </summary>
-public sealed record class LessThanOrEqualExpression : QueryExpression
+public sealed record class LessThanOrEqualExpression : WireExpression
 {
-    internal LessThanOrEqualExpression(QueryExpression left, QueryExpression right)
+    internal LessThanOrEqualExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -20,23 +20,23 @@ public sealed record class LessThanOrEqualExpression : QueryExpression
     /// <summary>
     /// The left-hand side expression.
     /// </summary>
-    public QueryExpression Left { get; }
+    public WireExpression Left { get; }
 
     /// <summary>
     /// The right-hand side expression.
     /// </summary>
-    public QueryExpression Right { get; }
+    public WireExpression Right { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitLessThanOrEqual(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitLessThanOrEqual(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="LessThanOrEqualExpression"/> with the specified parameters.
     /// </summary>
-    public static LessThanOrEqualExpression LessThanOrEqual(QueryExpression left, QueryExpression right) => new(left, right);
+    public static LessThanOrEqualExpression LessThanOrEqual(WireExpression left, WireExpression right) => new(left, right);
 }

@@ -7,9 +7,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Written in C# as '||'.
 /// 'OrElse' always evaluates the left-hand side and skips the right-hand side if the left-hand side evaluates to true.
 /// </summary>
-public sealed record class OrElseExpression : QueryExpression
+public sealed record class OrElseExpression : WireExpression
 {
-    internal OrElseExpression(QueryExpression left, QueryExpression right)
+    internal OrElseExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -21,32 +21,32 @@ public sealed record class OrElseExpression : QueryExpression
     /// <summary>
     /// The left-hand side expression.
     /// </summary>
-    public QueryExpression Left { get; }
+    public WireExpression Left { get; }
 
     /// <summary>
     /// The right-hand side expression.
     /// </summary>
-    public QueryExpression Right { get; }
+    public WireExpression Right { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitOrElse(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitOrElse(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="OrElseExpression"/> with the specified parameters.
     /// </summary>
-    public static OrElseExpression OrElse(QueryExpression left, QueryExpression right) => new(left, right);
+    public static OrElseExpression OrElse(WireExpression left, WireExpression right) => new(left, right);
 
     /// <summary>
     /// Attempts to create a new <see cref="OrElseExpression"/> using all supplied arguments as operands.
     /// If <paramref name="expressions"/> is empty then this method returns null.
     /// If <paramref name="expressions"/> has a single expression then this method returns that expression.
     /// </summary>
-    public static QueryExpression? OrElse(IEnumerable<QueryExpression> expressions)
+    public static WireExpression? OrElse(IEnumerable<WireExpression> expressions)
     {
         Guard.IsNotNull(expressions);
 

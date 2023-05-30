@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Convenience expression that represents a String.Contains() call.
 /// Written in C# as <c>"value".Contains("v", comparison)</c>.
 /// </summary>
-public sealed record class StringContainsExpression : QueryExpression
+public sealed record class StringContainsExpression : WireExpression
 {
-    internal StringContainsExpression(QueryExpression target, QueryExpression value, StringComparison comparison)
+    internal StringContainsExpression(WireExpression target, WireExpression value, StringComparison comparison)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(value);
@@ -21,12 +21,12 @@ public sealed record class StringContainsExpression : QueryExpression
     /// <summary>
     /// The target of the Contains() call.
     /// </summary>
-    public QueryExpression Target { get; }
+    public WireExpression Target { get; }
 
     /// <summary>
     /// The value to look for.
     /// </summary>
-    public QueryExpression Value { get; }
+    public WireExpression Value { get; }
 
     /// <summary>
     /// The comparison rule to use.
@@ -36,13 +36,13 @@ public sealed record class StringContainsExpression : QueryExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringContains(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringContains(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="StringContainsExpression"/> with the specified parameters.
     /// </summary>
-    public static StringContainsExpression StringContains(QueryExpression target, QueryExpression value, StringComparison comparison = StringComparison.Ordinal) => new(target, value, comparison);
+    public static StringContainsExpression StringContains(WireExpression target, WireExpression value, StringComparison comparison = StringComparison.Ordinal) => new(target, value, comparison);
 }

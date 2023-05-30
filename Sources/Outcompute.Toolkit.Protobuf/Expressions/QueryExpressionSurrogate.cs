@@ -137,7 +137,7 @@ internal abstract record class QueryExpressionSurrogate
     /// <summary>
     /// Converts the specified <paramref name="expression"/> into a <see cref="QueryExpressionSurrogate"/> via the appropriate visitor.
     /// </summary>
-    public static implicit operator QueryExpressionSurrogate(QueryExpression expression)
+    public static implicit operator QueryExpressionSurrogate(WireExpression expression)
     {
         var visitor = new ProtobufQueryExpressionVisitor();
 
@@ -147,9 +147,9 @@ internal abstract record class QueryExpressionSurrogate
     }
 
     /// <summary>
-    /// Converts the specified <paramref name="surrogate"/> into a <see cref="QueryExpression"/> via the appropriate visitor.
+    /// Converts the specified <paramref name="surrogate"/> into a <see cref="WireExpression"/> via the appropriate visitor.
     /// </summary>
-    public static implicit operator QueryExpression(QueryExpressionSurrogate surrogate)
+    public static implicit operator WireExpression(QueryExpressionSurrogate surrogate)
     {
         var visitor = new ProtobufQueryExpressionSurrogateVisitor();
 

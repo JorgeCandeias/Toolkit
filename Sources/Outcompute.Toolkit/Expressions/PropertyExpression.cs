@@ -5,9 +5,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// <summary>
 /// Defines a property accessor expression.
 /// </summary>
-public sealed record class PropertyExpression : QueryExpression
+public sealed record class PropertyExpression : WireExpression
 {
-    internal PropertyExpression(QueryExpression target, string name)
+    internal PropertyExpression(WireExpression target, string name)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(name);
@@ -19,7 +19,7 @@ public sealed record class PropertyExpression : QueryExpression
     /// <summary>
     /// The target for the property accessor.
     /// </summary>
-    public QueryExpression Target { get; }
+    public WireExpression Target { get; }
 
     /// <summary>
     /// The name of the property to access.
@@ -29,15 +29,15 @@ public sealed record class PropertyExpression : QueryExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitProperty(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitProperty(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="PropertyExpression"/> with the specified parameters.
     /// </summary>
-    public static PropertyExpression Property(QueryExpression target, string name) => new(target, name);
+    public static PropertyExpression Property(WireExpression target, string name) => new(target, name);
 
     /// <summary>
     /// Creates a new <see cref="PropertyExpression"/> where the target is the default iteration item.

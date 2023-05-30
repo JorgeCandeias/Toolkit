@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Defines an non-equality expression.
 /// Written in C# as <c>!=</c>.
 /// </summary>
-public sealed record class NotEqualExpression : QueryExpression
+public sealed record class NotEqualExpression : WireExpression
 {
-    internal NotEqualExpression(QueryExpression left, QueryExpression right)
+    internal NotEqualExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -20,23 +20,23 @@ public sealed record class NotEqualExpression : QueryExpression
     /// <summary>
     /// The left-hand side expression.
     /// </summary>
-    public QueryExpression Left { get; }
+    public WireExpression Left { get; }
 
     /// <summary>
     /// The right-hand side expression.
     /// </summary>
-    public QueryExpression Right { get; }
+    public WireExpression Right { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitNotEqual(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitNotEqual(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="NotEqualExpression"/> with the specified parameters.
     /// </summary>
-    public static NotEqualExpression NotEqual(QueryExpression left, QueryExpression right) => new(left, right);
+    public static NotEqualExpression NotEqual(WireExpression left, WireExpression right) => new(left, right);
 }

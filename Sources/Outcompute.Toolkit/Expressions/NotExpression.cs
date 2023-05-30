@@ -6,9 +6,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// Defines the logical negation of a target expression.
 /// Written in C# as <c>!(value)</c>.
 /// </summary>
-public sealed record class NotExpression : QueryExpression
+public sealed record class NotExpression : WireExpression
 {
-    internal NotExpression(QueryExpression target)
+    internal NotExpression(WireExpression target)
     {
         Guard.IsNotNull(target);
 
@@ -18,18 +18,18 @@ public sealed record class NotExpression : QueryExpression
     /// <summary>
     /// The target of the negation operation.
     /// </summary>
-    public QueryExpression Target { get; }
+    public WireExpression Target { get; }
 
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override QueryExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitNot(this);
+    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitNot(this);
 }
 
-public partial record class QueryExpression
+public partial record class WireExpression
 {
     /// <summary>
     /// Creates a new <see cref="NotExpression"/> with the specified parameters.
     /// </summary>
-    public static NotExpression Not(QueryExpression target) => new(target);
+    public static NotExpression Not(WireExpression target) => new(target);
 }
