@@ -1,14 +1,15 @@
-﻿using Outcompute.Toolkit.Extensions;
+﻿using CommunityToolkit.HighPerformance.Helpers;
+using Outcompute.Toolkit.Extensions;
 using System.Buffers;
 using System.Globalization;
 
 namespace Outcompute.Toolkit.Expressions.Visitors;
 
 /// <summary>
-/// Debugging implementation of <see cref="QueryExpressionVisitor"/>.
+/// Debugging implementation of <see cref="WireExpressionVisitor"/>.
 /// This visitor renders a string representation of a <see cref="WireExpression"/> for use with IDE debugging features.
 /// </summary>
-internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDisposable
+internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisposable
 {
     private readonly ArrayPoolBufferWriter<char> _buffer = new();
 
@@ -48,19 +49,128 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         }
     }
 
-    protected internal override WireExpression VisitDefault(DefaultExpression expression)
+    protected internal override WireExpression VisitDefault(DefaultWireExpression expression)
     {
-        Write("<DEFAULT>");
+        Write("default");
 
         return expression;
     }
 
-    protected internal override WireExpression VisitItem(ItemExpression expression)
+    protected internal override WireExpression VisitItem(ItemWireExpression expression)
     {
-        Write("@Item");
+        Write("item");
 
         return expression;
     }
+
+    protected internal override WireExpression VisitAdd(AddWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") + (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddAssign(AddAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") += (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddAssignChecked(AddAssignCheckedWireExpression expression)
+    {
+        Write("checked ((");
+        Visit(expression.Left);
+        Write(") += (");
+        Visit(expression.Right);
+        Write("))");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddChecked(AddCheckedWireExpression expression)
+    {
+        Write("checked ((");
+        Visit(expression.Left);
+        Write(") + (");
+        Visit(expression.Right);
+        Write("))");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAnd(AndWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") & (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") && (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAndAssign(AndAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") &= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitArray<TValue>(ArrayWireExpression<TValue> expression)
+    {
+        Write("[");
+
+        var enumerator = expression.Values.GetEnumerator();
+        if (enumerator.MoveNext())
+        {
+            WriteQuoted(enumerator.Current);
+
+            while (enumerator.MoveNext())
+            {
+                Write(", ");
+                WriteQuoted(enumerator.Current);
+            }
+        }
+
+        Write("]");
+
+        return expression;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     protected internal override WireExpression VisitProperty(PropertyExpression expression)
     {
@@ -119,7 +229,7 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitEqual(EqualExpression expression)
+    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
     {
         Write("(");
         Visit(expression.Left);
@@ -130,7 +240,7 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitNotEqual(NotEqualExpression expression)
+    protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
     {
         Write("(");
         Visit(expression.Left);
@@ -141,27 +251,9 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitAnd(AndExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") & (");
-        Visit(expression.Right);
-        Write(")");
 
-        return expression;
-    }
 
-    protected internal override WireExpression VisitAndAlso(AndAlsoExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") && (");
-        Visit(expression.Right);
-        Write(")");
 
-        return expression;
-    }
 
     protected internal override WireExpression VisitOr(OrExpression expression)
     {
@@ -185,7 +277,7 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitLessThan(LessThanExpression expression)
+    protected internal override WireExpression VisitLessThan(LessThanWireExpression expression)
     {
         Write("(");
         Visit(expression.Left);
@@ -207,7 +299,7 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThan(GreaterThanExpression expression)
+    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
     {
         Write("(");
         Visit(expression.Left);
@@ -218,22 +310,11 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpression expression)
+    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
     {
         Write("(");
         Visit(expression.Left);
         Write(") >= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAdd(AddExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") + (");
         Visit(expression.Right);
         Write(")");
 
@@ -324,7 +405,7 @@ internal sealed class StringQueryExpressionVisitor : QueryExpressionVisitor, IDi
         return expression;
     }
 
-    protected internal override WireExpression VisitAssign(AssignExpression expression)
+    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
     {
         Write("(");
         Visit(expression.Target);

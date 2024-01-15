@@ -21,7 +21,7 @@ public sealed record class HashSetExpression<T> : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitHashSet(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitHashSet(this);
 }
 
 public partial record class WireExpression

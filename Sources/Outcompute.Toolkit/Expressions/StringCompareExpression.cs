@@ -36,7 +36,7 @@ public sealed record class StringCompareExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringCompare(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitStringCompare(this);
 }
 
 public partial record class WireExpression

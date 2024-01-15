@@ -36,7 +36,7 @@ public sealed record class StringStartsWithExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringStartsWith(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitStringStartsWith(this);
 }
 
 public partial record class WireExpression

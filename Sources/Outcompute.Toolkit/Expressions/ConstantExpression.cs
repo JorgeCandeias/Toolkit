@@ -20,7 +20,7 @@ public sealed record class ConstantExpression<T> : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitConstant(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitConstant(this);
 }
 
 public partial record class WireExpression

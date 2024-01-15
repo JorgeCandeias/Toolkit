@@ -36,7 +36,7 @@ public sealed record class StringEqualExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringEqual(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitStringEqual(this);
 }
 
 public partial record class WireExpression

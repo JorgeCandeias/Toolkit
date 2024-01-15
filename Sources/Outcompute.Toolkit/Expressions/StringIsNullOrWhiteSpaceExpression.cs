@@ -23,7 +23,7 @@ public sealed record class StringIsNullOrWhiteSpaceExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringIsNullOrWhiteSpace(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitStringIsNullOrWhiteSpace(this);
 }
 
 public partial record class WireExpression

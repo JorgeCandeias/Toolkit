@@ -29,7 +29,7 @@ public sealed record class PropertyOrFieldExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitPropertyOrField(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitPropertyOrField(this);
 }
 
 public partial record class WireExpression

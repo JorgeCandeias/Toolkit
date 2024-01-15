@@ -3,18 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines an addition expression.
-/// Written in C# as <c>left + right</c>.
+/// A <see cref="WireExpression"/> that represents an addition assignment operation that does not have overflow checking.
 /// </summary>
-public sealed record class AddExpression : WireExpression
+public sealed record class AndAssignWireExpression : WireExpression
 {
-    internal AddExpression(WireExpression left, WireExpression right)
+    internal AndAssignWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -30,13 +29,13 @@ public sealed record class AddExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitAdd(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAndAssign(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="AddExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents a bitwise AND assignment operation.
     /// </summary>
-    public static AddExpression Add(WireExpression left, WireExpression right) => new(left, right);
+    public static AndAssignWireExpression AndAssign(WireExpression left, WireExpression right) => new(left, right);
 }

@@ -14,7 +14,7 @@ public abstract partial record class WireExpression
     /// <summary>
     /// Derived expressions implement this method to redirect the call to the correct visitor method.
     /// </summary>
-    protected internal abstract WireExpression Accept(QueryExpressionVisitor visitor);
+    protected internal abstract WireExpression Accept(WireExpressionVisitor visitor);
 
     /// <summary>
     /// Renders the expression tree as a readable string.
@@ -23,9 +23,9 @@ public abstract partial record class WireExpression
     /// This is meant to aid troubleshooting.
     /// It is not meant to support text form parsing.
     /// </remarks>
-    public override string ToString()
+    public sealed override string ToString()
     {
-        using var visitor = new StringQueryExpressionVisitor();
+        using var visitor = new StringWireExpressionVisitor();
 
         visitor.Visit(this);
 

@@ -31,7 +31,7 @@ public sealed record class OrElseExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitOrElse(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitOrElse(this);
 }
 
 public partial record class WireExpression

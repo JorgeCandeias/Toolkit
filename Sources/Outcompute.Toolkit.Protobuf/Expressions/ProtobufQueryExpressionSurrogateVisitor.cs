@@ -17,12 +17,12 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return expression.Accept(this);
     }
 
-    public DefaultExpression VisitDefault(DefaultExpressionSurrogate _)
+    public DefaultWireExpression VisitDefault(DefaultExpressionSurrogate _)
     {
         return WireExpression.Default();
     }
 
-    public ItemExpression VisitItem(ItemExpressionSurrogate _)
+    public ItemWireExpression VisitItem(ItemExpressionSurrogate _)
     {
         return WireExpression.Item();
     }
@@ -72,7 +72,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.IsNotNull(target);
     }
 
-    public EqualExpression VisitEqual(EqualExpressionSurrogate surrogate)
+    public EqualWireExpression VisitEqual(EqualExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -80,7 +80,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.Equal(left, right);
     }
 
-    public NotEqualExpression VisitNotEqual(NotEqualExpressionSurrogate surrogate)
+    public NotEqualWireExpression VisitNotEqual(NotEqualExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -88,7 +88,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.NotEqual(left, right);
     }
 
-    public AndExpression VisitAnd(AndExpressionSurrogate surrogate)
+    public AndWireExpression VisitAnd(AndExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -96,7 +96,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.And(left, right);
     }
 
-    public AndAlsoExpression VisitAndAlso(AndAlsoExpressionSurrogate surrogate)
+    public AndAlsoWireExpression VisitAndAlso(AndAlsoExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -120,7 +120,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.OrElse(left, right);
     }
 
-    public LessThanExpression VisitLessThan(LessThanExpressionSurrogate surrogate)
+    public LessThanWireExpression VisitLessThan(LessThanExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -136,7 +136,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.LessThanOrEqual(left, right);
     }
 
-    public GreaterThanExpression VisitGreaterThan(GreaterThanExpressionSurrogate surrogate)
+    public GreaterThanWireExpression VisitGreaterThan(GreaterThanExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -144,7 +144,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.GreaterThan(left, right);
     }
 
-    public GreaterThanOrEqualExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpressionSurrogate surrogate)
+    public GreaterThanOrEqualWireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -152,7 +152,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.GreaterThanOrEqual(left, right);
     }
 
-    public AddExpression VisitAdd(AddExpressionSurrogate surrogate)
+    public AddWireExpression VisitAdd(AddExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
@@ -212,7 +212,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.StringEqual(target, value, comparison);
     }
 
-    public AssignExpression VisitAssign(AssignExpressionSurrogate surrogate)
+    public AssignWireExpression VisitAssign(AssignExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
         var value = Visit(surrogate.Value);

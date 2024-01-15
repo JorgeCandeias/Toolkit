@@ -3,18 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines an equality expression.
-/// Written in C# as <c>==</c>.
+/// A <see cref="WireExpression"/> that represents an arithmetic addition operation that has overflow checking.
 /// </summary>
-public sealed record class EqualExpression : WireExpression
+public sealed record class AddCheckedWireExpression : WireExpression
 {
-    internal EqualExpression(WireExpression left, WireExpression right)
+    internal AddCheckedWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -30,13 +29,13 @@ public sealed record class EqualExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitEqual(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAddChecked(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="EqualExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents an arithmetic addition operation that has overflow checking.
     /// </summary>
-    public static EqualExpression Equal(WireExpression left, WireExpression right) => new(left, right);
+    public static AddCheckedWireExpression AddChecked(WireExpression left, WireExpression right) => new(left, right);
 }

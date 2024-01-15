@@ -36,7 +36,7 @@ public sealed record class StringContainsExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitStringContains(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitStringContains(this);
 }
 
 public partial record class WireExpression

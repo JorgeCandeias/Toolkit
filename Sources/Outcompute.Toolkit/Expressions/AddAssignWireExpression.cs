@@ -3,18 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a boolean 'Less Than' expression.
-/// Written in C# as <c>left &lt; right</c>.
+/// A <see cref="WireExpression"/> that represents an addition assignment operation that does not have overflow checking.
 /// </summary>
-public sealed record class LessThanExpression : WireExpression
+public sealed record class AddAssignWireExpression : WireExpression
 {
-    internal LessThanExpression(WireExpression left, WireExpression right)
+    internal AddAssignWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -30,13 +29,13 @@ public sealed record class LessThanExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitLessThan(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAddAssign(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="LessThanExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents an addition assignment operation that does not have overflow checking.
     /// </summary>
-    public static LessThanExpression LessThan(WireExpression left, WireExpression right) => new(left, right);
+    public static AddAssignWireExpression AddAssign(WireExpression left, WireExpression right) => new(left, right);
 }

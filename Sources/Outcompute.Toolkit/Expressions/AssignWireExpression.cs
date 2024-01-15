@@ -3,12 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines an assignment expression.
-/// Written in C# as <c>target = value</c>.
+/// Defines a <see cref="WireExpression"/> that represents an assignment operation.
 /// </summary>
-public sealed record class AssignExpression : WireExpression
+public sealed record class AssignWireExpression : WireExpression
 {
-    internal AssignExpression(WireExpression target, WireExpression value)
+    internal AssignWireExpression(WireExpression target, WireExpression value)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(value);
@@ -30,13 +29,13 @@ public sealed record class AssignExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitAssign(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAssign(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="AssignExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents an assignment operation.
     /// </summary>
-    public static AssignExpression Assign(WireExpression target, WireExpression value) => new(target, value);
+    public static AssignWireExpression Assign(WireExpression target, WireExpression value) => new(target, value);
 }

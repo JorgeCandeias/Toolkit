@@ -1,17 +1,18 @@
-﻿using System.Reflection;
+﻿using System.Collections.Immutable;
+using System.Reflection;
 
 namespace Outcompute.Toolkit.Expressions.Visitors;
 
 /// <summary>
-/// Quality-of-life extensions for <see cref="LinqQueryExpressionVisitor{T}"/>.
+/// Quality-of-life extensions for <see cref="LinqWireExpressionVisitor{T}"/>.
 /// </summary>
-internal static class LinqQueryExpressionVisitor
+internal static class LinqWireExpressionVisitor
 {
     public static (Expression Result, ParameterExpression Item) Visit<T>(WireExpression expression)
     {
         Guard.IsNotNull(expression);
 
-        var visitor = new LinqQueryExpressionVisitor<T>();
+        var visitor = new LinqWireExpressionVisitor<T>();
 
         visitor.Visit(expression);
 
@@ -23,7 +24,7 @@ internal static class LinqQueryExpressionVisitor
         Guard.IsNotNull(expression);
         Guard.IsNotNull(item);
 
-        var visitor = new LinqQueryExpressionVisitor<T>(item);
+        var visitor = new LinqWireExpressionVisitor<T>(item);
 
         visitor.Visit(expression);
 
@@ -32,16 +33,16 @@ internal static class LinqQueryExpressionVisitor
 }
 
 /// <summary>
-/// Implements a <see cref="QueryExpressionVisitor"/> that transforms <see cref="WireExpression"/> trees into LINQ <see cref="Expression"/> trees.
+/// Implements a <see cref="WireExpressionVisitor"/> that transforms <see cref="WireExpression"/> trees into LINQ <see cref="Expression"/> trees.
 /// </summary>
-internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
+internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 {
-    public LinqQueryExpressionVisitor()
+    public LinqWireExpressionVisitor()
     {
         Item = Expression.Parameter(typeof(T), "item");
     }
 
-    public LinqQueryExpressionVisitor(ParameterExpression item)
+    public LinqWireExpressionVisitor(ParameterExpression item)
     {
         Guard.IsNotNull(item);
 
@@ -76,24 +77,117 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return _stack.Pop();
     }
 
-    protected internal override WireExpression VisitDefault(DefaultExpression expression)
+    protected internal override WireExpression VisitDefault(DefaultWireExpression expression)
     {
         _stack.Push(Expression.Empty());
 
         return expression;
     }
 
-    protected internal override WireExpression VisitItem(ItemExpression expression)
+    protected internal override WireExpression VisitItem(ItemWireExpression expression)
     {
         _stack.Push(Item);
 
         return expression;
     }
 
+    protected internal override WireExpression VisitAdd(AddWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.Add(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddAssign(AddAssignWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.AddAssign(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddAssignChecked(AddAssignCheckedWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.AddAssignChecked(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAddChecked(AddCheckedWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.AddChecked(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAnd(AndWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.And(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.AndAlso(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitAndAssign(AndAssignWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.AndAssign(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitArray<TValue>(ArrayWireExpression<TValue> expression)
+    {
+        var converted = Expression.Constant(expression.Values);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+
+
+
+
+
+
+
     protected internal override WireExpression VisitProperty(PropertyExpression expression)
     {
         var name = expression.Name;
-        var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
+        var target = expression.Target is ItemWireExpression ? Item : Convert(expression.Target);
         var converted = Expression.Property(target, name);
 
         _stack.Push(converted);
@@ -104,7 +198,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
     protected internal override WireExpression VisitField(FieldExpression expression)
     {
         var name = expression.Name;
-        var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
+        var target = expression.Target is ItemWireExpression ? Item : Convert(expression.Target);
         var converted = Expression.Field(target, name);
 
         _stack.Push(converted);
@@ -115,7 +209,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
     protected internal override WireExpression VisitPropertyOrField(PropertyOrFieldExpression expression)
     {
         var name = expression.Name;
-        var target = expression.Target is ItemExpression ? Item : Convert(expression.Target);
+        var target = expression.Target is ItemWireExpression ? Item : Convert(expression.Target);
         var converted = Expression.PropertyOrField(target, name);
 
         _stack.Push(converted);
@@ -163,7 +257,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitEqual(EqualExpression expression)
+    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -174,33 +268,11 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitNotEqual(NotEqualExpression expression)
+    protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
         var converted = Expression.NotEqual(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAnd(AndExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.And(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAndAlso(AndAlsoExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.AndAlso(left, right);
 
         _stack.Push(converted);
 
@@ -229,7 +301,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitLessThan(LessThanExpression expression)
+    protected internal override WireExpression VisitLessThan(LessThanWireExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -251,7 +323,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThan(GreaterThanExpression expression)
+    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -262,18 +334,9 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitAdd(AddExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Add(left, right);
 
-        _stack.Push(converted);
 
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpression expression)
+    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
     {
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
@@ -402,7 +465,7 @@ internal sealed class LinqQueryExpressionVisitor<T> : QueryExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitAssign(AssignExpression expression)
+    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
     {
         var target = Convert(expression.Target);
         var value = Convert(expression.Value);

@@ -3,18 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a boolean 'Greater Than' expression.
-/// Written in C# as <c>left &gt; right</c>.
+/// A <see cref="WireExpression"/> that represents an arithmetic addition operation that does not have overflow checking.
 /// </summary>
-public sealed record class GreaterThanExpression : WireExpression
+public sealed record class AddWireExpression : WireExpression
 {
-    internal GreaterThanExpression(WireExpression left, WireExpression right)
+    internal AddWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -30,13 +29,13 @@ public sealed record class GreaterThanExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitGreaterThan(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAdd(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="GreaterThanExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents an arithmetic addition operation that does not have overflow checking.
     /// </summary>
-    public static GreaterThanExpression GreaterThan(WireExpression left, WireExpression right) => new(left, right);
+    public static AddWireExpression Add(WireExpression left, WireExpression right) => new(left, right);
 }

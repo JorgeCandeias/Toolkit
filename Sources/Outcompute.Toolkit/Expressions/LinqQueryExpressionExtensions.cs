@@ -19,7 +19,7 @@ public static class LinqQueryExpressionExtensions
     {
         Guard.IsNotNull(expression);
 
-        return LinqQueryExpressionVisitor.Visit<TSource>(expression);
+        return LinqWireExpressionVisitor.Visit<TSource>(expression);
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public static class LinqQueryExpressionExtensions
         Guard.IsNotNull(expression);
         Guard.IsNotNull(item);
 
-        return LinqQueryExpressionVisitor.Visit<TSource>(expression, item);
+        return LinqWireExpressionVisitor.Visit<TSource>(expression, item);
     }
 
     /// <summary>

@@ -4,9 +4,9 @@ using Outcompute.Toolkit.Expressions.Visitors;
 namespace Outcompute.Toolkit.Protobuf.Expressions;
 
 /// <summary>
-/// Implements a <see cref="QueryExpressionVisitor"/> that transforms a <see cref="WireExpression"/> tree into a <see cref="QueryExpressionSurrogate"/> tree.
+/// Implements a <see cref="WireExpressionVisitor"/> that transforms a <see cref="WireExpression"/> tree into a <see cref="QueryExpressionSurrogate"/> tree.
 /// </summary>
-internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
+internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
 {
     private readonly Stack<QueryExpressionSurrogate> _stack = new();
 
@@ -25,7 +25,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return _stack.Pop();
     }
 
-    protected override WireExpression VisitDefault(DefaultExpression expression)
+    protected override WireExpression VisitDefault(DefaultWireExpression expression)
     {
         var converted = new DefaultExpressionSurrogate();
 
@@ -34,7 +34,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitItem(ItemExpression expression)
+    protected override WireExpression VisitItem(ItemWireExpression expression)
     {
         var converted = new ItemExpressionSurrogate();
 
@@ -118,7 +118,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitEqual(EqualExpression expression)
+    protected override WireExpression VisitEqual(EqualWireExpression expression)
     {
         var converted = new EqualExpressionSurrogate
         {
@@ -131,7 +131,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitNotEqual(NotEqualExpression expression)
+    protected override WireExpression VisitNotEqual(NotEqualWireExpression expression)
     {
         var converted = new NotEqualExpressionSurrogate
         {
@@ -144,7 +144,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitAnd(AndExpression expression)
+    protected override WireExpression VisitAnd(AndWireExpression expression)
     {
         var converted = new AndExpressionSurrogate
         {
@@ -157,7 +157,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitAndAlso(AndAlsoExpression expression)
+    protected override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
     {
         var converted = new AndAlsoExpressionSurrogate
         {
@@ -196,7 +196,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitLessThan(LessThanExpression expression)
+    protected override WireExpression VisitLessThan(LessThanWireExpression expression)
     {
         var converted = new LessThanExpressionSurrogate
         {
@@ -222,7 +222,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitGreaterThan(GreaterThanExpression expression)
+    protected override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
     {
         var converted = new GreaterThanExpressionSurrogate
         {
@@ -235,7 +235,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpression expression)
+    protected override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
     {
         var converted = new GreaterThanOrEqualExpressionSurrogate
         {
@@ -248,7 +248,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitAdd(AddExpression expression)
+    protected override WireExpression VisitAdd(AddWireExpression expression)
     {
         var converted = new AddExpressionSurrogate
         {
@@ -341,7 +341,7 @@ internal sealed class ProtobufQueryExpressionVisitor : QueryExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitAssign(AssignExpression expression)
+    protected override WireExpression VisitAssign(AssignWireExpression expression)
     {
         var surrogate = new AssignExpressionSurrogate
         {

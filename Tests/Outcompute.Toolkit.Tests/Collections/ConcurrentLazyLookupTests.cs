@@ -19,8 +19,8 @@ public class ConcurrentLazyLookupTests
         // assert
         Assert.Equal(expected, new[] { r1, r2, r3 });
         Assert.Equal(3, lookup.Count);
-        Assert.Equal(new[] { 1, 2, 3 }, lookup.Keys.Order());
-        Assert.Equal(expected, lookup.Values.Order());
+        Assert.Equal(new[] { 1, 2, 3 }, lookup.Keys.OrderBy(x => x));
+        Assert.Equal(expected, lookup.Values.OrderBy(x => x));
         Assert.Equal(new[] { (1, "1"), (2, "2"), (3, "3") }, lookup.Select(x => (x.Key, x.Value)));
         Assert.True(lookup.ContainsKey(1));
         Assert.True(lookup.ContainsKey(2));
@@ -44,8 +44,8 @@ public class ConcurrentLazyLookupTests
         Assert.Equal(new[] { true, true, true }, new[] { r1, r2, r3 });
         Assert.Equal(expected, new[] { v1, v2, v3 });
         Assert.Equal(3, lookup.Count);
-        Assert.Equal(new[] { 1, 2, 3 }, lookup.Keys.Order());
-        Assert.Equal(expected, lookup.Values.Order());
+        Assert.Equal(new[] { 1, 2, 3 }, lookup.Keys.OrderBy(x => x));
+        Assert.Equal(expected, lookup.Values.OrderBy(x => x));
         Assert.Equal(new[] { (1, "1"), (2, "2"), (3, "3") }, lookup.Select(x => (x.Key, x.Value)));
         Assert.True(lookup.ContainsKey(1));
         Assert.True(lookup.ContainsKey(2));

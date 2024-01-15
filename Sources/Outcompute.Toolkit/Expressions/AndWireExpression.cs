@@ -3,19 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a boolean 'And' expression.
-/// Written in C# as '&'.
-/// 'And' always evaluates the left-hand and right-hand operators.
+/// A <see cref="WireExpression"/> that represents a bitwise AND operation.
 /// </summary>
-public sealed record class AndExpression : WireExpression
+public sealed record class AndWireExpression : WireExpression
 {
-    internal AndExpression(WireExpression left, WireExpression right)
+    internal AndWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -31,18 +29,18 @@ public sealed record class AndExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitAnd(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAnd(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="AndExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents a bitwise AND operation.
     /// </summary>
-    public static AndExpression And(WireExpression left, WireExpression right) => new(left, right);
+    public static AndWireExpression And(WireExpression left, WireExpression right) => new(left, right);
 
     /// <summary>
-    /// Attempts to create a new <see cref="AndExpression"/> using all supplied arguments as operands.
+    /// Attempts to creates a <see cref="WireExpression"/> that represents a bitwise AND operation using the specified operands.
     /// If <paramref name="expressions"/> is empty then this method returns null.
     /// If <paramref name="expressions"/> has a single expression then this method returns that expression.
     /// </summary>

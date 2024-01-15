@@ -23,7 +23,7 @@ public sealed record class IsNotNullExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(QueryExpressionVisitor visitor) => visitor.VisitIsNotNull(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitIsNotNull(this);
 }
 
 public partial record class WireExpression
