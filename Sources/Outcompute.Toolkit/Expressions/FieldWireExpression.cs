@@ -5,9 +5,9 @@ namespace Outcompute.Toolkit.Expressions;
 /// <summary>
 /// Defines a field accessor expression.
 /// </summary>
-public sealed record class FieldExpression : WireExpression
+public sealed record class FieldWireExpression : WireExpression
 {
-    internal FieldExpression(WireExpression target, string name)
+    internal FieldWireExpression(WireExpression target, string name)
     {
         Guard.IsNotNull(target);
         Guard.IsNotNull(name);
@@ -37,10 +37,10 @@ public partial record class WireExpression
     /// <summary>
     /// Creates a new <see cref="FieldExpression"/> with the specified parameters.
     /// </summary>
-    public static FieldExpression Field(WireExpression target, string name) => new(target, name);
+    public static FieldWireExpression Field(WireExpression target, string name) => new(target, name);
 
     /// <summary>
     /// Creates a new <see cref="FieldExpression"/> where the target is the default iteration item.
     /// </summary>
-    public static FieldExpression ItemField(string name) => Field(Item(), name);
+    public static FieldWireExpression ItemField(string name) => Field(Item(), name);
 }

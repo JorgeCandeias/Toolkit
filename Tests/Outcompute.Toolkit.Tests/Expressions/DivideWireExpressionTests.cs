@@ -2,7 +2,7 @@
 
 namespace Outcompute.Toolkit.Tests.Expressions;
 
-public class AddWireExpressionTests
+public class DivideWireExpressionTests
 {
     [Fact]
     public void ToStringEmitsText()
@@ -10,13 +10,13 @@ public class AddWireExpressionTests
         // arrange
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var expression = new AddWireExpression(left, right);
+        var expression = new DivideWireExpression(left, right);
 
         // act
         var result = expression.ToString();
 
         // assert
-        Assert.Equal("(item) + (default)", result);
+        Assert.Equal("(item) / (default)", result);
     }
 
     [Fact]
@@ -25,11 +25,11 @@ public class AddWireExpressionTests
         // act
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var result = WireExpression.Add(left, right);
+        var result = WireExpression.Divide(left, right);
 
         // assert
         Assert.NotNull(result);
-        Assert.IsType<AddWireExpression>(result);
+        Assert.IsType<DivideWireExpression>(result);
         Assert.Same(left, result.Left);
         Assert.Same(right, result.Right);
     }

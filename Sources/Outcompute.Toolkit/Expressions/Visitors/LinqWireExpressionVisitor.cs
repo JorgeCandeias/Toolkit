@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Outcompute.Toolkit.Expressions.Visitors;
 
@@ -75,13 +74,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         // pop and return the converted expression from the stack
         return _stack.Pop();
-    }
-
-    protected internal override WireExpression VisitDefault(DefaultWireExpression expression)
-    {
-        _stack.Push(Expression.Empty());
-
-        return expression;
     }
 
     protected internal override WireExpression VisitItem(ItemWireExpression expression)
@@ -177,6 +169,165 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
+    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
+    {
+        var target = Convert(expression.Target);
+        var value = Convert(expression.Value);
+        var converted = Expression.Assign(target, value);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitCoalesce(CoalesceWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.Coalesce(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitCondition(ConditionalWireExpression expression)
+    {
+        var test = Convert(expression.Test);
+        var ifTrue = Convert(expression.IfTrue);
+        var ifFalse = Convert(expression.IfFalse);
+        var converted = Expression.Condition(test, ifTrue, ifFalse);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConstant<TValue>(ConstantWireExpression<TValue> expression)
+    {
+        var converted = Expression.Constant(expression.Value, typeof(TValue));
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConvert<TValue>(ConvertWireExpression<TValue> expression)
+    {
+        var child = Convert(expression.Expression);
+        var converted = Expression.Convert(child, expression.Type);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConvertChecked<TValue>(ConvertCheckedWireExpression<TValue> expression)
+    {
+        var child = Convert(expression.Expression);
+        var converted = Expression.ConvertChecked(child, expression.Type);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDecrement(DecrementWireExpression expression)
+    {
+        var child = Convert(expression.Expression);
+        var converted = Expression.Decrement(child);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDefault<TValue>(DefaultWireExpression<TValue> expression)
+    {
+        _stack.Push(Expression.Default(expression.Type));
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDivide(DivideWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.Divide(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDivideAssign(DivideAssignWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.DivideAssign(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitEmpty(EmptyWireExpression expression)
+    {
+        _stack.Push(Expression.Empty());
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.Equal(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitExclusiveOr(ExclusiveOrWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.ExclusiveOr(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitExclusiveOrAssign(ExclusiveOrAssignWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.ExclusiveOrAssign(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitField(FieldWireExpression expression)
+    {
+        var name = expression.Name;
+        var target = expression.Target is ItemWireExpression ? Item : Convert(expression.Target);
+        var converted = Expression.Field(target, name);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+
+
+
+
+
+
 
 
 
@@ -195,16 +346,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitField(FieldExpression expression)
-    {
-        var name = expression.Name;
-        var target = expression.Target is ItemWireExpression ? Item : Convert(expression.Target);
-        var converted = Expression.Field(target, name);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
 
     protected internal override WireExpression VisitPropertyOrField(PropertyOrFieldExpression expression)
     {
@@ -251,17 +392,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
             target.Type.IsValueType && Nullable.GetUnderlyingType(target.Type) is null
             ? Expression.Constant(true, typeof(bool))
             : Expression.NotEqual(target, Expression.Constant(null, target.Type));
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Equal(left, right);
 
         _stack.Push(converted);
 
@@ -333,8 +463,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         return expression;
     }
-
-
 
     protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
     {
@@ -459,26 +587,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         var comparison = Expression.Constant(expression.Comparison, typeof(StringComparison));
         var method = ((Func<string, string, StringComparison, bool>)string.Equals).Method;
         var converted = Expression.Call(target, method, value, comparison);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
-    {
-        var target = Convert(expression.Target);
-        var value = Convert(expression.Value);
-        var converted = Expression.Assign(target, value);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitConstant<TValue>(ConstantExpression<TValue> expression)
-    {
-        var converted = Expression.Constant(expression.Value, typeof(TValue));
 
         _stack.Push(converted);
 

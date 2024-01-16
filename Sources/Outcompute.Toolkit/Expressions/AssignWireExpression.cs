@@ -3,7 +3,7 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a <see cref="WireExpression"/> that represents an assignment operation.
+/// A <see cref="WireExpression"/> that represents an assignment operation.
 /// </summary>
 public sealed record class AssignWireExpression : WireExpression
 {
@@ -13,7 +13,7 @@ public sealed record class AssignWireExpression : WireExpression
         Guard.IsNotNull(value);
 
         Target = target;
-        Value = target;
+        Value = value;
     }
 
     /// <summary>

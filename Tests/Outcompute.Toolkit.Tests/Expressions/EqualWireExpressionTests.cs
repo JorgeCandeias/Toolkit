@@ -2,7 +2,7 @@
 
 namespace Outcompute.Toolkit.Tests.Expressions;
 
-public class AddWireExpressionTests
+public class EqualWireExpressionTests
 {
     [Fact]
     public void ToStringEmitsText()
@@ -10,13 +10,13 @@ public class AddWireExpressionTests
         // arrange
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var expression = new AddWireExpression(left, right);
+        var expression = new EqualWireExpression(left, right, true);
 
         // act
         var result = expression.ToString();
 
         // assert
-        Assert.Equal("(item) + (default)", result);
+        Assert.Equal("(item) == (default)", result);
     }
 
     [Fact]
@@ -25,12 +25,13 @@ public class AddWireExpressionTests
         // act
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var result = WireExpression.Add(left, right);
+        var result = WireExpression.Equal(left, right, true);
 
         // assert
         Assert.NotNull(result);
-        Assert.IsType<AddWireExpression>(result);
+        Assert.IsType<EqualWireExpression>(result);
         Assert.Same(left, result.Left);
         Assert.Same(right, result.Right);
+        Assert.True(result.IsLiftedToNull);
     }
 }

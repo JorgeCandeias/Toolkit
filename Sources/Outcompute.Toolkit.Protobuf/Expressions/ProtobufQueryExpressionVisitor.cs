@@ -25,9 +25,9 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return _stack.Pop();
     }
 
-    protected override WireExpression VisitDefault(DefaultWireExpression expression)
+    protected override WireExpression VisitDefault<TValue>(DefaultWireExpression<TValue> expression)
     {
-        var converted = new DefaultExpressionSurrogate();
+        var converted = new DefaultExpressionSurrogate<TValue>();
 
         _stack.Push(converted);
 
@@ -56,7 +56,7 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitField(FieldExpression expression)
+    protected override WireExpression VisitField(FieldWireExpression expression)
     {
         var converted = new FieldExpressionSurrogate
         {
@@ -354,7 +354,7 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitConstant<TValue>(ConstantExpression<TValue> expression)
+    protected override WireExpression VisitConstant<TValue>(ConstantWireExpression<TValue> expression)
     {
         var surrogate = new ConstantExpressionSurrogate<TValue>
         {

@@ -17,9 +17,9 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return expression.Accept(this);
     }
 
-    public DefaultWireExpression VisitDefault(DefaultExpressionSurrogate _)
+    public DefaultWireExpression<TValue> VisitDefault<TValue>(DefaultExpressionSurrogate<TValue> _)
     {
-        return WireExpression.Default();
+        return WireExpression.Default<TValue>();
     }
 
     public ItemWireExpression VisitItem(ItemExpressionSurrogate _)
@@ -35,7 +35,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.Property(target, name);
     }
 
-    public FieldExpression VisitField(FieldExpressionSurrogate surrogate)
+    public FieldWireExpression VisitField(FieldExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);
         var name = surrogate.Name;
@@ -220,7 +220,7 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.Assign(target, value);
     }
 
-    public ConstantExpression<TValue> VisitConstant<TValue>(ConstantExpressionSurrogate<TValue> surrogate)
+    public ConstantWireExpression<TValue> VisitConstant<TValue>(ConstantExpressionSurrogate<TValue> surrogate)
     {
         return WireExpression.Constant(surrogate.Value);
     }

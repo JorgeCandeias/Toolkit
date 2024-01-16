@@ -9,7 +9,7 @@ public class AddAssignWireExpressionTests
     {
         // arrange
         var left = new ItemWireExpression();
-        var right = new DefaultWireExpression();
+        var right = new DefaultWireExpression<int>();
         var expression = new AddAssignWireExpression(left, right);
 
         // act
@@ -24,7 +24,7 @@ public class AddAssignWireExpressionTests
     {
         // act
         var left = new ItemWireExpression();
-        var right = new DefaultWireExpression();
+        var right = new DefaultWireExpression<int>();
         var result = WireExpression.AddAssign(left, right);
 
         // assert

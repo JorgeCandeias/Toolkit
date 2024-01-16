@@ -5,7 +5,6 @@ namespace Outcompute.Toolkit.Protobuf.Expressions;
 [ProtoContract]
 
 // standard expressions
-[ProtoInclude(1, typeof(DefaultExpressionSurrogate))]
 [ProtoInclude(2, typeof(ItemExpressionSurrogate))]
 [ProtoInclude(3, typeof(PropertyExpressionSurrogate))]
 [ProtoInclude(4, typeof(FieldExpressionSurrogate))]
@@ -126,6 +125,9 @@ namespace Outcompute.Toolkit.Protobuf.Expressions;
 
 // constant expressions - well-known reference types */
 [ProtoInclude(6001, typeof(HashSetExpressionSurrogate<string>))]
+
+// type ddefault expressions
+[ProtoInclude(7001, typeof(DefaultExpressionSurrogate<int>))]
 
 internal abstract record class QueryExpressionSurrogate
 {

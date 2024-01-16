@@ -2,30 +2,33 @@
 
 namespace Outcompute.Toolkit.Tests.Expressions;
 
-public class DefaultWireExpressionTests
+public class ConvertWireExpressionTests
 {
     [Fact]
     public void ToStringEmitsText()
     {
         // arrange
-        var expression = new DefaultWireExpression<int>();
+        var value = new ItemWireExpression();
+        var expression = new ConvertWireExpression<int>(value);
 
         // act
         var result = expression.ToString();
 
         // assert
-        Assert.Equal("default", result);
+        Assert.Equal("(System.Int32)(item)", result);
     }
 
     [Fact]
     public void FactoryCreatesExpression()
     {
         // act
-        var result = WireExpression.Default<int>();
+        var value = new ItemWireExpression();
+        var result = WireExpression.Convert<int>(value);
 
         // assert
         Assert.NotNull(result);
-        Assert.IsType<DefaultWireExpression<int>>(result);
+        Assert.IsType<ConvertWireExpression<int>>(result);
+        Assert.Same(value, result.Expression);
         Assert.Same(typeof(int), result.Type);
     }
 }

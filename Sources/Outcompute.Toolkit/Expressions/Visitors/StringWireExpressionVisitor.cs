@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.HighPerformance.Helpers;
-using Outcompute.Toolkit.Extensions;
+﻿using Outcompute.Toolkit.Extensions;
 using System.Buffers;
 using System.Globalization;
 
@@ -47,13 +46,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
                 Write(value.ToString());
                 break;
         }
-    }
-
-    protected internal override WireExpression VisitDefault(DefaultWireExpression expression)
-    {
-        Write("default");
-
-        return expression;
     }
 
     protected internal override WireExpression VisitItem(ItemWireExpression expression)
@@ -161,6 +153,168 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
+    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Target);
+        Write(") = (");
+        Visit(expression.Value);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitCoalesce(CoalesceWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") ?? (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitCondition(ConditionalWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Test);
+        Write(") ? (");
+        Visit(expression.IfTrue);
+        Write(") : (");
+        Visit(expression.IfFalse);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConstant<T>(ConstantWireExpression<T> expression)
+    {
+        if (expression.Value is null)
+        {
+            Write("null");
+        }
+        else
+        {
+            Write("(");
+            WriteQuoted(expression.Value);
+            Write(")");
+        }
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConvert<TValue>(ConvertWireExpression<TValue> expression)
+    {
+        Write("(");
+        Write(expression.Type.FullName);
+        Write(")(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitConvertChecked<TValue>(ConvertCheckedWireExpression<TValue> expression)
+    {
+        Write("checked (");
+        Write(expression.Type.FullName);
+        Write(")(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDecrement(DecrementWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Expression);
+        Write(") - 1");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDefault<TValue>(DefaultWireExpression<TValue> expression)
+    {
+        Write("default");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDivide(DivideWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") / (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitDivideAssign(DivideAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") /= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitEmpty(EmptyWireExpression expression)
+    {
+        Write("{}");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") == (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitExclusiveOr(ExclusiveOrWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") ^ (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitExclusiveOrAssign(ExclusiveOrAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") ^= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitField(FieldWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Target);
+        Write(").");
+        Write(expression.Name);
+
+        return expression;
+    }
+
+
 
 
 
@@ -173,16 +327,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
 
 
     protected internal override WireExpression VisitProperty(PropertyExpression expression)
-    {
-        Write("(");
-        Visit(expression.Target);
-        Write(").");
-        Write(expression.Name);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitField(FieldExpression expression)
     {
         Write("(");
         Visit(expression.Target);
@@ -229,17 +373,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") == (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
     {
         Write("(");
@@ -250,10 +383,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
 
         return expression;
     }
-
-
-
-
 
     protected internal override WireExpression VisitOr(OrExpression expression)
     {
@@ -400,35 +529,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         Write(nameof(StringComparison));
         Write(".");
         Write(expression.Comparison.AsString());
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Target);
-        Write(") = (");
-        Visit(expression.Value);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitConstant<T>(ConstantExpression<T> expression)
-    {
-        Write("(");
-
-        if (expression.Value is null)
-        {
-            Write("<NULL>");
-        }
-        else
-        {
-            Write(expression.Value.ToString());
-        }
-
         Write(")");
 
         return expression;

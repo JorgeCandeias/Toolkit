@@ -9,7 +9,7 @@ public class AddCheckedWireExpressionTests
     {
         // arrange
         var left = new ItemWireExpression();
-        var right = new DefaultWireExpression();
+        var right = new DefaultWireExpression<int>();
         var expression = new AddCheckedWireExpression(left, right);
 
         // act
@@ -24,7 +24,7 @@ public class AddCheckedWireExpressionTests
     {
         // act
         var left = new ItemWireExpression();
-        var right = new DefaultWireExpression();
+        var right = new DefaultWireExpression<int>();
         var result = WireExpression.AddChecked(left, right);
 
         // assert

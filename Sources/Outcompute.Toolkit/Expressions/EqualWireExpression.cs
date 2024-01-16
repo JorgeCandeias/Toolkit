@@ -3,7 +3,7 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a <see cref="WireExpression"/> that represents an equality comparison.
+/// A <see cref="WireExpression"/> that represents an equality comparison.
 /// </summary>
 public sealed record class EqualWireExpression : WireExpression
 {
@@ -13,7 +13,7 @@ public sealed record class EqualWireExpression : WireExpression
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
         IsLiftedToNull = liftToNull;
     }
 

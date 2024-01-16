@@ -3,11 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a constant expression.
+/// A <see cref="WireExpression"/> that represents a constant value.
 /// </summary>
-public sealed record class ConstantExpression<T> : WireExpression
+public sealed record class ConstantWireExpression<T> : WireExpression
 {
-    internal ConstantExpression(T value)
+    internal ConstantWireExpression(T value)
     {
         Value = value;
     }
@@ -26,7 +26,7 @@ public sealed record class ConstantExpression<T> : WireExpression
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="ConstantExpression<T>"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents a constant value.
     /// </summary>
-    public static ConstantExpression<T> Constant<T>(T value) => new(value);
+    public static ConstantWireExpression<T> Constant<T>(T value) => new(value);
 }
