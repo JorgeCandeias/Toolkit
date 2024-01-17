@@ -153,6 +153,31 @@ public abstract class WireExpressionVisitor
     /// </summary>
     protected internal virtual WireExpression VisitField(FieldWireExpression expression) => ThrowNotSupported(expression);
 
+    /// <summary>
+    /// Visits the <see cref="GreaterThanWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitGreaterThan(GreaterThanWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="GreaterThanOrEqualWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="IncrementWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitIncrement(IncrementWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="IsFalseWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitIsFalse(IsFalseWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="IsTrueWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitIsTrue(IsTrueWireExpression expression) => ThrowNotSupported(expression);
+
 
 
 
@@ -177,19 +202,9 @@ public abstract class WireExpressionVisitor
     #region Comparison
 
     /// <summary>
-    /// Visits the <see cref="GreaterThanWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitGreaterThan(GreaterThanWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
     /// Visits the <see cref="LessThanWireExpression"/>.
     /// </summary>
     protected internal virtual WireExpression VisitLessThan(LessThanWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="GreaterThanOrEqualWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression) => ThrowNotSupported(expression);
 
     #endregion Comparison
 

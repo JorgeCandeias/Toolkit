@@ -314,6 +314,56 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
+    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") > (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") >= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitIncrement(IncrementWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Expression);
+        Write(") + 1");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitIsFalse(IsFalseWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Expression);
+        Write(") == false");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitIsTrue(IsTrueWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Expression);
+        Write(") == true");
+
+        return expression;
+    }
+
+
 
 
 
@@ -428,27 +478,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") > (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") >= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
 
     protected internal override WireExpression VisitStringContains(StringContainsExpression expression)
     {

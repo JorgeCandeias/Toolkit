@@ -3,7 +3,7 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a <see cref="WireExpression"/> that represents a "greater than" numeric comparison.
+/// A <see cref="WireExpression"/> that represents a "greater than" numeric comparison.
 /// </summary>
 public sealed record class GreaterThanWireExpression : WireExpression
 {
@@ -13,7 +13,7 @@ public sealed record class GreaterThanWireExpression : WireExpression
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
         IsLiftedToNull = liftToNull;
     }
 

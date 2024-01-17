@@ -322,9 +322,47 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
+    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.GreaterThan(left, right);
 
+        _stack.Push(converted);
 
+        return expression;
+    }
 
+    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
+    {
+        var left = Convert(expression.Left);
+        var right = Convert(expression.Right);
+        var converted = Expression.GreaterThanOrEqual(left, right);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitIsFalse(IsFalseWireExpression expression)
+    {
+        var child = Convert(expression.Expression);
+        var converted = Expression.IsFalse(child);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitIsTrue(IsTrueWireExpression expression)
+    {
+        var child = Convert(expression.Expression);
+        var converted = Expression.IsTrue(child);
+
+        _stack.Push(converted);
+
+        return expression;
+    }
 
 
 
@@ -345,7 +383,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         return expression;
     }
-
 
     protected internal override WireExpression VisitPropertyOrField(PropertyOrFieldExpression expression)
     {
@@ -447,28 +484,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         var left = Convert(expression.Left);
         var right = Convert(expression.Right);
         var converted = Expression.LessThanOrEqual(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.GreaterThan(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.GreaterThanOrEqual(left, right);
 
         _stack.Push(converted);
 

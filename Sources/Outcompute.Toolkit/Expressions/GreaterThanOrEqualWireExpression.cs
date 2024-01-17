@@ -13,7 +13,7 @@ public sealed record class GreaterThanOrEqualWireExpression : WireExpression
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
         IsLiftedToNull = liftToNull;
     }
 
