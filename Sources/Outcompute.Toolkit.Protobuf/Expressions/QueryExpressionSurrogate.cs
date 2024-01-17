@@ -22,7 +22,6 @@ namespace Outcompute.Toolkit.Protobuf.Expressions;
 [ProtoInclude(16, typeof(LessThanOrEqualExpressionSurrogate))]
 [ProtoInclude(17, typeof(GreaterThanExpressionSurrogate))]
 [ProtoInclude(18, typeof(GreaterThanOrEqualExpressionSurrogate))]
-[ProtoInclude(19, typeof(AddExpressionSurrogate))]
 [ProtoInclude(20, typeof(StringContainsExpressionSurrogate))]
 [ProtoInclude(21, typeof(StringCompareExpressionSurrogate))]
 [ProtoInclude(22, typeof(StringStartsWithExpressionSurrogate))]

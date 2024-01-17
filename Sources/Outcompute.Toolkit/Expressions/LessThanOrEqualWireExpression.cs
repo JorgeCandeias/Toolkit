@@ -3,11 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// A <see cref="WireExpression"/> that represents an inequality comparison.
+/// A <see cref="WireExpression"/> that represents a "less than or equal" numeric comparison.
 /// </summary>
-public sealed record class NotEqualWireExpression : WireExpression
+public sealed record class LessThanOrEqualWireExpression : WireExpression
 {
-    internal NotEqualWireExpression(WireExpression left, WireExpression right, bool liftToNull)
+    internal LessThanOrEqualWireExpression(WireExpression left, WireExpression right, bool liftToNull)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -35,13 +35,13 @@ public sealed record class NotEqualWireExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitNotEqual(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitLessThanOrEqual(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a <see cref="WireExpression"/> that represents an inequality comparison.
+    /// Creates a <see cref="WireExpression"/> that represents a "less than or equal" numeric comparison.
     /// </summary>
-    public static NotEqualWireExpression NotEqual(WireExpression left, WireExpression right, bool liftToNull = false) => new(left, right, liftToNull);
+    public static LessThanOrEqualWireExpression LessThanOrEqual(WireExpression left, WireExpression right, bool liftToNull = false) => new(left, right, liftToNull);
 }

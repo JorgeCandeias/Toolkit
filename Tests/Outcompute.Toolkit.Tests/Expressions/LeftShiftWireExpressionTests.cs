@@ -2,7 +2,7 @@
 
 namespace Outcompute.Toolkit.Tests.Expressions;
 
-public class AddAssignCheckedWireExpressionTests
+public class LeftShiftWireExpressionTests
 {
     [Fact]
     public void ToStringEmitsText()
@@ -10,13 +10,13 @@ public class AddAssignCheckedWireExpressionTests
         // arrange
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var expression = new AddAssignCheckedWireExpression(left, right);
+        var expression = new LeftShiftWireExpression(left, right);
 
         // act
         var result = expression.ToString();
 
         // assert
-        Assert.Equal("checked ((item) += (default))", result);
+        Assert.Equal("(item) << (default)", result);
     }
 
     [Fact]
@@ -25,11 +25,11 @@ public class AddAssignCheckedWireExpressionTests
         // act
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var result = WireExpression.AddAssignChecked(left, right);
+        var result = WireExpression.LeftShift(left, right);
 
         // assert
         Assert.NotNull(result);
-        Assert.IsType<AddAssignCheckedWireExpression>(result);
+        Assert.IsType<LeftShiftWireExpression>(result);
         Assert.Same(left, result.Left);
         Assert.Same(right, result.Right);
     }

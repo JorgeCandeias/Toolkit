@@ -3,18 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a boolean 'Less Than Or Equal' expression.
-/// Written in C# as <c>left &lt;= right</c>.
+/// A <see cref="WireExpression"/> that represents an arithmetic division operation.
 /// </summary>
-public sealed record class LessThanOrEqualExpression : WireExpression
+public sealed record class MultiplyAssignWireExpression : WireExpression
 {
-    internal LessThanOrEqualExpression(WireExpression left, WireExpression right)
+    internal MultiplyAssignWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -30,13 +29,13 @@ public sealed record class LessThanOrEqualExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitLessThanOrEqual(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitMultiplyAssign(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="LessThanOrEqualExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents an arithmetic division operation.
     /// </summary>
-    public static LessThanOrEqualExpression LessThanOrEqual(WireExpression left, WireExpression right) => new(left, right);
+    public static MultiplyAssignWireExpression MultiplyAssign(WireExpression left, WireExpression right) => new(left, right);
 }

@@ -82,11 +82,11 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitNot(NotExpression expression)
+    protected override WireExpression VisitNot(NotWireExpression expression)
     {
         var surrogate = new NotExpressionSurrogate
         {
-            Target = Convert(expression.Target)
+            Target = Convert(expression.Expression)
         };
 
         _stack.Push(surrogate);
@@ -170,7 +170,7 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitOr(OrExpression expression)
+    protected override WireExpression VisitOr(OrWireExpression expression)
     {
         var converted = new OrExpressionSurrogate
         {
@@ -209,7 +209,7 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitLessThanOrEqual(LessThanOrEqualExpression expression)
+    protected override WireExpression VisitLessThanOrEqual(LessThanOrEqualWireExpression expression)
     {
         var converted = new LessThanOrEqualExpressionSurrogate
         {
@@ -238,19 +238,6 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
     protected override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
     {
         var converted = new GreaterThanOrEqualExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected override WireExpression VisitAdd(AddWireExpression expression)
-    {
-        var converted = new AddExpressionSurrogate
         {
             Left = Convert(expression.Left),
             Right = Convert(expression.Right)

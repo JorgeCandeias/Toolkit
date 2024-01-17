@@ -55,50 +55,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitAdd(AddWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") + (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAddAssign(AddAssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") += (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAddAssignChecked(AddAssignCheckedWireExpression expression)
-    {
-        Write("checked ((");
-        Visit(expression.Left);
-        Write(") += (");
-        Visit(expression.Right);
-        Write("))");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAddChecked(AddCheckedWireExpression expression)
-    {
-        Write("checked ((");
-        Visit(expression.Left);
-        Write(") + (");
-        Visit(expression.Right);
-        Write("))");
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitAnd(AndWireExpression expression)
     {
         Write("(");
@@ -363,6 +319,221 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
+    protected internal override WireExpression VisitLeftShift(LeftShiftWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") << (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitLeftShiftAssign(LeftShiftAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") <<= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitLessThan(LessThanWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") < (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitLessThanOrEqual(LessThanOrEqualWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") <= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitModulo(ModuloWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") % (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitModuloAssign(ModuloAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") %= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitMultiply(MultiplyWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") * (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitMultiplyAssign(MultiplyAssignWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") *= (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitMultiplyAssignChecked(MultiplyAssignCheckedWireExpression expression)
+    {
+        Write("checked ((");
+        Visit(expression.Left);
+        Write(") *= (");
+        Visit(expression.Right);
+        Write("))");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitMultiplyChecked(MultiplyCheckedWireExpression expression)
+    {
+        Write("checked ((");
+        Visit(expression.Left);
+        Write(") * (");
+        Visit(expression.Right);
+        Write("))");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitNegate(NegateWireExpression expression)
+    {
+        Write("-(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitNegateChecked(NegateCheckedWireExpression expression)
+    {
+        Write("checked -(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitNot(NotWireExpression expression)
+    {
+        Write("!(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") != (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitOnesComplement(OnesComplementWireExpression expression)
+    {
+        Write("~(");
+        Visit(expression.Expression);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitOr(OrWireExpression expression)
+    {
+        Write("(");
+        Visit(expression.Left);
+        Write(") | (");
+        Visit(expression.Right);
+        Write(")");
+
+        return expression;
+    }
+
+    protected internal override WireExpression VisitBinary(BinaryWireExpression expression)
+    {
+        var isChecked = expression.Operation switch
+        {
+            BinaryWireOperation.AddAssignChecked => true,
+            BinaryWireOperation.AddChecked => true,
+            _ => false
+        };
+
+        if (isChecked)
+        {
+            Write("checked (");
+        }
+
+        Write("(");
+        Visit(expression.Left);
+        Write(") ");
+
+        var text = expression.Operation switch
+        {
+            BinaryWireOperation.Add => "+",
+            BinaryWireOperation.AddAssign => "+=",
+            BinaryWireOperation.AddAssignChecked => "+=",
+            BinaryWireOperation.AddChecked => "+",
+
+            _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
+        };
+        Write(text);
+
+        Write(" (");
+        Visit(expression.Right);
+        Write(")");
+
+        if (isChecked)
+        {
+            Write(")");
+        }
+
+        return expression;
+    }
+
+
+
+
+
+
+
 
 
 
@@ -396,14 +567,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitNot(NotExpression expression)
-    {
-        Write("!(");
-        Visit(expression.Target);
-        Write(")");
-
-        return expression;
-    }
 
     protected internal override WireExpression VisitIsNull(IsNullExpression expression)
     {
@@ -423,27 +586,7 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") != (");
-        Visit(expression.Right);
-        Write(")");
 
-        return expression;
-    }
-
-    protected internal override WireExpression VisitOr(OrExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") | (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
 
     protected internal override WireExpression VisitOrElse(OrElseExpression expression)
     {
@@ -456,27 +599,8 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitLessThan(LessThanWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") < (");
-        Visit(expression.Right);
-        Write(")");
 
-        return expression;
-    }
 
-    protected internal override WireExpression VisitLessThanOrEqual(LessThanOrEqualExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") <= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
 
 
     protected internal override WireExpression VisitStringContains(StringContainsExpression expression)

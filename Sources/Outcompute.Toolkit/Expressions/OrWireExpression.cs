@@ -3,19 +3,17 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// Defines a boolean 'Or' expression.
-/// Written in C# as '|'.
-/// 'Or' always evaluates the left-hand and right-hand operators.
+/// A <see cref="WireExpression"/> that represents a bitwise OR operation.
 /// </summary>
-public sealed record class OrExpression : WireExpression
+public sealed record class OrWireExpression : WireExpression
 {
-    internal OrExpression(WireExpression left, WireExpression right)
+    internal OrWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
 
         Left = left;
-        Right = left;
+        Right = right;
     }
 
     /// <summary>
@@ -37,12 +35,12 @@ public sealed record class OrExpression : WireExpression
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a new <see cref="OrExpression"/> with the specified parameters.
+    /// Creates a <see cref="WireExpression"/> that represents a bitwise OR operation.
     /// </summary>
-    public static OrExpression Or(WireExpression left, WireExpression right) => new(left, right);
+    public static OrWireExpression Or(WireExpression left, WireExpression right) => new(left, right);
 
     /// <summary>
-    /// Attempts to create a new <see cref="OrExpression"/> using all supplied arguments as operands.
+    /// Attempts to create a new <see cref="OrWireExpression"/> that represents a bitwise OR operation using the specified operands.
     /// If <paramref name="expressions"/> is empty then this method returns null.
     /// If <paramref name="expressions"/> has a single expression then this method returns that expression.
     /// </summary>

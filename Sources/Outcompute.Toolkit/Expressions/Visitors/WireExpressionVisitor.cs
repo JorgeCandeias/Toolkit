@@ -39,26 +39,6 @@ public abstract class WireExpressionVisitor
     #endregion Placeholder Expressions
 
     /// <summary>
-    /// Visits the <see cref="AddWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAdd(AddWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AddAssignWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAddAssign(AddAssignWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AddAssignCheckedWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAddAssignChecked(AddAssignCheckedWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AddCheckedWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAddChecked(AddCheckedWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
     /// Visits the <see cref="AndWireExpression"/>.
     /// </summary>
     protected internal virtual WireExpression VisitAnd(AndWireExpression expression) => ThrowNotSupported(expression);
@@ -178,6 +158,94 @@ public abstract class WireExpressionVisitor
     /// </summary>
     protected internal virtual WireExpression VisitIsTrue(IsTrueWireExpression expression) => ThrowNotSupported(expression);
 
+    /// <summary>
+    /// Visits the <see cref="LeftShiftWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitLeftShift(LeftShiftWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="LeftShiftAssignWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitLeftShiftAssign(LeftShiftAssignWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="LessThanWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitLessThan(LessThanWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="LessThanOrEqualWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitLessThanOrEqual(LessThanOrEqualWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="ModuloWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitModulo(ModuloWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="ModuloAssignWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitModuloAssign(ModuloAssignWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="MultiplyWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitMultiply(MultiplyWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="MultiplyAssignWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitMultiplyAssign(MultiplyAssignWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="MultiplyAssignCheckedWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitMultiplyAssignChecked(MultiplyAssignCheckedWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="MultiplyCheckedWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitMultiplyChecked(MultiplyCheckedWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="NegateWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitNegate(NegateWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="NegateCheckedWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitNegateChecked(NegateCheckedWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="NotWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitNot(NotWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="NotEqualWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitNotEqual(NotEqualWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="OnesComplementWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitOnesComplement(OnesComplementWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="OrWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitOr(OrWireExpression expression) => ThrowNotSupported(expression);
+
+    /// <summary>
+    /// Visits the <see cref="BinaryWireExpression"/>.
+    /// </summary>
+    protected internal virtual WireExpression VisitBinary(BinaryWireExpression expression) => ThrowNotSupported(expression);
+
+
+
+
 
 
 
@@ -192,19 +260,11 @@ public abstract class WireExpressionVisitor
 
     #region Equality
 
-    /// <summary>
-    /// Visits the <see cref="NotEqualWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitNotEqual(NotEqualWireExpression expression) => ThrowNotSupported(expression);
 
     #endregion Equality
 
     #region Comparison
 
-    /// <summary>
-    /// Visits the <see cref="LessThanWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitLessThan(LessThanWireExpression expression) => ThrowNotSupported(expression);
 
     #endregion Comparison
 
@@ -219,10 +279,6 @@ public abstract class WireExpressionVisitor
     /// </summary>
     protected internal virtual WireExpression VisitPropertyOrField(PropertyOrFieldExpression expression) => ThrowNotSupported(expression);
 
-    /// <summary>
-    /// Visits the <see cref="NotExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitNot(NotExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
     /// Visits the <see cref="IsNullExpression"/>.
@@ -234,20 +290,12 @@ public abstract class WireExpressionVisitor
     /// </summary>
     protected internal virtual WireExpression VisitIsNotNull(IsNotNullExpression expression) => ThrowNotSupported(expression);
 
-    /// <summary>
-    /// Visits the <see cref="OrExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitOr(OrExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
     /// Visits the <see cref="OrElseExpression"/>.
     /// </summary>
     protected internal virtual WireExpression VisitOrElse(OrElseExpression expression) => ThrowNotSupported(expression);
 
-    /// <summary>
-    /// Visits the <see cref="LessThanOrEqualExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitLessThanOrEqual(LessThanOrEqualExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
     /// Visits the <see cref="StringContainsExpression"/>.

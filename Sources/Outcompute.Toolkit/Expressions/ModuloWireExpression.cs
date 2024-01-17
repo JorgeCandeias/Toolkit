@@ -3,11 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// A <see cref="WireExpression"/> that represents an arithmetic addition operation that has overflow checking.
+/// A <see cref="WireExpression"/> that represents an arithmetic remainder operation.
 /// </summary>
-public sealed record class AddCheckedWireExpression : WireExpression
+public sealed record class ModuloWireExpression : WireExpression
 {
-    internal AddCheckedWireExpression(WireExpression left, WireExpression right)
+    internal ModuloWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -29,13 +29,13 @@ public sealed record class AddCheckedWireExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAddChecked(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitModulo(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a <see cref="WireExpression"/> that represents an arithmetic addition operation that has overflow checking.
+    /// Creates a <see cref="WireExpression"/> that represents an arithmetic remainder operation.
     /// </summary>
-    public static AddCheckedWireExpression AddChecked(WireExpression left, WireExpression right) => new(left, right);
+    public static ModuloWireExpression Modulo(WireExpression left, WireExpression right) => new(left, right);
 }

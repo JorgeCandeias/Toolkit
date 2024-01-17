@@ -3,11 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// A <see cref="WireExpression"/> that represents an addition assignment operation that has overflow checking.
+/// A <see cref="WireExpression"/> that represents a bitwise left-shift operation.
 /// </summary>
-public sealed record class AddAssignCheckedWireExpression : WireExpression
+public sealed record class LeftShiftWireExpression : WireExpression
 {
-    internal AddAssignCheckedWireExpression(WireExpression left, WireExpression right)
+    internal LeftShiftWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -29,13 +29,13 @@ public sealed record class AddAssignCheckedWireExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAddAssignChecked(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitLeftShift(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a <see cref="WireExpression"/> that represents an addition assignment operation that has overflow checking.
+    /// Creates a <see cref="WireExpression"/> that represents a bitwise left-shift operation.
     /// </summary>
-    public static AddAssignCheckedWireExpression AddAssignChecked(WireExpression left, WireExpression right) => new(left, right);
+    public static LeftShiftWireExpression LeftShift(WireExpression left, WireExpression right) => new(left, right);
 }

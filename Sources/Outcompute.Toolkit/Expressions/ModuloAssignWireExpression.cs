@@ -3,11 +3,11 @@
 namespace Outcompute.Toolkit.Expressions;
 
 /// <summary>
-/// A <see cref="WireExpression"/> that represents an addition assignment operation that does not have overflow checking.
+/// A <see cref="WireExpression"/> that represents a remainder assignment operation.
 /// </summary>
-public sealed record class AddAssignWireExpression : WireExpression
+public sealed record class ModuloAssignWireExpression : WireExpression
 {
-    internal AddAssignWireExpression(WireExpression left, WireExpression right)
+    internal ModuloAssignWireExpression(WireExpression left, WireExpression right)
     {
         Guard.IsNotNull(left);
         Guard.IsNotNull(right);
@@ -29,13 +29,13 @@ public sealed record class AddAssignWireExpression : WireExpression
     /// <summary>
     /// Makes the specified visitor visit the current expression using the correct overload.
     /// </summary>
-    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitAddAssign(this);
+    protected internal override WireExpression Accept(WireExpressionVisitor visitor) => visitor.VisitModuloAssign(this);
 }
 
 public partial record class WireExpression
 {
     /// <summary>
-    /// Creates a <see cref="WireExpression"/> that represents an addition assignment operation that does not have overflow checking.
+    /// Creates a <see cref="WireExpression"/> that represents a remainder assignment operation.
     /// </summary>
-    public static AddAssignWireExpression AddAssign(WireExpression left, WireExpression right) => new(left, right);
+    public static ModuloAssignWireExpression ModuloAssign(WireExpression left, WireExpression right) => new(left, right);
 }
