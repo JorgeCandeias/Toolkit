@@ -160,28 +160,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") > (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") >= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitIncrement(IncrementWireExpression expression)
     {
         Write("(");
@@ -424,6 +402,8 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
             BinaryWireOperation.Equal => "==",
             BinaryWireOperation.ExclusiveOr => "^",
             BinaryWireOperation.ExclusiveOrAssign => "^=",
+            BinaryWireOperation.GreaterThan => ">",
+            BinaryWireOperation.GreaterThanOrEqual => ">=",
 
             _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
         });

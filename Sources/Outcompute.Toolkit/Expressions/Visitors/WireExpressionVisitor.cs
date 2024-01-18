@@ -84,16 +84,6 @@ public abstract class WireExpressionVisitor
     protected internal virtual WireExpression VisitField(FieldWireExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
-    /// Visits the <see cref="GreaterThanWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitGreaterThan(GreaterThanWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="GreaterThanOrEqualWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
     /// Visits the <see cref="IncrementWireExpression"/>.
     /// </summary>
     protected internal virtual WireExpression VisitIncrement(IncrementWireExpression expression) => ThrowNotSupported(expression);

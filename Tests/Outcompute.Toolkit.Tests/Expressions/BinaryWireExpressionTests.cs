@@ -229,4 +229,36 @@ public class BinaryWireExpressionTests
         Assert.Same(right, result.Right);
         Assert.Equal("(item) ^= (default)", result.ToString());
     }
+
+    [Fact]
+    public void FactoryCreatesExpression_GreaterThan()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.GreaterThan(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.GreaterThan, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) > (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_GreaterThanOrEqual()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.GreaterThanOrEqual(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.GreaterThanOrEqual, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) >= (default)", result.ToString());
+    }
 }

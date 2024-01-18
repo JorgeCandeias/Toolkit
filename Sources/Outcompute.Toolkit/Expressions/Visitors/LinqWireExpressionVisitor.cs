@@ -168,28 +168,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.GreaterThan(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.GreaterThanOrEqual(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitIncrement(IncrementWireExpression expression)
     {
         var child = Convert(expression.Expression);
@@ -412,6 +390,8 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
             BinaryWireOperation.Equal => Expression.Equal(left, right, expression.IsLiftedToNull, default),
             BinaryWireOperation.ExclusiveOr => Expression.ExclusiveOr(left, right),
             BinaryWireOperation.ExclusiveOrAssign => Expression.ExclusiveOrAssign(left, right),
+            BinaryWireOperation.GreaterThan => Expression.GreaterThan(left, right),
+            BinaryWireOperation.GreaterThanOrEqual => Expression.GreaterThanOrEqual(left, right),
 
             _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
         };

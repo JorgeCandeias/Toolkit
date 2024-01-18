@@ -112,22 +112,6 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.LessThanOrEqual(left, right);
     }
 
-    public GreaterThanWireExpression VisitGreaterThan(GreaterThanExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.GreaterThan(left, right);
-    }
-
-    public GreaterThanOrEqualWireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.GreaterThanOrEqual(left, right);
-    }
-
     public StringContainsExpression VisitStringContains(StringContainsExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);

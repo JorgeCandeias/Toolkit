@@ -20,5 +20,8 @@ public enum BinaryWireOperation
     Equal,
 
     ExclusiveOr,
-    ExclusiveOrAssign
+    ExclusiveOrAssign,
+
+    GreaterThan,
+    GreaterThanOrEqual
 }

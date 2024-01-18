@@ -183,32 +183,6 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitGreaterThan(GreaterThanWireExpression expression)
-    {
-        var converted = new GreaterThanExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected override WireExpression VisitGreaterThanOrEqual(GreaterThanOrEqualWireExpression expression)
-    {
-        var converted = new GreaterThanOrEqualExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected override WireExpression VisitStringContains(StringContainsExpression expression)
     {
         var surrogate = new StringContainsExpressionSurrogate

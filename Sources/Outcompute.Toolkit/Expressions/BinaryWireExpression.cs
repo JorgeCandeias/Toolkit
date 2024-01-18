@@ -167,4 +167,14 @@ public partial record class WireExpression
     /// Creates a <see cref="WireExpression"/> that represents a bitwise XOR assignment operation, using op_ExclusiveOr for user-defined types.
     /// </summary>
     public static BinaryWireExpression ExclusiveOrAssign(WireExpression left, WireExpression right) => new(BinaryWireOperation.ExclusiveOrAssign, left, right);
+
+    /// <summary>
+    /// Creates a <see cref="WireExpression"/> that represents a "greater than" numeric comparison.
+    /// </summary>
+    public static BinaryWireExpression GreaterThan(WireExpression left, WireExpression right, bool liftToNull = false) => new(BinaryWireOperation.GreaterThan, left, right, liftToNull);
+
+    /// <summary>
+    /// Creates a <see cref="WireExpression"/> that represents a "greater than or equal" numeric comparison.
+    /// </summary>
+    public static BinaryWireExpression GreaterThanOrEqual(WireExpression left, WireExpression right, bool liftToNull = false) => new(BinaryWireOperation.GreaterThanOrEqual, left, right, liftToNull);
 }
