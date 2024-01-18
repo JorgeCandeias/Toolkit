@@ -55,39 +55,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitAnd(AndWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") & (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") && (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAndAssign(AndAssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") &= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitArray<TValue>(ArrayWireExpression<TValue> expression)
     {
         Write("[");
@@ -105,28 +72,6 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         }
 
         Write("]");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Target);
-        Write(") = (");
-        Visit(expression.Value);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitCoalesce(CoalesceWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") ?? (");
-        Visit(expression.Right);
-        Write(")");
 
         return expression;
     }
@@ -198,64 +143,9 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
         return expression;
     }
 
-    protected internal override WireExpression VisitDivide(DivideWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") / (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitDivideAssign(DivideAssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") /= (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitEmpty(EmptyWireExpression expression)
     {
         Write("{}");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") == (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitExclusiveOr(ExclusiveOrWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") ^ (");
-        Visit(expression.Right);
-        Write(")");
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitExclusiveOrAssign(ExclusiveOrAssignWireExpression expression)
-    {
-        Write("(");
-        Visit(expression.Left);
-        Write(") ^= (");
-        Visit(expression.Right);
-        Write(")");
 
         return expression;
     }
@@ -489,43 +379,54 @@ internal sealed class StringWireExpressionVisitor : WireExpressionVisitor, IDisp
 
     protected internal override WireExpression VisitBinary(BinaryWireExpression expression)
     {
-        var isChecked = expression.Operation switch
+        return expression.Operation switch
         {
-            BinaryWireOperation.AddAssignChecked => true,
-            BinaryWireOperation.AddChecked => true,
-            _ => false
+            BinaryWireOperation.AddAssignChecked or BinaryWireOperation.AddChecked => VisitBinaryChecked(expression),
+            _ => VisitBinaryOperands(expression)
         };
+    }
 
-        if (isChecked)
-        {
-            Write("checked (");
-        }
+    private BinaryWireExpression VisitBinaryChecked(BinaryWireExpression expression)
+    {
+        Write("checked (");
+        VisitBinaryOperands(expression);
+        Write(")");
 
+        return expression;
+    }
+
+    private BinaryWireExpression VisitBinaryOperands(BinaryWireExpression expression)
+    {
         Write("(");
         Visit(expression.Left);
         Write(") ");
-
-        var text = expression.Operation switch
-        {
-            BinaryWireOperation.Add => "+",
-            BinaryWireOperation.AddAssign => "+=",
-            BinaryWireOperation.AddAssignChecked => "+=",
-            BinaryWireOperation.AddChecked => "+",
-
-            _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
-        };
-        Write(text);
-
+        VisitBinaryOperator(expression);
         Write(" (");
         Visit(expression.Right);
         Write(")");
 
-        if (isChecked)
-        {
-            Write(")");
-        }
-
         return expression;
+    }
+
+    private void VisitBinaryOperator(BinaryWireExpression expression)
+    {
+        Write(expression.Operation switch
+        {
+            BinaryWireOperation.Add or BinaryWireOperation.AddChecked => "+",
+            BinaryWireOperation.AddAssign or BinaryWireOperation.AddAssignChecked => "+=",
+            BinaryWireOperation.And => "&",
+            BinaryWireOperation.AndAlso => "&&",
+            BinaryWireOperation.AndAssign => "&=",
+            BinaryWireOperation.Assign => "=",
+            BinaryWireOperation.Coalesce => "??",
+            BinaryWireOperation.Divide => "/",
+            BinaryWireOperation.DivideAssign => "/=",
+            BinaryWireOperation.Equal => "==",
+            BinaryWireOperation.ExclusiveOr => "^",
+            BinaryWireOperation.ExclusiveOrAssign => "^=",
+
+            _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
+        });
     }
 
 

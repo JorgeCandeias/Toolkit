@@ -39,34 +39,9 @@ public abstract class WireExpressionVisitor
     #endregion Placeholder Expressions
 
     /// <summary>
-    /// Visits the <see cref="AndWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAnd(AndWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AndAlsoWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAndAlso(AndAlsoWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AndAssignWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAndAssign(AndAssignWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
     /// Visits the <see cref="ArrayWireExpression{T}"/>.
     /// </summary>
     protected internal virtual WireExpression VisitArray<T>(ArrayWireExpression<T> expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="AssignWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitAssign(AssignWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="CoalesceWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitCoalesce(CoalesceWireExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
     /// Visits the <see cref="ConditionalWireExpression"/>.
@@ -99,34 +74,9 @@ public abstract class WireExpressionVisitor
     protected internal virtual WireExpression VisitDefault<TValue>(DefaultWireExpression<TValue> expression) => ThrowNotSupported(expression);
 
     /// <summary>
-    /// Visits the <see cref="DivideWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitDivide(DivideWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="DivideAssignWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitDivideAssign(DivideAssignWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
     /// Visits the <see cref="EmptyWireExpression"/>.
     /// </summary>
     protected internal virtual WireExpression VisitEmpty(EmptyWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="EqualWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitEqual(EqualWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="ExclusiveOrWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitExclusiveOr(ExclusiveOrWireExpression expression) => ThrowNotSupported(expression);
-
-    /// <summary>
-    /// Visits the <see cref="ExclusiveOrAssignWireExpression"/>.
-    /// </summary>
-    protected internal virtual WireExpression VisitExclusiveOrAssign(ExclusiveOrAssignWireExpression expression) => ThrowNotSupported(expression);
 
     /// <summary>
     /// Visits the <see cref="FieldWireExpression"/>.

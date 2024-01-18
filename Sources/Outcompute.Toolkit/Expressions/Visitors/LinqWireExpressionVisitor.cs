@@ -83,64 +83,9 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitAnd(AndWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.And(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.AndAlso(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAndAssign(AndAssignWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.AndAssign(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitArray<TValue>(ArrayWireExpression<TValue> expression)
     {
         var converted = Expression.Constant(expression.Values);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitAssign(AssignWireExpression expression)
-    {
-        var target = Convert(expression.Target);
-        var value = Convert(expression.Value);
-        var converted = Expression.Assign(target, value);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitCoalesce(CoalesceWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Coalesce(left, right);
 
         _stack.Push(converted);
 
@@ -205,64 +150,9 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitDivide(DivideWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Divide(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitDivideAssign(DivideAssignWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.DivideAssign(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitEmpty(EmptyWireExpression expression)
     {
         _stack.Push(Expression.Empty());
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitEqual(EqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Equal(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitExclusiveOr(ExclusiveOrWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.ExclusiveOr(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitExclusiveOrAssign(ExclusiveOrAssignWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.ExclusiveOrAssign(left, right);
-
-        _stack.Push(converted);
 
         return expression;
     }
@@ -512,6 +402,16 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
             BinaryWireOperation.AddAssign => Expression.AddAssign(left, right),
             BinaryWireOperation.AddAssignChecked => Expression.AddAssignChecked(left, right),
             BinaryWireOperation.AddChecked => Expression.AddChecked(left, right),
+            BinaryWireOperation.And => Expression.And(left, right),
+            BinaryWireOperation.AndAlso => Expression.AndAlso(left, right),
+            BinaryWireOperation.AndAssign => Expression.AndAssign(left, right),
+            BinaryWireOperation.Assign => Expression.Assign(left, right),
+            BinaryWireOperation.Coalesce => Expression.Coalesce(left, right),
+            BinaryWireOperation.Divide => Expression.Divide(left, right),
+            BinaryWireOperation.DivideAssign => Expression.DivideAssign(left, right),
+            BinaryWireOperation.Equal => Expression.Equal(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.ExclusiveOr => Expression.ExclusiveOr(left, right),
+            BinaryWireOperation.ExclusiveOrAssign => Expression.ExclusiveOrAssign(left, right),
 
             _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
         };

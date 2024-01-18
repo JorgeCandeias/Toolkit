@@ -12,10 +12,7 @@ namespace Outcompute.Toolkit.Protobuf.Expressions;
 [ProtoInclude(6, typeof(NotExpressionSurrogate))]
 [ProtoInclude(7, typeof(IsNullExpressionSurrogate))]
 [ProtoInclude(8, typeof(IsNotNullExpressionSurrogate))]
-[ProtoInclude(9, typeof(EqualExpressionSurrogate))]
 [ProtoInclude(10, typeof(NotEqualExpressionSurrogate))]
-[ProtoInclude(11, typeof(AndExpressionSurrogate))]
-[ProtoInclude(12, typeof(AndAlsoExpressionSurrogate))]
 [ProtoInclude(13, typeof(OrExpressionSurrogate))]
 [ProtoInclude(14, typeof(OrElseExpressionSurrogate))]
 [ProtoInclude(15, typeof(LessThanExpressionSurrogate))]
@@ -28,7 +25,6 @@ namespace Outcompute.Toolkit.Protobuf.Expressions;
 [ProtoInclude(23, typeof(StringEndsWithExpressionSurrogate))]
 [ProtoInclude(24, typeof(StringIsNullOrWhiteSpaceExpressionSurrogate))]
 [ProtoInclude(25, typeof(StringEqualExpressionSurrogate))]
-[ProtoInclude(26, typeof(AssignExpressionSurrogate))]
 [ProtoInclude(27, typeof(ContainsExpressionSurrogate))]
 
 // constant expressions - well-known non-nullable value types */

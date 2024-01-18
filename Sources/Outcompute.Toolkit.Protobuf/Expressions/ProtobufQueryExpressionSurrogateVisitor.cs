@@ -72,36 +72,12 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.IsNotNull(target);
     }
 
-    public EqualWireExpression VisitEqual(EqualExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.Equal(left, right);
-    }
-
     public NotEqualWireExpression VisitNotEqual(NotEqualExpressionSurrogate surrogate)
     {
         var left = Visit(surrogate.Left);
         var right = Visit(surrogate.Right);
 
         return WireExpression.NotEqual(left, right);
-    }
-
-    public AndWireExpression VisitAnd(AndExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.And(left, right);
-    }
-
-    public AndAlsoWireExpression VisitAndAlso(AndAlsoExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.AndAlso(left, right);
     }
 
     public OrWireExpression VisitOr(OrExpressionSurrogate surrogate)
@@ -202,14 +178,6 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         var comparison = surrogate.Comparison;
 
         return WireExpression.StringEqual(target, value, comparison);
-    }
-
-    public AssignWireExpression VisitAssign(AssignExpressionSurrogate surrogate)
-    {
-        var target = Visit(surrogate.Target);
-        var value = Visit(surrogate.Value);
-
-        return WireExpression.Assign(target, value);
     }
 
     public ConstantWireExpression<TValue> VisitConstant<TValue>(ConstantExpressionSurrogate<TValue> surrogate)

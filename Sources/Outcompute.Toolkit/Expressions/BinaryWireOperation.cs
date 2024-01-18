@@ -6,4 +6,19 @@ public enum BinaryWireOperation
     AddAssign,
     AddAssignChecked,
     AddChecked,
+
+    And,
+    AndAlso,
+    AndAssign,
+
+    Assign,
+    Coalesce,
+
+    Divide,
+    DivideAssign,
+
+    Equal,
+
+    ExclusiveOr,
+    ExclusiveOrAssign
 }

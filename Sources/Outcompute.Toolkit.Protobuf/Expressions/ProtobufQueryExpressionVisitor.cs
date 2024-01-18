@@ -118,48 +118,9 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         return expression;
     }
 
-    protected override WireExpression VisitEqual(EqualWireExpression expression)
-    {
-        var converted = new EqualExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected override WireExpression VisitNotEqual(NotEqualWireExpression expression)
     {
         var converted = new NotEqualExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected override WireExpression VisitAnd(AndWireExpression expression)
-    {
-        var converted = new AndExpressionSurrogate
-        {
-            Left = Convert(expression.Left),
-            Right = Convert(expression.Right)
-        };
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected override WireExpression VisitAndAlso(AndAlsoWireExpression expression)
-    {
-        var converted = new AndAlsoExpressionSurrogate
         {
             Left = Convert(expression.Left),
             Right = Convert(expression.Right)
@@ -321,19 +282,6 @@ internal sealed class ProtobufQueryExpressionVisitor : WireExpressionVisitor
         var surrogate = new StringEqualExpressionSurrogate
         {
             Target = Convert(expression.Target)
-        };
-
-        _stack.Push(surrogate);
-
-        return expression;
-    }
-
-    protected override WireExpression VisitAssign(AssignWireExpression expression)
-    {
-        var surrogate = new AssignExpressionSurrogate
-        {
-            Target = Convert(expression.Target),
-            Value = Convert(expression.Value)
         };
 
         _stack.Push(surrogate);
