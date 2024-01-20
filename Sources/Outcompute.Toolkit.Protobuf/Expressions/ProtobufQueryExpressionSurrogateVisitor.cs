@@ -72,46 +72,6 @@ internal sealed class ProtobufQueryExpressionSurrogateVisitor
         return WireExpression.IsNotNull(target);
     }
 
-    public NotEqualWireExpression VisitNotEqual(NotEqualExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.NotEqual(left, right);
-    }
-
-    public OrWireExpression VisitOr(OrExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.Or(left, right);
-    }
-
-    public OrElseExpression VisitOrElse(OrElseExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.OrElse(left, right);
-    }
-
-    public LessThanWireExpression VisitLessThan(LessThanExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.LessThan(left, right);
-    }
-
-    public LessThanOrEqualWireExpression VisitLessThanOrEqual(LessThanOrEqualExpressionSurrogate surrogate)
-    {
-        var left = Visit(surrogate.Left);
-        var right = Visit(surrogate.Right);
-
-        return WireExpression.LessThanOrEqual(left, right);
-    }
-
     public StringContainsExpression VisitStringContains(StringContainsExpressionSurrogate surrogate)
     {
         var target = Visit(surrogate.Target);

@@ -23,5 +23,21 @@ public enum BinaryWireOperation
     ExclusiveOrAssign,
 
     GreaterThan,
-    GreaterThanOrEqual
+    GreaterThanOrEqual,
+
+    LessThan,
+    LessThanOrEqual,
+
+    Modulo,
+    ModuloAssign,
+
+    Multiply,
+    MultiplyChecked,
+    MultiplyAssign,
+    MultiplyAssignChecked,
+
+    NotEqual,
+
+    Or,
+    OrElse
 }

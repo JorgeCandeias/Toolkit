@@ -220,94 +220,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitLessThan(LessThanWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.LessThan(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitLessThanOrEqual(LessThanOrEqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.LessThanOrEqual(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitModulo(ModuloWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Modulo(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitModuloAssign(ModuloAssignWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.ModuloAssign(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitMultiply(MultiplyWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Multiply(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitMultiplyAssign(MultiplyAssignWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.MultiplyAssign(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitMultiplyAssignChecked(MultiplyAssignCheckedWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.MultiplyAssignChecked(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitMultiplyChecked(MultiplyCheckedWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.MultiplyChecked(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitNegate(NegateWireExpression expression)
     {
         var child = Convert(expression.Expression);
@@ -338,32 +250,10 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
         return expression;
     }
 
-    protected internal override WireExpression VisitNotEqual(NotEqualWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.NotEqual(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
     protected internal override WireExpression VisitOnesComplement(OnesComplementWireExpression expression)
     {
         var child = Convert(expression.Expression);
         var converted = Expression.Not(child);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-    protected internal override WireExpression VisitOr(OrWireExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.Or(left, right);
 
         _stack.Push(converted);
 
@@ -390,8 +280,19 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
             BinaryWireOperation.Equal => Expression.Equal(left, right, expression.IsLiftedToNull, default),
             BinaryWireOperation.ExclusiveOr => Expression.ExclusiveOr(left, right),
             BinaryWireOperation.ExclusiveOrAssign => Expression.ExclusiveOrAssign(left, right),
-            BinaryWireOperation.GreaterThan => Expression.GreaterThan(left, right),
-            BinaryWireOperation.GreaterThanOrEqual => Expression.GreaterThanOrEqual(left, right),
+            BinaryWireOperation.GreaterThan => Expression.GreaterThan(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.GreaterThanOrEqual => Expression.GreaterThanOrEqual(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.LessThan => Expression.LessThan(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.LessThanOrEqual => Expression.LessThanOrEqual(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.Modulo => Expression.Modulo(left, right),
+            BinaryWireOperation.ModuloAssign => Expression.ModuloAssign(left, right),
+            BinaryWireOperation.Multiply => Expression.Multiply(left, right),
+            BinaryWireOperation.MultiplyChecked => Expression.MultiplyChecked(left, right),
+            BinaryWireOperation.MultiplyAssign => Expression.MultiplyAssign(left, right),
+            BinaryWireOperation.MultiplyAssignChecked => Expression.MultiplyAssignChecked(left, right),
+            BinaryWireOperation.NotEqual => Expression.NotEqual(left, right, expression.IsLiftedToNull, default),
+            BinaryWireOperation.Or => Expression.Or(left, right),
+            BinaryWireOperation.OrElse => Expression.OrElse(left, right),
 
             _ => throw new NotSupportedException($"{nameof(BinaryWireExpression)} with {nameof(expression.Operation)} '{expression.Operation}' is not supported")
         };
@@ -400,29 +301,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         return expression;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     protected internal override WireExpression VisitProperty(PropertyExpression expression)
     {
@@ -445,7 +323,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         return expression;
     }
-
 
     protected internal override WireExpression VisitIsNull(IsNullExpression expression)
     {
@@ -476,22 +353,6 @@ internal sealed class LinqWireExpressionVisitor<T> : WireExpressionVisitor
 
         return expression;
     }
-
-
-
-    protected internal override WireExpression VisitOrElse(OrElseExpression expression)
-    {
-        var left = Convert(expression.Left);
-        var right = Convert(expression.Right);
-        var converted = Expression.OrElse(left, right);
-
-        _stack.Push(converted);
-
-        return expression;
-    }
-
-
-
 
     protected internal override WireExpression VisitStringContains(StringContainsExpression expression)
     {

@@ -236,13 +236,15 @@ public class BinaryWireExpressionTests
         // act
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var result = WireExpression.GreaterThan(left, right);
+        var lifted = true;
+        var result = WireExpression.GreaterThan(left, right, lifted);
 
         // assert
         Assert.NotNull(result);
         Assert.Equal(BinaryWireOperation.GreaterThan, result.Operation);
         Assert.Same(left, result.Left);
         Assert.Same(right, result.Right);
+        Assert.Equal(lifted, result.IsLiftedToNull);
         Assert.Equal("(item) > (default)", result.ToString());
     }
 
@@ -252,13 +254,197 @@ public class BinaryWireExpressionTests
         // act
         var left = new ItemWireExpression();
         var right = new DefaultWireExpression<int>();
-        var result = WireExpression.GreaterThanOrEqual(left, right);
+        var lifted = true;
+        var result = WireExpression.GreaterThanOrEqual(left, right, lifted);
 
         // assert
         Assert.NotNull(result);
         Assert.Equal(BinaryWireOperation.GreaterThanOrEqual, result.Operation);
         Assert.Same(left, result.Left);
         Assert.Same(right, result.Right);
+        Assert.Equal(lifted, result.IsLiftedToNull);
         Assert.Equal("(item) >= (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_LessThan()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var lifted = true;
+        var result = WireExpression.LessThan(left, right, true);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.LessThan, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal(lifted, result.IsLiftedToNull);
+        Assert.Equal("(item) < (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_LessThanOrEqual()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var lifted = true;
+        var result = WireExpression.LessThanOrEqual(left, right, lifted);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.LessThanOrEqual, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal(lifted, result.IsLiftedToNull);
+        Assert.Equal("(item) <= (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_Modulo()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.Modulo(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.Modulo, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) % (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_ModuloAssign()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.ModuloAssign(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.ModuloAssign, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) %= (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_Multiply()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.Multiply(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.Multiply, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) * (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_MultiplyChecked()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.MultiplyChecked(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.MultiplyChecked, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("checked ((item) * (default))", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_MultiplyAssign()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.MultiplyAssign(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.MultiplyAssign, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) *= (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_MultiplyAssignChecked()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.MultiplyAssignChecked(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.MultiplyAssignChecked, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("checked ((item) *= (default))", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_NotEqual()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var lifted = true;
+        var result = WireExpression.NotEqual(left, right, lifted);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.NotEqual, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal(lifted, result.IsLiftedToNull);
+        Assert.Equal("(item) != (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_Or()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.Or(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.Or, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) | (default)", result.ToString());
+    }
+
+    [Fact]
+    public void FactoryCreatesExpression_OrElse()
+    {
+        // act
+        var left = new ItemWireExpression();
+        var right = new DefaultWireExpression<int>();
+        var result = WireExpression.OrElse(left, right);
+
+        // assert
+        Assert.NotNull(result);
+        Assert.Equal(BinaryWireOperation.OrElse, result.Operation);
+        Assert.Same(left, result.Left);
+        Assert.Same(right, result.Right);
+        Assert.Equal("(item) || (default)", result.ToString());
     }
 }
